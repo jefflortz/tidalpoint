@@ -35,14 +35,14 @@ function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
       jobTitle: 'Founder',
       worksFor: {
         '@type': 'Organization',
-        name: 'Coastal Growth Advisors',
-        url: 'https://coastalgrowthadvisors.com',
+        name: 'Tidal Point Partners',
+        url: 'https://tidalpointpartners.com',
       },
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Coastal Growth Advisors',
-      url: 'https://coastalgrowthadvisors.com',
+      name: 'Tidal Point Partners',
+      url: 'https://tidalpointpartners.com',
     },
     ...(article.featuredImage && { image: article.featuredImage }),
   }
@@ -70,7 +70,7 @@ function AuthorBio() {
               Jeff Lortz
             </p>
             <p className="text-sm text-cga-light">
-              Founder, Coastal Growth Advisors
+              Founder, Tidal Point Partners
             </p>
             <p className="mt-3 text-sm leading-relaxed text-cga-body">
               Jeff is a former PE-backed SaaS CEO, C-suite operator, and US
@@ -158,7 +158,7 @@ export default async function ArticleWrapper({
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-cga-navy">Jeff Lortz</p>
-                  <p className="text-xs text-cga-light">Founder, Coastal Growth Advisors</p>
+                  <p className="text-xs text-cga-light">Founder, Tidal Point Partners</p>
                 </div>
               </div>
               <div className="ml-auto flex items-center gap-x-4 text-sm text-cga-light">

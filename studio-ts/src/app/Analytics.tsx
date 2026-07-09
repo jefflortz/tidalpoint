@@ -1,24 +1,8 @@
 'use client'
 
-import Script from 'next/script'
-
+// GA4 disabled — the Coastal Growth Advisors tracking ID (G-BSTESBF5Y9) was
+// removed to avoid mixing Tidal Point Partners traffic into Coastal's
+// analytics property. Re-enable once a Tidal Point GA4 ID is available.
 export function Analytics() {
-  return (
-    <>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-BSTESBF5Y9"
-        strategy="afterInteractive"
-      />
-      <Script
-        id="ga-config"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-BSTESBF5Y9');`,
-        }}
-      />
-    </>
-  )
+  return null
 }

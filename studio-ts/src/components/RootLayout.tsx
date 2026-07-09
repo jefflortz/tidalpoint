@@ -244,7 +244,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                 <div className="grid grid-cols-1 gap-y-10 pt-10 pb-16 sm:grid-cols-2 sm:pt-16">
                   <div>
                     <h2 className="font-display text-base font-semibold text-white">
-                      Coastal Growth Advisors
+                      Tidal Point Partners
                     </h2>
                     <p className="mt-4 text-sm text-neutral-400">
                       Plymouth, MA<br />

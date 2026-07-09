@@ -34,7 +34,7 @@ export function Footer() {
             <div>
               <Image
                 src="/logo-dark-cropped.png"
-                alt="Coastal Growth Advisors"
+                alt="Tidal Point Partners"
                 width={180}
                 height={45}
                 className="h-10 w-auto"
@@ -79,7 +79,7 @@ export function Footer() {
             <div className="flex items-center gap-x-4">
               <Image
                 src="/logo-icon-dark.png"
-                alt="Coastal Growth Advisors"
+                alt="Tidal Point Partners"
                 width={48}
                 height={32}
                 className="h-8 w-auto opacity-60"

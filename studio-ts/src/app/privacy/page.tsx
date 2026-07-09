@@ -104,8 +104,8 @@ export default function PrivacyPolicy() {
             <p>
               If you have questions about this privacy policy or our privacy
               practices, please contact us at{' '}
-              <a href="mailto:contact@coastalgrowthadvisor.com" className="text-cga-navy font-semibold">
-                contact@coastalgrowthadvisor.com
+              <a href="mailto:jeff@tidalpointpartners.com" className="text-cga-navy font-semibold">
+                jeff@tidalpointpartners.com
               </a>
             </p>
           </div>

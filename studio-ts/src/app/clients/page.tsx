@@ -6,68 +6,63 @@ import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
-import { type ClientProfile, type MDXEntry, loadClientProfiles } from '@/lib/mdx'
 
 export const metadata: Metadata = {
-  title: 'Client Profiles',
+  title: 'Who We Serve',
   description:
-    'Representative engagements from Coastal Growth Advisors — the kinds of businesses we work with and the problems we solve across Southeastern Massachusetts.',
+    'Tidal Point Partners works with privately held, owner-operated businesses at pivotal moments — the kinds of businesses and situations we’re built for.',
 }
 
-function ProfileList({
-  profiles,
-}: {
-  profiles: Array<MDXEntry<ClientProfile>>
-}) {
-  return (
-    <Container className="mt-40">
-      <div className="space-y-20 sm:space-y-24 lg:space-y-32">
-        {profiles.map((profile) => (
-          <FadeIn key={profile.href}>
-            <article>
-              <Border className="grid grid-cols-3 gap-x-8 gap-y-8 pt-16">
-                {/* Sidebar */}
-                <div className="col-span-full sm:flex sm:items-center sm:justify-between sm:gap-x-8 lg:col-span-1 lg:block">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-                      {profile.industry}
-                    </p>
-                    <h3 className="mt-3 font-display text-lg font-bold text-cga-navy">
-                      {profile.title}
-                    </h3>
-                  </div>
-                  <div className="mt-4 sm:mt-0 lg:mt-6">
-                    <p className="text-sm text-cga-light">
-                      {profile.companySize}
-                    </p>
-                    <p className="mt-1 text-sm text-cga-light">
-                      {profile.engagementType}
-                    </p>
-                  </div>
-                </div>
+const signals = [
+  {
+    title: 'Privately Held & Owner-Operated',
+    body: 'Founder-led or family-owned businesses where the owner is still the center of gravity for major decisions.',
+  },
+  {
+    title: 'At a Pivotal Moment',
+    body: 'Facing a transition, growth inflection, leadership change, or decision that will shape the next chapter of the business.',
+  },
+  {
+    title: 'Established, Not Early-Stage',
+    body: 'Real operating history and complexity — not a startup looking for its first customers.',
+  },
+  {
+    title: 'Ready for a Real Conversation',
+    body: 'Looking for a trusted outside perspective, not a packaged program or a canned sales process.',
+  },
+]
 
-                {/* Main content */}
-                <div className="col-span-full lg:col-span-2 lg:max-w-2xl">
-                  <p className="font-display text-3xl font-bold text-cga-navy">
-                    <Link href={profile.href} className="hover:text-cga-teal transition">
-                      {profile.summary}
-                    </Link>
-                  </p>
-                  <div className="mt-8">
-                    <Link
-                      href={profile.href}
-                      className="inline-flex rounded-full bg-cga-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-cga-navy/90"
-                    >
-                      Read the full profile
-                    </Link>
-                  </div>
-                </div>
-              </Border>
-            </article>
+function WhoWeServeIntro() {
+  return (
+    <FadeInStagger>
+      <Container className="mt-24 sm:mt-32 lg:mt-40">
+        <div className="mx-auto max-w-2xl lg:max-w-none">
+          <FadeIn>
+            <p className="text-lg text-cga-body leading-relaxed">
+              We work best with privately held businesses navigating a
+              pivotal moment — growth, transition, or a decision that
+              deserves an experienced, honest outside perspective. If that
+              sounds like where you are, we should talk.
+            </p>
           </FadeIn>
-        ))}
-      </div>
-    </Container>
+
+          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2">
+            {signals.map((signal) => (
+              <FadeIn key={signal.title}>
+                <Border className="pt-8">
+                  <h3 className="font-display text-lg font-bold text-cga-navy">
+                    {signal.title}
+                  </h3>
+                  <p className="mt-3 text-base leading-relaxed text-cga-body">
+                    {signal.body}
+                  </p>
+                </Border>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </FadeInStagger>
   )
 }
 
@@ -77,7 +72,7 @@ function ClientsCTA() {
       <Container>
         <FadeIn className="text-center">
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Recognize your business in one of these?
+            Recognize your business in this?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
             The first conversation is free. We&rsquo;ll tell you honestly whether
@@ -97,25 +92,17 @@ function ClientsCTA() {
   )
 }
 
-export default async function Clients() {
-  const profiles = await loadClientProfiles()
-
+export default function Clients() {
   return (
     <RootLayout>
-      <PageIntro
-        eyebrow="Who We Work With"
-        title="Real businesses. Real complexity. Real results."
-      >
+      <PageIntro eyebrow="Who We Work With" title="The businesses we’re built for.">
         <p>
-          These profiles represent the kinds of owner-led businesses we work with
-          across the South Shore, South Coast, and Cape Cod. The details are
-          representative — the problems are ones we see every week.
+          Tidal Point Partners is built around a specific kind of business
+          and a specific kind of moment. Here&rsquo;s what we look for.
         </p>
       </PageIntro>
 
-      <FadeInStagger>
-        <ProfileList profiles={profiles} />
-      </FadeInStagger>
+      <WhoWeServeIntro />
 
       <ClientsCTA />
     </RootLayout>

@@ -123,8 +123,8 @@ export default function CookiePolicy() {
             <p>
               If you have questions about our use of cookies, please contact us
               at{' '}
-              <a href="mailto:contact@coastalgrowthadvisor.com" className="text-cga-navy font-semibold">
-                contact@coastalgrowthadvisor.com
+              <a href="mailto:jeff@tidalpointpartners.com" className="text-cga-navy font-semibold">
+                jeff@tidalpointpartners.com
               </a>
             </p>
           </div>

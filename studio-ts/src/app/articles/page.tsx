@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Expert insights and practical thinking for owner-led business operators in Southeastern Massachusetts. Real advice from someone who's been in the CEO seat.",
   openGraph: {
-    title: 'Business Insights & Articles - Coastal Growth Advisors',
+    title: 'Business Insights & Articles - Tidal Point Partners',
     description:
       'Practical advice for owner-operated businesses from Jeff Lortz, a former PE-backed CEO with 25+ years of experience.',
     type: 'website',
@@ -86,7 +86,7 @@ export default async function Articles() {
                           </div>
                           <div className="text-sm text-neutral-950">
                             <div className="font-semibold">Jeff Lortz</div>
-                            <div className="text-neutral-600">Founder, Coastal Growth Advisors</div>
+                            <div className="text-neutral-600">Founder, Tidal Point Partners</div>
                           </div>
                         </dd>
                       </dl>

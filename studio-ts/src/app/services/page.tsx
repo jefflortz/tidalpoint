@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     'Coastal Growth Advisors offers three core services for owner-led businesses: performance planning, executive coaching, and revenue growth advisory. Tailored for $5M-$50M revenue companies.',
   openGraph: {
-    title: 'Business Advisory Services - Coastal Growth Advisors',
+    title: 'Business Advisory Services - Tidal Point Partners',
     description:
       'Performance planning, executive coaching, and revenue growth advisory for Southeastern Massachusetts business owners.',
     type: 'website',

@@ -13,7 +13,7 @@ export function Logomark({
     <div className={clsx('flex items-center', props.className)}>
       <Image
         src="/logo-icon-dark.png"
-        alt="Coastal Growth Advisors"
+        alt="Tidal Point Partners"
         width={120}
         height={80}
         className="h-10 w-auto"
@@ -38,7 +38,7 @@ export function Logo({
     <div className={clsx('flex items-center', className)} {...props}>
       <Image
         src={invert ? '/logo-dark-cropped.png' : '/logo-light-cropped.png'}
-        alt="Coastal Growth Advisors"
+        alt="Tidal Point Partners"
         width={400}
         height={100}
         className="h-12 w-auto"

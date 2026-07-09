@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://coastalgrowthadvisor.com/sitemap.xml
+Sitemap: https://tidalpointpartners.com/sitemap.xml

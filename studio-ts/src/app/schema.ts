@@ -2,8 +2,8 @@ export function getOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Coastal Growth Advisors',
-    url: 'https://coastalgrowthadvisor.com',
+    name: 'Tidal Point Partners',
+    url: 'https://tidalpointpartners.com',
     description:
       'Business advisory and executive coaching for privately held, owner-operated businesses in Southeastern Massachusetts.',
     address: {
@@ -12,11 +12,11 @@ export function getOrganizationSchema() {
       addressRegion: 'MA',
       addressCountry: 'US',
     },
-    email: 'contact@coastalgrowthadvisor.com',
+    email: 'jeff@tidalpointpartners.com',
     sameAs: [
       // Add your social media profiles here
     ],
-    image: 'https://coastalgrowthadvisor.com/logo-light-cropped.png',
+    image: 'https://tidalpointpartners.com/logo-light-cropped.png',
   }
 }
 
@@ -30,13 +30,13 @@ export function getWebPageSchema(
     '@type': 'WebPage',
     name: title,
     description: description,
-    url: `https://coastalgrowthadvisor.com${path}`,
+    url: `https://tidalpointpartners.com${path}`,
     publisher: {
       '@type': 'Organization',
-      name: 'Coastal Growth Advisors',
+      name: 'Tidal Point Partners',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://coastalgrowthadvisor.com/logo-light-cropped.png',
+        url: 'https://tidalpointpartners.com/logo-light-cropped.png',
       },
     },
   }

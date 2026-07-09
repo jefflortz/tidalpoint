@@ -1,6 +1,5 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
-import Script from 'next/script'
 
 import { Border } from '@/components/Border'
 import { Container } from '@/components/Container'
@@ -14,18 +13,14 @@ function ContactForm() {
       <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
         Schedule a Free Consultation
       </p>
+      {/* Temporary CTA — swap for the Tidal Point Partners HubSpot form once available */}
       <div className="mt-6">
-        <Script
-          src="https://js.hsforms.net/forms/embed/46259123.js"
-          strategy="afterInteractive"
-          defer
-        />
-        <div
-          className="hs-form-frame"
-          data-region="na1"
-          data-form-id="b7e9d6a7-45c2-496c-9a4f-45ac32630091"
-          data-portal-id="46259123"
-        />
+        <Link
+          href="mailto:jeff@tidalpointpartners.com"
+          className="inline-flex items-center rounded-full bg-cga-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-cga-navy/90"
+        >
+          Email jeff@tidalpointpartners.com
+        </Link>
       </div>
       <p className="mt-4 text-sm text-cga-light">
         No commitment. No pitch deck. Just a conversation with someone
@@ -42,7 +37,7 @@ function ContactDetails() {
         Based in Plymouth, MA
       </h2>
       <p className="mt-6 text-base text-cga-body leading-relaxed">
-        Coastal Growth Advisors works with businesses across the South Shore,
+        Tidal Point Partners works with businesses across the South Shore,
         South Coast, and Cape Cod. Engagements are structured around your
         calendar — in person where it makes sense, remote where it doesn&rsquo;t.
       </p>
@@ -63,10 +58,10 @@ function ContactDetails() {
             <dt className="font-semibold text-cga-navy">Jeff Lortz</dt>
             <dd>
               <Link
-                href="mailto:jeff@coastalgrowthadvisor.com"
+                href="mailto:jeff@tidalpointpartners.com"
                 className="text-cga-teal hover:text-cga-teal/80"
               >
-                jeff@coastalgrowthadvisor.com
+                jeff@tidalpointpartners.com
               </Link>
             </dd>
           </div>
@@ -81,7 +76,7 @@ export const metadata: Metadata = {
   description:
     'Schedule your free 60-minute consultation with Jeff Lortz. Honest advice for owner-led businesses in Southeastern Massachusetts. It\'s a real conversation, not a sales call.',
   openGraph: {
-    title: 'Free Consultation - Coastal Growth Advisors',
+    title: 'Free Consultation - Tidal Point Partners',
     description:
       'Ready to discuss your biggest business challenge? Schedule a free consultation with an ex-PE CEO.',
     type: 'website',
