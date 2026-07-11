@@ -143,7 +143,7 @@ export default async function ArticleWrapper({
                 {article.category}
               </p>
             )}
-            <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-cga-navy sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl lg:text-6xl">
               {article.title}
             </h1>
             <p className="mt-4 text-xl text-cga-body leading-relaxed">

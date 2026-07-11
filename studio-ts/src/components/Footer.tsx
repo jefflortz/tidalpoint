@@ -55,7 +55,7 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-8 lg:col-span-2">
               {navigation.map((section, sectionIndex) => (
                 <div key={sectionIndex}>
-                  <div className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                  <div className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
                     {section.title}
                   </div>
                   <ul role="list" className="mt-4 text-sm text-white/70">

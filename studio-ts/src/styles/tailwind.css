@@ -3,13 +3,14 @@
 @import './typography.css' layer(components);
 
 @theme {
-  /* CGA Brand Colors */
-  --color-cga-navy: #1B2B4B;
-  --color-cga-gold: #C9A84C;
-  --color-cga-teal: #2A7F7F;
-  --color-cga-sand: #F5F0E8;
-  --color-cga-body: #1A1A1A;
-  --color-cga-light: #6B7280;
+  /* Tidal Point Brand Colors — mapped from brand-style-guide-v1.png */
+  --color-cga-navy: #17324D; /* Atlantic Navy */
+  --color-cga-gold: #456F72; /* Deep Sea Glass — functional UI accent, retired Coastal gold */
+  --color-cga-teal: #7A9E9F; /* Sea Glass */
+  --color-cga-sand: #D6CCC0; /* Sandstone */
+  --color-cga-body: #4F5962; /* Slate */
+  --color-cga-light: #7B848B; /* Slate-derived, fixed value */
+  --color-cga-warm-white: #F8F6F2; /* Warm White */
 
   --text-*: initial;
   --text-xs: 0.75rem;
@@ -38,14 +39,15 @@
   --radius-4xl: 2.5rem;
 
   --font-sans:
-    Mona Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    var(--font-inter), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
 
   --font-display:
-    Mona Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    var(--font-cormorant), ui-serif, Georgia, Cambria, 'Times New Roman',
+    serif;
 
-  --font-display--font-variation-settings: 'wdth' 125;
+  --font-display--font-variation-settings: normal;
 
   --font-display-length: 2;
 }

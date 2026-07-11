@@ -1,9 +1,14 @@
 import { type Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+
+// TEMPORARY — replace with the final mill-exterior photograph once supplied.
+// Swap this path only; the hero layout does not need to change.
+const heroImageSrc = '/images/hero-exterior-temp.png'
 
 export const metadata: Metadata = {
   description:
@@ -28,7 +33,7 @@ function StatBar() {
             {stats.map((stat) => (
               <FadeIn key={stat.label}>
                 <div className="text-center">
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                  <dt className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
                     {stat.label}
                   </dt>
                   <dd className="mt-2 font-display text-xl font-bold text-white sm:text-2xl">
@@ -131,7 +136,7 @@ function Services() {
               >
                 <p
                   className={`text-xs font-semibold uppercase tracking-widest ${
-                    service.featured ? 'text-cga-gold' : 'text-cga-teal'
+                    service.featured ? 'text-cga-warm-white' : 'text-cga-teal'
                   }`}
                 >
                   {service.tag}
@@ -154,7 +159,7 @@ function Services() {
                   href={service.href}
                   className={`mt-8 inline-flex items-center text-sm font-semibold ${
                     service.featured
-                      ? 'text-cga-gold hover:text-cga-gold/80'
+                      ? 'text-cga-warm-white hover:text-cga-warm-white/80'
                       : 'text-cga-teal hover:text-cga-teal/80'
                   }`}
                 >
@@ -269,7 +274,7 @@ function AboutJeff() {
     <div className="bg-cga-navy py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
             About Jeff Lortz
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
@@ -295,7 +300,7 @@ function AboutJeff() {
                   &ldquo;I&rsquo;ve sat in every C-suite seat. I know what keeps owners up
                   at night — because it kept me up too.&rdquo;
                 </p>
-                <footer className="mt-3 text-sm font-semibold text-cga-gold">
+                <footer className="mt-3 text-sm font-semibold text-cga-warm-white">
                   — Jeff Lortz, Founder
                 </footer>
               </blockquote>
@@ -310,13 +315,13 @@ function AboutJeff() {
                     <dt className="font-display text-base font-bold text-white">
                       {cred.company}
                     </dt>
-                    <dd className="mt-1 text-sm text-cga-gold">{cred.role}</dd>
+                    <dd className="mt-1 text-sm text-cga-warm-white">{cred.role}</dd>
                   </div>
                 ))}
               </dl>
               <Link
                 href="/about"
-                className="mt-8 inline-flex items-center text-sm font-semibold text-cga-gold hover:text-cga-gold/80"
+                className="mt-8 inline-flex items-center text-sm font-semibold text-cga-warm-white hover:text-cga-warm-white/80"
               >
                 Read Jeff&rsquo;s full story &rarr;
               </Link>
@@ -369,7 +374,7 @@ function HowItWorks() {
           {steps.map((step) => (
             <FadeIn key={step.number}>
               <div>
-                <p className="font-display text-4xl font-extrabold text-cga-teal">
+                <p className="font-display text-4xl font-bold text-cga-teal">
                   {step.number}
                 </p>
                 <h3 className="mt-4 font-display text-xl font-bold text-cga-navy">
@@ -425,35 +430,63 @@ export default function Home() {
   return (
     <RootLayout>
       {/* Hero */}
-      <Container className="py-16 sm:py-24 md:py-32">
-        <FadeIn className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            Business Advisory &amp; Executive Coaching &middot; Southeastern Massachusetts
-          </p>
-          <h1 className="mt-6 font-display text-5xl font-extrabold tracking-tight text-balance text-cga-navy sm:text-7xl">
-            The Operating Partner Your Business Has Been Missing.
-          </h1>
-          <p className="mt-6 text-xl text-cga-body leading-relaxed">
-            Most businesses are run by capable people operating without the
-            systems, structure, or support that would let them perform at their
-            best. That&rsquo;s the gap we close.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Link
-              href="/contact"
-              className="inline-flex rounded-full bg-cga-navy px-8 py-3 text-base font-semibold text-white shadow transition hover:bg-cga-navy/90"
-            >
-              Schedule a Free Consultation
-            </Link>
-            <Link
-              href="/#who-we-serve"
-              className="text-sm font-semibold text-cga-navy hover:text-cga-teal"
-            >
-              See How We Work <span aria-hidden="true">&rarr;</span>
-            </Link>
+      <div className="relative isolate overflow-hidden bg-cga-warm-white">
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
+          {/* Text column */}
+          <div className="relative z-10 px-6 py-16 sm:py-24 lg:px-8 lg:py-32 lg:pr-16">
+            <FadeIn className="max-w-xl">
+              <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
+                Business Advisory &amp; Executive Coaching &middot; Southeastern
+                Massachusetts
+              </p>
+              <div className="mt-6 h-px w-12 bg-cga-teal" />
+              <h1 className="mt-6 font-display text-5xl font-medium tracking-tight text-balance text-cga-navy sm:text-6xl lg:text-7xl">
+                The Operating Partner Your Business Has Been Missing.
+              </h1>
+              <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed">
+                Most businesses are run by capable people operating without the
+                systems, structure, or support that would let them perform at
+                their best. That&rsquo;s the gap we close.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center rounded-md bg-cga-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-cga-navy/90"
+                >
+                  Schedule a Free Consultation
+                </Link>
+                <Link
+                  href="/#who-we-serve"
+                  className="text-sm font-semibold text-cga-navy transition hover:text-cga-teal"
+                >
+                  See How We Work <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </div>
+            </FadeIn>
           </div>
-        </FadeIn>
-      </Container>
+
+          {/* Image column — full-bleed on lg+, stacked block below the text on smaller screens */}
+          <div className="relative h-72 sm:h-96 lg:absolute lg:inset-y-0 lg:left-1/2 lg:h-full lg:w-screen">
+            <Image
+              src={heroImageSrc}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+              priority
+            />
+            {/* Soft fade into the warm-white content area */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-cga-warm-white to-transparent lg:w-1/3"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-cga-warm-white/70 to-transparent lg:hidden"
+            />
+          </div>
+        </div>
+      </div>
 
       <StatBar />
       <TheProblem />

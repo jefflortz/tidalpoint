@@ -68,7 +68,7 @@ function OtherServices({
               <FadeIn key={s.href}>
                 {isCurrent ? (
                   <div className="rounded-2xl bg-cga-navy p-8 ring-2 ring-cga-gold h-full">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
                       {s.tag}
                     </p>
                     <h3 className="mt-3 font-display text-xl font-bold text-white">
@@ -77,7 +77,7 @@ function OtherServices({
                     <p className="mt-3 text-sm leading-relaxed text-white/70">
                       {s.description}
                     </p>
-                    <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                    <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
                       Current page
                     </p>
                   </div>
@@ -128,7 +128,7 @@ export default async function ServiceLayout({
             <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
               {service.tag}
             </p>
-            <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-cga-navy sm:text-5xl">
+            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
               {service.tagline}
             </h1>
             <p className="mt-6 text-lg text-cga-body leading-relaxed">
@@ -194,7 +194,7 @@ export default async function ServiceLayout({
                 {service.stats.map((stat) => (
                   <FadeIn key={stat.label}>
                     <div className="bg-cga-navy px-8 py-10">
-                      <dd className="font-display text-3xl font-extrabold text-cga-gold sm:text-4xl">
+                      <dd className="font-display text-3xl font-bold text-cga-warm-white sm:text-4xl">
                         {stat.value}
                       </dd>
                       <dt className="mt-2 text-sm font-medium text-white/70 leading-snug">

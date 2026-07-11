@@ -1,8 +1,24 @@
 import { type Metadata } from 'next'
+import { Cormorant_Garamond, Inter } from 'next/font/google'
+import clsx from 'clsx'
 
 import '@/styles/tailwind.css'
 import { Analytics } from './Analytics'
 import { getOrganizationSchema } from './schema'
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-cormorant',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +37,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const schema = getOrganizationSchema()
 
   return (
-    <html lang="en" className="h-full bg-cga-navy text-base antialiased">
+    <html
+      lang="en"
+      className={clsx(
+        cormorantGaramond.variable,
+        inter.variable,
+        'h-full bg-cga-navy text-base antialiased',
+      )}
+    >
       <head>
         <Analytics />
         <script

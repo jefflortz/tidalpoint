@@ -116,6 +116,40 @@ function Header({
   )
 }
 
+const desktopNavLinks = [
+  { title: 'About', href: '/about' },
+  { title: 'Services', href: '/services' },
+  { title: 'Who We Serve', href: '/clients' },
+  { title: 'Insights', href: '/articles' },
+  { title: 'Contact', href: '/contact' },
+]
+
+function DesktopNav() {
+  return (
+    <Container>
+      <div className="flex items-center justify-between py-6">
+        <Link href="/" aria-label="Home">
+          <Logo />
+        </Link>
+        <nav aria-label="Main navigation">
+          <ul role="list" className="flex items-center gap-x-10">
+            {desktopNavLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm font-semibold tracking-widest text-cga-navy uppercase transition hover:text-cga-teal"
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </Container>
+  )
+}
+
 function NavigationRow({ children }: { children: React.ReactNode }) {
   return (
     <div className="even:mt-px sm:bg-neutral-950">
@@ -198,26 +232,34 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           aria-hidden={expanded ? 'true' : undefined}
           inert={expanded ? true : undefined}
         >
-          <Header
-            panelId={panelId}
-            icon={MenuIcon}
-            toggleRef={openRef}
-            expanded={expanded}
-            onToggle={() => {
-              setIsTransitioning(true)
-              setExpanded((expanded) => !expanded)
-              window.setTimeout(() =>
-                closeRef.current?.focus({ preventScroll: true }),
-              )
-            }}
-          />
+          {/* Desktop — conventional inline nav, lg and up */}
+          <div className="hidden lg:block">
+            <DesktopNav />
+          </div>
+
+          {/* Mobile/tablet — existing hamburger + full-screen mega-menu, below lg */}
+          <div className="lg:hidden">
+            <Header
+              panelId={panelId}
+              icon={MenuIcon}
+              toggleRef={openRef}
+              expanded={expanded}
+              onToggle={() => {
+                setIsTransitioning(true)
+                setExpanded((expanded) => !expanded)
+                window.setTimeout(() =>
+                  closeRef.current?.focus({ preventScroll: true }),
+                )
+              }}
+            />
+          </div>
         </div>
 
         <motion.div
           layout
           id={panelId}
           style={{ height: expanded ? 'auto' : '0.5rem' }}
-          className="relative z-50 overflow-hidden bg-neutral-950 pt-2"
+          className="relative z-50 overflow-hidden bg-neutral-950 pt-2 lg:hidden"
           aria-hidden={expanded ? undefined : 'true'}
           inert={expanded ? undefined : true}
         >
@@ -272,7 +314,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
       <motion.div
         layout
         style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
-        className="relative flex flex-auto overflow-hidden bg-white pt-24"
+        className="relative flex flex-auto overflow-hidden bg-cga-warm-white pt-24 lg:pt-28"
       >
         <motion.div
           layout

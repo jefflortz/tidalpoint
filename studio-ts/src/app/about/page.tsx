@@ -36,7 +36,7 @@ function Hero() {
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
             About Jeff Lortz &middot; Founder
           </p>
-          <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight text-cga-navy sm:text-7xl">
+          <h1 className="mt-4 font-display text-5xl font-bold tracking-tight text-cga-navy sm:text-7xl">
             He&rsquo;s actually been{' '}
             <em className="not-italic italic text-cga-gold">in the seat.</em>
           </h1>
@@ -53,7 +53,7 @@ function Hero() {
                 <dt className="whitespace-pre-line text-xs font-semibold uppercase tracking-widest text-cga-gold">
                   {stat.label}
                 </dt>
-                <dd className="mt-2 font-display text-4xl font-extrabold text-cga-navy">
+                <dd className="mt-2 font-display text-4xl font-bold text-cga-navy">
                   {stat.number}
                 </dd>
               </div>
@@ -273,12 +273,12 @@ function OperatingPhilosophy() {
     <div className="bg-cga-navy py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
             What the Navy Taught Him
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
             The lessons that{' '}
-            <em className="not-italic italic text-cga-gold">
+            <em className="not-italic italic text-cga-teal">
               don&rsquo;t leave you.
             </em>
           </h2>
@@ -293,7 +293,7 @@ function OperatingPhilosophy() {
           {principles.map((p) => (
             <FadeIn key={p.title}>
               <div className="rounded-2xl bg-white/5 p-8 ring-1 ring-white/10">
-                <h3 className="font-display text-xl font-bold text-cga-gold">
+                <h3 className="font-display text-xl font-bold text-cga-warm-white">
                   {p.title}
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-white/80">
