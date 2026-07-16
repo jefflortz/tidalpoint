@@ -72,7 +72,7 @@ const situations = [
 
 function WhenOwnersBringUsIn() {
   return (
-    <div className="bg-cga-sand py-24 sm:py-32">
+    <div className="bg-cga-sand py-28 sm:py-40">
       <Container>
         <FadeIn className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
@@ -81,17 +81,12 @@ function WhenOwnersBringUsIn() {
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
             The moments that call for a different kind of partner.
           </h2>
-          <p className="mt-6 text-lg text-cga-body leading-relaxed">
-            Owners bring us in at specific, high-stakes moments — not for
-            open-ended advice, but for the judgment and execution those
-            moments require.
-          </p>
         </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
+        <FadeInStagger className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-3">
           {situations.map((situation) => (
             <FadeIn key={situation.title}>
               <div className="border-t-2 border-cga-teal pt-6">
-                <h3 className="font-display text-xl font-bold text-cga-navy">
+                <h3 className="font-display text-2xl font-bold text-cga-navy">
                   {situation.title}
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-cga-body">
@@ -110,15 +105,11 @@ function WhenOwnersBringUsIn() {
 
 const partnershipPrinciples = [
   {
-    title: 'Long-Term Partnership',
-    body: 'We work alongside leadership through the stage that’s actually next — not a single engagement.',
-  },
-  {
     title: 'Strategic Judgment',
     body: 'Perspective shaped by having made these calls before, not just studied them.',
   },
   {
-    title: 'Practical Execution',
+    title: 'Execution',
     body: 'A plan matters less than the discipline to carry it out.',
   },
   {
@@ -126,8 +117,8 @@ const partnershipPrinciples = [
     body: 'We stay close enough to the outcome to own it.',
   },
   {
-    title: 'Real Operating Experience',
-    body: 'Not frameworks — decisions made inside real businesses, under real pressure.',
+    title: 'Long-Term Partnership',
+    body: 'We work alongside leadership through the stage that’s actually next — not a single engagement.',
   },
 ]
 
@@ -143,10 +134,9 @@ function OperatingPartnership() {
             We stay for the work — not just the recommendation.
           </h2>
           <p className="mt-6 text-lg text-cga-body leading-relaxed">
-            Operating Partnership means showing up alongside leadership for
-            the stage that&rsquo;s actually next — bringing judgment shaped by
-            real operating experience, and staying accountable for execution,
-            not just the plan.
+            Most advisors hand you a plan and step back. We stay — bringing
+            the same judgment and accountability we&rsquo;d expect if it were
+            our own business.
           </p>
         </FadeIn>
         <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
@@ -191,11 +181,11 @@ function Experience() {
           <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
             <div className="space-y-6">
               <p className="text-lg text-white/80 leading-relaxed">
-                Most business coaches have read about running companies. Jeff
-                has actually done it — as a PE-backed SaaS CEO, COO, CCO, and
-                Chief of Staff across companies including PTC, BMC,
-                Pegasystems, Acoustic, and Everbridge, where he led through a
-                Nasdaq IPO, multiple acquisitions, and sustained growth.
+                Most advisors have studied how businesses work. Jeff has
+                actually run them — through PE ownership, a Nasdaq IPO,
+                acquisitions, and the kind of growth that breaks whatever
+                model built it. That&rsquo;s not a résumé line. It&rsquo;s where the
+                judgment comes from.
               </p>
               <p className="text-lg text-white/80 leading-relaxed">
                 Before that, he commanded nuclear-powered surface warships as a
@@ -320,8 +310,8 @@ export default function Home() {
           <div className="relative z-10 px-6 py-16 sm:py-24 lg:px-8 lg:py-32 lg:pr-16">
             <FadeIn className="max-w-xl">
               <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
-                Operating Partnership for Privately Held Businesses &middot;
-                Southeastern Massachusetts
+                For Privately Held Businesses &middot; Southeastern
+                Massachusetts
               </p>
               <div className="mt-6 h-px w-12 bg-cga-teal" />
               <h1 className="mt-6 font-display text-5xl font-medium tracking-tight text-balance text-cga-navy sm:text-6xl lg:text-7xl">
@@ -329,10 +319,8 @@ export default function Home() {
                 need next.
               </h1>
               <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed">
-                Tidal Point Partners works alongside business owners and CEOs
-                as an experienced Operating Partner — bringing the judgment,
-                discipline, and hands-on execution it takes to build
-                what&rsquo;s next.
+                For owners and CEOs at a pivotal stage of growth, transition,
+                or change.
               </p>
               <div className="mt-10">
                 <Link
