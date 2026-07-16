@@ -1,0 +1,256 @@
+# TP-001 — Homepage Re-Architecture
+## Product Specification v1.0
+
+### Objective
+
+Re-architect the Tidal Point Partners homepage to align with the Brand Strategy Foundation v2.1.
+
+This is **not** a redesign.
+
+Preserve the existing visual identity, design language, typography, spacing, navigation, and overall premium aesthetic.
+
+The objective is to tell a better story using the existing design system.
+
+---
+
+# Product Goal
+
+The homepage should help owners of privately held businesses recognize that:
+
+- their business has reached an important stage in its evolution,
+- the next stage requires different decisions and capabilities,
+- Tidal Point Partners provides experienced Operating Partnership—not traditional consulting.
+
+The homepage should earn the right to begin a conversation.
+
+It should **not** attempt to explain everything we do.
+
+---
+
+# Design Constraints
+
+## Preserve
+
+- Existing visual language
+- Typography
+- Color palette
+- Navigation
+- Footer
+- Component library where practical
+- Motion and animation style
+- White space
+- Overall premium feel
+
+## Do Not
+
+- Redesign simply to redesign.
+- Introduce new visual styles.
+- Create a services catalog.
+- Add consulting frameworks.
+- Add unnecessary marketing copy.
+- Increase page length unless necessary.
+
+---
+
+# Story Architecture
+
+The homepage should follow this narrative.
+
+Recognition
+
+↓
+
+Understanding
+
+↓
+
+Self Identification
+
+↓
+
+Differentiation
+
+↓
+
+Credibility
+
+↓
+
+Conversation
+
+Every section should advance the visitor one step.
+
+---
+
+# Section 1 — Hero
+
+## Purpose
+
+Immediate recognition.
+
+The visitor should think:
+
+> "This firm understands the stage my business is in."
+
+Keep the hero visually simple.
+
+One primary CTA.
+
+Do not overload with messaging.
+
+---
+
+# Section 2 — Business Evolution
+
+Introduce the central philosophy.
+
+Businesses evolve.
+
+Markets evolve.
+
+Technology evolves.
+
+Leadership requirements evolve.
+
+Organizations must evolve as well.
+
+The point is not that business becomes more complex.
+
+The point is that successful businesses eventually require a different company than the one that created their initial success.
+
+This section should educate without feeling academic.
+
+---
+
+# Section 3 — When Owners Bring Us In
+
+This becomes the centerpiece of the homepage.
+
+Present three equal cards.
+
+These are **business situations**, not service offerings.
+
+## Accelerate & Execute
+
+Businesses with momentum that need new capabilities to sustain growth.
+
+---
+
+## Unlock & Execute
+
+Businesses that have plateaued and need to identify and execute the next source of value creation.
+
+---
+
+## Prepare & Execute
+
+Businesses preparing for expansion, succession, acquisition, recapitalization, or sale.
+
+The emphasis is on recognizing the visitor's situation.
+
+---
+
+# Section 4 — Operating Partnership
+
+This section explains why Tidal Point is different.
+
+Do not define "Operating Partner."
+
+Instead, demonstrate what an Operating Partner does.
+
+Core themes:
+
+- Long-term partnership
+- Strategic judgment
+- Practical execution
+- Accountability
+- Real operating experience
+
+Avoid consulting language.
+
+---
+
+# Section 5 — Experience That Changes Decisions
+
+Build credibility.
+
+Lead with operating experience rather than client logos.
+
+Potential themes include:
+
+- CEO leadership
+- PE-backed companies
+- Growth strategy
+- Market expansion
+- Acquisitions
+- Organizational transformation
+- Value creation
+
+This section should feel confident without feeling promotional.
+
+---
+
+# Section 6 — Perspective
+
+Feature one thought leadership element.
+
+Not a blog feed.
+
+One insight demonstrating how experienced operators think.
+
+Purpose:
+
+Show judgment.
+
+---
+
+# Section 7 — Conversation
+
+Simple closing.
+
+Low-pressure CTA.
+
+Invite a conversation.
+
+Do not use "Book a Consultation."
+
+---
+
+# Brand Principles
+
+Throughout the page:
+
+- Recognition before explanation.
+- Trust before capabilities.
+- Partnership before services.
+- Business situations before solutions.
+- Operator language instead of consulting language.
+- Calm confidence instead of marketing energy.
+
+---
+
+# Acceptance Criteria
+
+The homepage should leave visitors believing:
+
+1. These people understand the stage my business is in.
+
+2. They've actually led businesses like mine.
+
+3. This is an Operating Partnership rather than traditional consulting.
+
+4. They combine strategic judgment with execution.
+
+5. I should have a conversation with them.
+
+---
+
+# Implementation Notes
+
+Reuse existing components wherever practical.
+
+Reorder or replace sections if needed to support the new narrative.
+
+Optimize for clarity and flow rather than visual novelty.
+
+The page should feel like the natural evolution of the existing site—not a redesign.

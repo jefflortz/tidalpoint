@@ -12,72 +12,39 @@ const heroImageSrc = '/images/hero-exterior-temp.png'
 
 export const metadata: Metadata = {
   description:
-    'Business advisory and executive coaching for privately held, owner-operated businesses in Southeastern Massachusetts. The operating partner your business has been missing.',
+    'Tidal Point Partners is an Operating Partnership for privately held businesses — bringing real operating experience to growth, transition, and execution.',
 }
 
-// ─── Stat Bar ────────────────────────────────────────────────────────────────
+// ─── Business Evolution ──────────────────────────────────────────────────────
 
-const stats = [
-  { number: '$5M–$50M', label: 'Revenue Range We Serve' },
-  { number: '25+', label: 'Years Operating Experience' },
-  { number: 'PE · IPO · Navy', label: 'Backgrounds That Translate' },
-  { number: 'SE Mass', label: 'South Shore · South Coast · Cape' },
-]
-
-function StatBar() {
-  return (
-    <div className="border-t border-cga-navy/10 bg-cga-navy">
-      <Container>
-        <FadeInStagger faster>
-          <dl className="grid grid-cols-2 gap-x-8 gap-y-8 py-12 sm:grid-cols-4">
-            {stats.map((stat) => (
-              <FadeIn key={stat.label}>
-                <div className="text-center">
-                  <dt className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
-                    {stat.label}
-                  </dt>
-                  <dd className="mt-2 font-display text-xl font-bold text-white sm:text-2xl">
-                    {stat.number}
-                  </dd>
-                </div>
-              </FadeIn>
-            ))}
-          </dl>
-        </FadeInStagger>
-      </Container>
-    </div>
-  )
-}
-
-// ─── The Problem ─────────────────────────────────────────────────────────────
-
-function TheProblem() {
+function BusinessEvolution() {
   return (
     <div className="bg-white py-24 sm:py-32">
       <Container>
         <FadeIn>
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            The Problem We Solve
+            Business Evolution
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
-            You&rsquo;re too big to wing it now.
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+            The market keeps moving. So should the business.
           </h2>
           <div className="mt-8 max-w-2xl">
             <p className="text-lg text-cga-body leading-relaxed">
-              The skills that built your business — hustle, instinct,
-              relationships — are not the same skills that scale it. At some
-              point, every owner-led business hits a ceiling that hard work alone
-              can&rsquo;t break through. That&rsquo;s a systems problem. And systems are
-              fixable.
+              Markets shift. Technology changes. Customer expectations rise.
+              Competitors adapt. Every business evolves on the inside while
+              the world evolves around it — and the company that created
+              today&rsquo;s success isn&rsquo;t always the company required for
+              tomorrow&rsquo;s.
             </p>
           </div>
           <blockquote className="mt-12 border-l-4 border-cga-teal pl-6">
             <p className="text-xl italic text-cga-navy leading-relaxed">
-              &ldquo;I&rsquo;m always putting out fires. I never have time to actually work
-              on the business.&rdquo;
+              &ldquo;Most owners don&rsquo;t have a strategy problem. They have an
+              evolution problem — the business changed, and the operating
+              model didn&rsquo;t.&rdquo;
             </p>
             <footer className="mt-4 text-sm font-semibold text-cga-light">
-              — What we hear from almost every new client
+              — How we think about growth
             </footer>
           </blockquote>
         </FadeIn>
@@ -86,86 +53,51 @@ function TheProblem() {
   )
 }
 
-// ─── Services ─────────────────────────────────────────────────────────────────
+// ─── When Owners Bring Us In ──────────────────────────────────────────────────
 
-const services = [
+const situations = [
   {
-    tag: 'Strategy & Execution',
-    title: 'Business Performance Planning',
-    body: 'A 90-day operating rhythm built around strategic prioritization, KPI accountability, and execution discipline. The operating system your business has been missing — finally installed.',
-    href: '/services/performance-planning',
-    featured: false,
+    title: 'Accelerate & Execute',
+    body: 'Businesses with real momentum that need new capabilities to sustain growth — before the current model runs out of room.',
   },
   {
-    tag: 'Executive Coaching',
-    title: 'Owner & CEO Coaching',
-    body: 'One-on-one, FocalPoint-based coaching for owners who are excellent at their trade but need a trusted thinking partner for the decisions that keep them up at night.',
-    href: '/services/ceo-coaching',
-    featured: true,
+    title: 'Unlock & Execute',
+    body: 'Businesses that have plateaued and need to identify — and execute — the next source of value creation.',
   },
   {
-    tag: 'Sales & Marketing',
-    title: 'Revenue Growth Advisory',
-    body: 'Sales process design, pipeline discipline, and GTM infrastructure. Build a repeatable revenue engine — one that performs whether or not you&rsquo;re personally in the deal.',
-    href: '/services/revenue-growth',
-    featured: false,
+    title: 'Prepare & Execute',
+    body: 'Businesses preparing for expansion, succession, acquisition, recapitalization, or sale — where the next decision carries real consequence.',
   },
 ]
 
-function Services() {
+function WhenOwnersBringUsIn() {
   return (
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
-        <FadeIn>
+        <FadeIn className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            What We Do
+            When Owners Bring Us In
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
-            Three ways we work with your business.
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+            The moments that call for a different kind of partner.
           </h2>
+          <p className="mt-6 text-lg text-cga-body leading-relaxed">
+            Owners bring us in at specific, high-stakes moments — not for
+            open-ended advice, but for the judgment and execution those
+            moments require.
+          </p>
         </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {services.map((service) => (
-            <FadeIn key={service.title}>
-              <article
-                className={`relative flex h-full flex-col rounded-2xl p-8 ${
-                  service.featured
-                    ? 'bg-cga-navy text-white ring-2 ring-cga-gold'
-                    : 'bg-white ring-1 ring-cga-navy/10'
-                }`}
-              >
-                <p
-                  className={`text-xs font-semibold uppercase tracking-widest ${
-                    service.featured ? 'text-cga-warm-white' : 'text-cga-teal'
-                  }`}
-                >
-                  {service.tag}
-                </p>
-                <h3
-                  className={`mt-4 font-display text-2xl font-bold ${
-                    service.featured ? 'text-white' : 'text-cga-navy'
-                  }`}
-                >
-                  {service.title}
+        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
+          {situations.map((situation) => (
+            <FadeIn key={situation.title}>
+              <div className="border-t-2 border-cga-teal pt-6">
+                <h3 className="font-display text-xl font-bold text-cga-navy">
+                  {situation.title}
                 </h3>
-                <p
-                  className={`mt-4 flex-1 text-base leading-relaxed ${
-                    service.featured ? 'text-white/80' : 'text-cga-body'
-                  }`}
-                >
-                  {service.body}
+                <p className="mt-3 text-base leading-relaxed text-cga-body">
+                  {situation.body}
                 </p>
-                <Link
-                  href={service.href}
-                  className={`mt-8 inline-flex items-center text-sm font-semibold ${
-                    service.featured
-                      ? 'text-cga-warm-white hover:text-cga-warm-white/80'
-                      : 'text-cga-teal hover:text-cga-teal/80'
-                  }`}
-                >
-                  Learn more &rarr;
-                </Link>
-              </article>
+              </div>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -174,93 +106,69 @@ function Services() {
   )
 }
 
-// ─── Who We Serve ────────────────────────────────────────────────────────────
+// ─── Operating Partnership ────────────────────────────────────────────────────
 
-const signals = [
+const partnershipPrinciples = [
   {
-    title: 'Growing Headcount',
-    body: '15–150+ employees and the informal management style that worked at 10 people isn’t working at 40.',
+    title: 'Long-Term Partnership',
+    body: 'We work alongside leadership through the stage that’s actually next — not a single engagement.',
   },
   {
-    title: 'Inconsistent or Unpredictable Revenue',
-    body: 'Growth is happening but you can’t explain exactly why — or how to make it happen faster and more reliably.',
+    title: 'Strategic Judgment',
+    body: 'Perspective shaped by having made these calls before, not just studied them.',
   },
   {
-    title: 'Multi-Location or Multi-Entity',
-    body: 'Operational complexity has outpaced the infrastructure. Decisions that should be made locally still run through you.',
+    title: 'Practical Execution',
+    body: 'A plan matters less than the discipline to carry it out.',
   },
   {
-    title: 'Succession or Exit on the Horizon',
-    body: 'You’re thinking about stepping back, transitioning to family, or eventually selling. The business isn’t ready yet — and you know it.',
+    title: 'Accountability',
+    body: 'We stay close enough to the outcome to own it.',
   },
   {
-    title: 'Owner Still in Every Decision',
-    body: 'You have good people. But nothing moves without you. That’s not a team — that’s a staff. And it can’t scale.',
+    title: 'Real Operating Experience',
+    body: 'Not frameworks — decisions made inside real businesses, under real pressure.',
   },
 ]
 
-function WhoWeServe() {
+function OperatingPartnership() {
   return (
-    <div id="who-we-serve" className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-24 sm:py-32">
       <Container>
-        <div className="lg:flex lg:items-start lg:gap-x-16">
-
-          {/* Left — intro + CTA */}
-          <FadeIn className="lg:w-2/5 lg:sticky lg:top-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-              Who We Serve
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
-              Built for the business that&rsquo;s outgrown the original model.
-            </h2>
-            <p className="mt-6 text-lg text-cga-body leading-relaxed">
-              Privately held, owner-operated, and founder-led businesses
-              generating $5M–$50M in revenue across Southeastern Massachusetts.
-              Established companies with real complexity — not startups, not
-              lifestyle businesses.
-            </p>
-            <p className="mt-4 text-lg font-semibold text-cga-navy">
-              If any of these sound familiar, we should talk.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/contact"
-                className="inline-flex rounded-full bg-cga-navy px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-cga-navy/90"
-              >
-                Schedule a Free Consultation
-              </Link>
-              <Link
-                href="/clients"
-                className="inline-flex rounded-full border border-cga-navy/20 px-6 py-2.5 text-sm font-semibold text-cga-navy transition hover:border-cga-teal hover:text-cga-teal"
-              >
-                See client profiles &rarr;
-              </Link>
-            </div>
-          </FadeIn>
-
-          {/* Right — signal list */}
-          <FadeInStagger className="mt-12 lg:mt-0 lg:w-3/5">
-            {signals.map((signal) => (
-              <FadeIn key={signal.title}>
-                <div className="border-t border-cga-navy/10 py-8 first:border-t-0">
-                  <h3 className="font-display text-lg font-bold text-cga-navy">
-                    {signal.title}
-                  </h3>
-                  <p className="mt-3 text-base leading-relaxed text-cga-body">
-                    {signal.body}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </FadeInStagger>
-
-        </div>
+        <FadeIn className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+            Operating Partnership
+          </p>
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+            We stay for the work — not just the recommendation.
+          </h2>
+          <p className="mt-6 text-lg text-cga-body leading-relaxed">
+            Operating Partnership means showing up alongside leadership for
+            the stage that&rsquo;s actually next — bringing judgment shaped by
+            real operating experience, and staying accountable for execution,
+            not just the plan.
+          </p>
+        </FadeIn>
+        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
+          {partnershipPrinciples.map((principle) => (
+            <FadeIn key={principle.title}>
+              <div className="border-t border-cga-navy/10 pt-6">
+                <h3 className="font-display text-lg font-bold text-cga-navy">
+                  {principle.title}
+                </h3>
+                <p className="mt-3 text-base leading-relaxed text-cga-body">
+                  {principle.body}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
       </Container>
     </div>
   )
 }
 
-// ─── About Jeff ──────────────────────────────────────────────────────────────
+// ─── Experience ───────────────────────────────────────────────────────────────
 
 const credentials = [
   { company: 'Everbridge (Nasdaq: EVBG)', role: 'Leadership · IPO' },
@@ -269,31 +177,31 @@ const credentials = [
   { company: 'US Navy', role: 'Surface Warfare · Nuclear Qualified' },
 ]
 
-function AboutJeff() {
+function Experience() {
   return (
     <div className="bg-cga-navy py-24 sm:py-32">
       <Container>
         <FadeIn>
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
-            About Jeff Lortz
+            Experience
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
             He&rsquo;s actually been in the seat.
           </h2>
           <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
             <div className="space-y-6">
               <p className="text-lg text-white/80 leading-relaxed">
-                Most business coaches have read about running companies. Jeff has
-                actually done it — as a PE-backed SaaS CEO, COO, CCO, and Chief
-                of Staff across companies including PTC, BMC, Pegasystems,
-                Acoustic, and Everbridge, where he was part of the leadership
-                team through a Nasdaq IPO.
+                Most business coaches have read about running companies. Jeff
+                has actually done it — as a PE-backed SaaS CEO, COO, CCO, and
+                Chief of Staff across companies including PTC, BMC,
+                Pegasystems, Acoustic, and Everbridge, where he led through a
+                Nasdaq IPO, multiple acquisitions, and sustained growth.
               </p>
               <p className="text-lg text-white/80 leading-relaxed">
                 Before that, he commanded nuclear-powered surface warships as a
                 US Navy Surface Warfare Officer. He lives in Plymouth and works
-                with Southeastern Massachusetts business owners as the operating
-                partner they never had.
+                with Southeastern Massachusetts business owners as the
+                operating partner they never had.
               </p>
               <blockquote className="border-l-4 border-cga-gold pl-6">
                 <p className="text-xl italic text-white leading-relaxed">
@@ -333,90 +241,66 @@ function AboutJeff() {
   )
 }
 
-// ─── How It Works ────────────────────────────────────────────────────────────
+// ─── Perspective ──────────────────────────────────────────────────────────────
 
-const steps = [
-  {
-    number: '01',
-    title: 'Free Consultation',
-    body: '60 minutes. We talk about your business, where it is, and what’s genuinely in the way. No agenda beyond understanding your situation.',
-  },
-  {
-    number: '02',
-    title: 'Business Diagnostic',
-    body: 'A structured assessment of your operations, revenue model, leadership, and strategic priorities. We find the real leverage points.',
-  },
-  {
-    number: '03',
-    title: 'Engagement Design',
-    body: 'We propose a specific scope — not a packaged program. Designed around your business, your goals, and your calendar.',
-  },
-  {
-    number: '04',
-    title: 'We Get to Work',
-    body: 'First 90 days are execution-focused. Strategy is set. Accountabilities are clear. Progress is measurable from week one.',
-  },
-]
-
-function HowItWorks() {
+function Perspective() {
   return (
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
-        <FadeIn>
+        <FadeIn className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            How It Works
+            Perspective
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
-            No long proposals. No retainer before you&rsquo;re ready.
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+            A closer look at how we think.
           </h2>
         </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step) => (
-            <FadeIn key={step.number}>
-              <div>
-                <p className="font-display text-4xl font-bold text-cga-teal">
-                  {step.number}
-                </p>
-                <h3 className="mt-4 font-display text-xl font-bold text-cga-navy">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-cga-body">
-                  {step.body}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
+        <FadeIn className="mt-12 max-w-2xl">
+          <Link
+            href="/articles/why-your-business-still-runs-through-you"
+            className="group block rounded-2xl bg-white p-8 ring-1 ring-cga-navy/10 transition hover:ring-cga-teal"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
+              Operations
+            </p>
+            <h3 className="mt-3 font-display text-2xl font-bold text-cga-navy transition group-hover:text-cga-teal">
+              Why Your Business Still Runs Through You
+            </h3>
+            <p className="mt-3 text-base leading-relaxed text-cga-body">
+              Owner dependency isn&rsquo;t a people problem. It&rsquo;s a structural
+              one — and it&rsquo;s fixable.
+            </p>
+            <p className="mt-5 text-sm font-semibold text-cga-teal">
+              Read the piece &rarr;
+            </p>
+          </Link>
+        </FadeIn>
       </Container>
     </div>
   )
 }
 
-// ─── CTA Section ─────────────────────────────────────────────────────────────
+// ─── Conversation ─────────────────────────────────────────────────────────────
 
-function CTASection() {
+function Conversation() {
   return (
     <div className="bg-cga-teal py-24 sm:py-32">
       <Container>
         <FadeIn className="text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Ready to find out what&rsquo;s actually in the way?
+          <h2 className="font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
+            Let&rsquo;s start with a conversation.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            The first conversation is free. And it&rsquo;s a real conversation — not
-            a sales call. Bring your biggest challenge. We&rsquo;ll tell you honestly
-            whether we can help.
+            No pitch, no packaged program — just a conversation about where
+            your business is, and what&rsquo;s next.
           </p>
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-cga-teal shadow transition hover:bg-cga-sand"
+              className="inline-flex items-center rounded-md bg-white px-8 py-3.5 text-sm font-semibold tracking-widest text-cga-teal uppercase shadow transition hover:bg-cga-sand"
             >
-              Schedule Your Free Consultation
+              Start a Conversation
             </Link>
-            <p className="mt-4 text-sm text-white/60">
-              No commitment. No pitch deck. Just a conversation with someone who&rsquo;s been in the seat.
-            </p>
           </div>
         </FadeIn>
       </Container>
@@ -436,30 +320,26 @@ export default function Home() {
           <div className="relative z-10 px-6 py-16 sm:py-24 lg:px-8 lg:py-32 lg:pr-16">
             <FadeIn className="max-w-xl">
               <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
-                Business Advisory &amp; Executive Coaching &middot; Southeastern
-                Massachusetts
+                Operating Partnership for Privately Held Businesses &middot;
+                Southeastern Massachusetts
               </p>
               <div className="mt-6 h-px w-12 bg-cga-teal" />
               <h1 className="mt-6 font-display text-5xl font-medium tracking-tight text-balance text-cga-navy sm:text-6xl lg:text-7xl">
-                The Operating Partner Your Business Has Been Missing.
+                The business that got you here isn&rsquo;t the business you
+                need next.
               </h1>
               <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed">
-                Most businesses are run by capable people operating without the
-                systems, structure, or support that would let them perform at
-                their best. That&rsquo;s the gap we close.
+                Tidal Point Partners works alongside business owners and CEOs
+                as an experienced Operating Partner — bringing the judgment,
+                discipline, and hands-on execution it takes to build
+                what&rsquo;s next.
               </p>
-              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <div className="mt-10">
                 <Link
                   href="/contact"
                   className="inline-flex items-center rounded-md bg-cga-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-cga-navy/90"
                 >
-                  Schedule a Free Consultation
-                </Link>
-                <Link
-                  href="/#who-we-serve"
-                  className="text-sm font-semibold text-cga-navy transition hover:text-cga-teal"
-                >
-                  See How We Work <span aria-hidden="true">&rarr;</span>
+                  Start a Conversation
                 </Link>
               </div>
             </FadeIn>
@@ -488,13 +368,12 @@ export default function Home() {
         </div>
       </div>
 
-      <StatBar />
-      <TheProblem />
-      <Services />
-      <WhoWeServe />
-      <AboutJeff />
-      <HowItWorks />
-      <CTASection />
+      <BusinessEvolution />
+      <WhenOwnersBringUsIn />
+      <OperatingPartnership />
+      <Experience />
+      <Perspective />
+      <Conversation />
     </RootLayout>
   )
 }
