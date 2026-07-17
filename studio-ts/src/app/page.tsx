@@ -37,16 +37,6 @@ function BusinessEvolution() {
               tomorrow&rsquo;s.
             </p>
           </div>
-          <blockquote className="mt-12 border-l-4 border-cga-teal pl-6">
-            <p className="text-xl italic text-cga-navy leading-relaxed">
-              &ldquo;Most owners don&rsquo;t have a strategy problem. They have an
-              evolution problem — the business changed, and the operating
-              model didn&rsquo;t.&rdquo;
-            </p>
-            <footer className="mt-4 text-sm font-semibold text-cga-light">
-              — How we think about growth
-            </footer>
-          </blockquote>
         </FadeIn>
       </Container>
     </div>
@@ -66,7 +56,7 @@ const situations = [
   },
   {
     title: 'Prepare & Execute',
-    body: 'Businesses preparing for expansion, succession, acquisition, recapitalization, or sale — where the next decision carries real consequence.',
+    body: 'Businesses preparing for succession, acquisition, recapitalization, or sale — moments where the next decision determines who leads and owns the business next.',
   },
 ]
 
@@ -118,7 +108,7 @@ const partnershipPrinciples = [
   },
   {
     title: 'Long-Term Partnership',
-    body: 'We work alongside leadership through the stage that’s actually next — not a single engagement.',
+    body: 'We work alongside leadership through the stage that’s actually next — not a single project.',
   },
 ]
 
@@ -134,9 +124,7 @@ function OperatingPartnership() {
             We stay for the work — not just the recommendation.
           </h2>
           <p className="mt-6 text-lg text-cga-body leading-relaxed">
-            Most advisors hand you a plan and step back. We stay — bringing
-            the same judgment and accountability we&rsquo;d expect if it were
-            our own business.
+            A plan is easy to hand over. Staying to make it work is the job.
           </p>
         </FadeIn>
         <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
@@ -181,21 +169,21 @@ function Experience() {
           <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
             <div className="space-y-6">
               <p className="text-lg text-white/80 leading-relaxed">
-                Most advisors have studied how businesses work. Jeff has
-                actually run them — through PE ownership, a Nasdaq IPO,
-                acquisitions, and the kind of growth that breaks whatever
-                model built it. That&rsquo;s not a résumé line. It&rsquo;s where the
-                judgment comes from.
+                Most advice comes from studying decisions. Jeff&rsquo;s comes
+                from making them — as a PE-backed CEO, through a Nasdaq IPO,
+                through acquisitions and growth that outpaced the systems
+                built to handle it. That&rsquo;s the difference between advice
+                and judgment.
               </p>
               <p className="text-lg text-white/80 leading-relaxed">
-                Before that, he commanded nuclear-powered surface warships as a
-                US Navy Surface Warfare Officer. He lives in Plymouth and works
-                with Southeastern Massachusetts business owners as the
-                operating partner they never had.
+                Before that, he served as a nuclear-qualified Surface Warfare
+                Officer aboard nuclear-powered Navy ships. He lives in
+                Plymouth and works with Southeastern Massachusetts business
+                owners as the operating partner they never had.
               </p>
               <blockquote className="border-l-4 border-cga-gold pl-6">
                 <p className="text-xl italic text-white leading-relaxed">
-                  &ldquo;I&rsquo;ve sat in every C-suite seat. I know what keeps owners up
+                  &ldquo;I&rsquo;ve made these calls myself. I know what keeps owners up
                   at night — because it kept me up too.&rdquo;
                 </p>
                 <footer className="mt-3 text-sm font-semibold text-cga-warm-white">
@@ -319,8 +307,8 @@ export default function Home() {
                 need next.
               </h1>
               <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed">
-                For owners and CEOs at a pivotal stage of growth, transition,
-                or change.
+                We work alongside owners and leadership teams to make the
+                decisions — and do the work — the next stage requires.
               </p>
               <div className="mt-10">
                 <Link
