@@ -10,7 +10,7 @@ import { RootLayout } from '@/components/RootLayout'
 function ContactForm() {
   return (
     <FadeIn className="lg:order-last">
-      <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+      <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
         Schedule a Free Consultation
       </p>
       {/* Temporary CTA — swap for the Tidal Point Partners HubSpot form once available */}

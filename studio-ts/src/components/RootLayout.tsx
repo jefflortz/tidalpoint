@@ -16,7 +16,6 @@ import { motion, MotionConfig, useReducedMotion } from 'framer-motion'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Footer } from '@/components/Footer'
-import { GridPattern } from '@/components/GridPattern'
 import { Logo, Logomark } from '@/components/Logo'
 
 const RootLayoutContext = createContext<{
@@ -118,7 +117,7 @@ function Header({
 
 const desktopNavLinks = [
   { title: 'About', href: '/about' },
-  { title: 'Services', href: '/services' },
+  { title: 'How We Work', href: '/services' },
   { title: 'Who We Serve', href: '/clients' },
   { title: 'Insights', href: '/articles' },
   { title: 'Contact', href: '/contact' },
@@ -182,7 +181,7 @@ function Navigation() {
   return (
     <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
       <NavigationRow>
-        <NavigationItem href="/services">Services</NavigationItem>
+        <NavigationItem href="/services">How We Work</NavigationItem>
         <NavigationItem href="/about">About Jeff</NavigationItem>
       </NavigationRow>
       <NavigationRow>
@@ -320,12 +319,6 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           layout
           className="relative isolate flex w-full flex-col pt-9"
         >
-          <GridPattern
-            className="absolute inset-x-0 -top-14 -z-10 h-[1000px] w-full mask-[linear-gradient(to_bottom_left,white_40%,transparent_50%)] fill-neutral-50 stroke-neutral-950/5"
-            yOffset={-96}
-            interactive
-          />
-
           <main className="w-full flex-auto">{children}</main>
 
           <Footer />

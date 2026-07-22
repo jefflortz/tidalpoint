@@ -139,7 +139,7 @@ export default async function ArticleWrapper({
           {/* Article header */}
           <header className="mx-auto max-w-3xl">
             {article.category && (
-              <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+              <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
                 {article.category}
               </p>
             )}

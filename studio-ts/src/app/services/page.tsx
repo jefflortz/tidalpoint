@@ -50,7 +50,7 @@ function Section({
         </div>
         <div className="mt-12 lg:mt-0 lg:w-148 lg:flex-none lg:group-even/section:order-first">
           <FadeIn>
-            <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+            <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
               {eyebrow}
             </p>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-cga-navy sm:text-4xl">

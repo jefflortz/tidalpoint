@@ -33,12 +33,12 @@ function Hero() {
     <div className="bg-white py-16 sm:py-24">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             About Jeff Lortz &middot; Founder
           </p>
           <h1 className="mt-4 font-display text-5xl font-bold tracking-tight text-cga-navy sm:text-7xl">
             He&rsquo;s actually been{' '}
-            <em className="not-italic italic text-cga-gold">in the seat.</em>
+            <em className="not-italic italic text-cga-teal">in the seat.</em>
           </h1>
           <p className="mt-6 max-w-2xl text-xl text-cga-body leading-relaxed">
             PE-backed CEO. COO. CCO. Nuclear-qualified Navy Surface Warfare
@@ -50,7 +50,7 @@ function Hero() {
           <dl className="mt-12 grid grid-cols-3 gap-8 border-t border-cga-navy/10 pt-12 sm:max-w-lg">
             {heroStats.map((stat) => (
               <div key={stat.label}>
-                <dt className="whitespace-pre-line text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                <dt className="whitespace-pre-line text-xs font-semibold uppercase tracking-widest text-cga-teal">
                   {stat.label}
                 </dt>
                 <dd className="mt-2 font-display text-4xl font-bold text-cga-navy">
@@ -72,7 +72,7 @@ function TheStory() {
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             The Story
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
@@ -133,7 +133,7 @@ const timeline = [
     period: '2025 – Present',
     company: 'Coastal Growth Advisors',
     tag: 'Founder',
-    tagColor: 'bg-cga-gold text-white',
+    tagColor: 'bg-cga-teal text-white',
     role: 'Founder & Principal Advisor',
     description:
       'Business advisory and executive coaching for privately held businesses across the South Shore, South Coast, and Cape Cod.',
@@ -142,7 +142,7 @@ const timeline = [
     period: '2022 – 2024',
     company: 'Fastr Corp',
     tag: 'PE-Backed CEO',
-    tagColor: 'bg-cga-gold text-white',
+    tagColor: 'bg-cga-teal text-white',
     role: 'Chief Executive Officer',
     description:
       'Full P&L ownership, board management, GTM strategy, and investor relations at a PE-backed SaaS company.',
@@ -151,7 +151,7 @@ const timeline = [
     period: '2019 – 2022',
     company: 'ProcessMaker',
     tag: 'PE-Backed CEO',
-    tagColor: 'bg-cga-gold text-white',
+    tagColor: 'bg-cga-teal text-white',
     role: 'Chief Executive Officer',
     description:
       'Led product repositioning, GTM rebuild, and international expansion at a PE-backed BPM SaaS platform.',
@@ -199,7 +199,7 @@ function CareerTimeline() {
     <div className="bg-white py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             Career History
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
@@ -342,7 +342,7 @@ function Credentials() {
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             Credentials &amp; Roots
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
@@ -386,7 +386,7 @@ function PullQuotes() {
       <Container>
         <FadeInStagger className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <FadeIn>
-            <blockquote className="border-l-4 border-cga-gold pl-6">
+            <blockquote className="border-l-4 border-cga-teal pl-6">
               <p className="text-xl italic leading-relaxed text-cga-navy">
                 &ldquo;I&rsquo;m not here to impress you with my r&eacute;sum&eacute;. I&rsquo;m here to
                 help you solve your actual problems. The r&eacute;sum&eacute; just tells you
@@ -422,7 +422,7 @@ function RecentArticles({ articles }: { articles: Array<MDXEntry<Article>> }) {
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             From the Articles
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">
@@ -439,7 +439,7 @@ function RecentArticles({ articles }: { articles: Array<MDXEntry<Article>> }) {
           {articles.map((article) => (
             <FadeIn key={article.href}>
               <article className="rounded-2xl bg-white p-8 ring-1 ring-cga-navy/10">
-                <time className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                <time className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
                   {article.date}
                 </time>
                 <h3 className="mt-3 font-display text-xl font-bold text-cga-navy">

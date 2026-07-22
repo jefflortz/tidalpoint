@@ -54,7 +54,7 @@ function OtherServices({
     <div className="bg-cga-sand py-24 sm:py-32">
       <Container>
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             Our Services
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold text-cga-navy">
@@ -67,7 +67,7 @@ function OtherServices({
             return (
               <FadeIn key={s.href}>
                 {isCurrent ? (
-                  <div className="rounded-2xl bg-cga-navy p-8 ring-2 ring-cga-gold h-full">
+                  <div className="rounded-2xl bg-cga-navy p-8 ring-2 ring-cga-teal h-full">
                     <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
                       {s.tag}
                     </p>
@@ -84,7 +84,7 @@ function OtherServices({
                 ) : (
                   <Link href={s.href} className="group block h-full">
                     <div className="rounded-2xl bg-white p-8 ring-1 ring-cga-navy/10 transition group-hover:ring-cga-teal h-full">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
                         {s.tag}
                       </p>
                       <h3 className="mt-3 font-display text-xl font-bold text-cga-navy transition group-hover:text-cga-teal">
@@ -125,7 +125,7 @@ export default async function ServiceLayout({
       <Container className="mt-24 sm:mt-32 lg:mt-40">
         <div className="lg:flex lg:items-center lg:gap-x-16">
           <FadeIn className="lg:w-1/2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+            <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
               {service.tag}
             </p>
             <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-cga-navy sm:text-5xl">

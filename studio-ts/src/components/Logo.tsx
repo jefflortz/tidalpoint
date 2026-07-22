@@ -12,10 +12,10 @@ export function Logomark({
   return (
     <div className={clsx('flex items-center', props.className)}>
       <Image
-        src="/logo-icon-dark.png"
+        src={invert ? '/logo-monogram-dark.svg' : '/logo-monogram-light.svg'}
         alt="Tidal Point Partners"
-        width={120}
-        height={80}
+        width={113}
+        height={100}
         className="h-10 w-auto"
         unoptimized
       />
@@ -37,11 +37,11 @@ export function Logo({
   return (
     <div className={clsx('flex items-center', className)} {...props}>
       <Image
-        src={invert ? '/logo-dark-cropped.png' : '/logo-light-cropped.png'}
+        src={invert ? '/logo-wordmark-dark.svg' : '/logo-wordmark-light.svg'}
         alt="Tidal Point Partners"
-        width={400}
+        width={491}
         height={100}
-        className="h-12 w-auto"
+        className="h-12 w-auto translate-y-[27%]"
         unoptimized
       />
     </div>

@@ -16,25 +16,23 @@ export function Button({
 }: ButtonProps) {
   className = clsx(
     className,
-    'inline-flex rounded-full px-4 py-1.5 text-sm font-semibold transition',
+    'inline-flex items-center justify-center rounded-md px-4 py-2 text-xs font-semibold tracking-wide uppercase shadow transition',
     invert
       ? 'bg-white text-cga-navy hover:bg-cga-sand'
       : 'bg-cga-navy text-white hover:bg-cga-navy/90',
   )
 
-  let inner = <span className="relative top-px">{children}</span>
-
   if (typeof props.href === 'undefined') {
     return (
       <button className={className} {...props}>
-        {inner}
+        {children}
       </button>
     )
   }
 
   return (
     <Link className={className} {...props}>
-      {inner}
+      {children}
     </Link>
   )
 }

@@ -16,7 +16,7 @@ export function getOrganizationSchema() {
     sameAs: [
       // Add your social media profiles here
     ],
-    image: 'https://tidalpointpartners.com/logo-light-cropped.png',
+    image: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
   }
 }
 
@@ -36,7 +36,7 @@ export function getWebPageSchema(
       name: 'Tidal Point Partners',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://tidalpointpartners.com/logo-light-cropped.png',
+        url: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
       },
     },
   }

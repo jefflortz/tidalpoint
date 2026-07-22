@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { formatDate } from '@/lib/formatDate'
+import { loadArticles } from '@/lib/mdx'
 
 // TEMPORARY — replace with the final mill-exterior photograph once supplied.
 // Swap this path only; the hero layout does not need to change.
@@ -12,71 +14,146 @@ const heroImageSrc = '/images/hero-exterior-temp.png'
 
 export const metadata: Metadata = {
   description:
-    'Tidal Point Partners is an Operating Partnership for privately held businesses — bringing real operating experience to growth, transition, and execution.',
+    'Tidal Point Partners becomes the experienced Operating Partner that many privately held businesses never had — working alongside owners and leadership teams to make better decisions and build a stronger company.',
 }
 
-// ─── Business Evolution ──────────────────────────────────────────────────────
+// ─── Shared icons ─────────────────────────────────────────────────────────────
 
-function BusinessEvolution() {
+function CompassIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M15 9l-2.5 5.5L9 17l2.5-5.5L15 9z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function ChartIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M3.75 20h16.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <rect x="5.5" y="14" width="3" height="6" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="11" y="10" width="3" height="10" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="16.5" y="6" width="3" height="14" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+function ShieldIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function PeopleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M4 20c0-3 2-5 5-5s5 2 5 5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="17" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M15.5 20c0-2.5 1-4.5 3-4.8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+// ─── Why An Operating Partner ─────────────────────────────────────────────────
+
+function WhyOperatingPartner() {
   return (
     <div className="bg-white py-24 sm:py-32">
       <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            Business Evolution
+        <FadeIn className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
+            Why An Operating Partner
           </p>
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
-            The market keeps moving. So should the business.
+            Running a successful business doesn&rsquo;t mean you have all the
+            answers.
           </h2>
-          <div className="mt-8 max-w-2xl">
-            <p className="text-lg text-cga-body leading-relaxed">
-              Markets shift. Technology changes. Customer expectations rise.
-              Competitors adapt. Every business evolves on the inside while
-              the world evolves around it — and the company that created
-              today&rsquo;s success isn&rsquo;t always the company required for
-              tomorrow&rsquo;s.
-            </p>
-          </div>
+          <p className="mt-6 text-lg text-cga-body leading-relaxed">
+            As a business grows, the decisions become more consequential.
+            Leadership becomes more complex. The opportunities get bigger —
+            and so does the cost of getting them wrong. Large companies
+            surround their executives with experienced operators, boards, and
+            advisors. Most privately held businesses don&rsquo;t. That&rsquo;s
+            where an Operating Partner comes in.
+          </p>
         </FadeIn>
       </Container>
     </div>
   )
 }
 
-// ─── When Owners Bring Us In ──────────────────────────────────────────────────
+// ─── When Companies Bring Us In ───────────────────────────────────────────────
 
 const situations = [
   {
-    title: 'Accelerate & Execute',
-    body: 'Businesses with real momentum that need new capabilities to sustain growth — before the current model runs out of room.',
+    title: 'We’re growing faster than we can manage.',
+    body: 'Expansion, new markets, or acquisitions are outpacing the leadership and systems built to support them.',
   },
   {
-    title: 'Unlock & Execute',
-    body: 'Businesses that have plateaued and need to identify — and execute — the next source of value creation.',
+    title: 'Our growth has stalled.',
+    body: 'Sales have slowed, margins are shrinking, or execution isn’t as sharp as it used to be.',
   },
   {
-    title: 'Prepare & Execute',
-    body: 'Businesses preparing for succession, acquisition, recapitalization, or sale — moments where the next decision determines who leads and owns the business next.',
+    title: 'The leadership team needs to level up.',
+    body: 'The business has outgrown the team that built it, or a few key seats need to be filled.',
+  },
+  {
+    title: 'We can’t afford to get this wrong.',
+    body: 'An acquisition, a new facility, or a major customer has raised the stakes on the next decision.',
+  },
+  {
+    title: 'We want to maximize the value of what we’ve built.',
+    body: 'Every decision you make either builds long-term value or quietly erodes it — whether you plan to run this business for another twenty years or hand it to someone else someday.',
+  },
+  {
+    title: 'We need another experienced voice around the table.',
+    body: 'Not more advice — someone who has actually run a business and isn’t afraid to challenge the plan.',
   },
 ]
 
-function WhenOwnersBringUsIn() {
+function WhenCompaniesBringUsIn() {
   return (
-    <div className="bg-cga-sand py-28 sm:py-40">
+    <div className="bg-cga-warm-white py-28 sm:py-40">
       <Container>
         <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            When Owners Bring Us In
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
-            The moments that call for a different kind of partner.
+          <h2 className="font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+            Businesses call us when&hellip;
           </h2>
         </FadeIn>
-        <FadeInStagger className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-3">
+        <FadeInStagger className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {situations.map((situation) => (
             <FadeIn key={situation.title}>
-              <div className="border-t-2 border-cga-teal pt-6">
-                <h3 className="font-display text-2xl font-bold text-cga-navy">
+              <div className="border-t border-cga-navy/15 pt-6">
+                <h3 className="font-display text-xl font-bold text-cga-navy">
                   {situation.title}
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-cga-body">
@@ -91,47 +168,52 @@ function WhenOwnersBringUsIn() {
   )
 }
 
-// ─── Operating Partnership ────────────────────────────────────────────────────
+// ─── What An Operating Partner Actually Does ──────────────────────────────────
 
 const partnershipPrinciples = [
   {
-    title: 'Strategic Judgment',
-    body: 'Perspective shaped by having made these calls before, not just studied them.',
+    title: 'Clarify Priorities',
+    body: 'We help leadership see clearly what matters most, and challenge the assumptions behind the plan.',
+    icon: CompassIcon,
   },
   {
-    title: 'Execution',
-    body: 'A plan matters less than the discipline to carry it out.',
+    title: 'Participate and Execute',
+    body: 'We sit in the room for the decisions that matter and help carry out the initiatives that follow.',
+    icon: ChartIcon,
   },
   {
-    title: 'Accountability',
-    body: 'We stay close enough to the outcome to own it.',
+    title: 'Provide Accountability',
+    body: 'Someone with real experience is accountable for the outcome, not just the recommendation.',
+    icon: ShieldIcon,
   },
   {
-    title: 'Long-Term Partnership',
-    body: 'We work alongside leadership through the stage that’s actually next — not a single project.',
+    title: 'Stay Involved',
+    body: 'We remain alongside the business until the work succeeds — not just until the plan is delivered.',
+    icon: PeopleIcon,
   },
 ]
 
-function OperatingPartnership() {
+function WhatWeDo() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div id="how-we-work" className="scroll-mt-24 bg-white py-24 sm:py-32">
       <Container>
         <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
-            Operating Partnership
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
+            How We Work
           </p>
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
-            We stay for the work — not just the recommendation.
+            An Operating Partner doesn&rsquo;t hand over a report.
           </h2>
           <p className="mt-6 text-lg text-cga-body leading-relaxed">
-            A plan is easy to hand over. Staying to make it work is the job.
+            We stay alongside the business until the work succeeds.
           </p>
         </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
+        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {partnershipPrinciples.map((principle) => (
             <FadeIn key={principle.title}>
               <div className="border-t border-cga-navy/10 pt-6">
-                <h3 className="font-display text-lg font-bold text-cga-navy">
+                <principle.icon className="h-7 w-7 text-cga-navy" />
+                <h3 className="mt-4 font-display text-lg font-bold text-cga-navy">
                   {principle.title}
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-cga-body">
@@ -146,73 +228,42 @@ function OperatingPartnership() {
   )
 }
 
-// ─── Experience ───────────────────────────────────────────────────────────────
+// ─── Why Tidal Point ──────────────────────────────────────────────────────────
 
-const credentials = [
-  { company: 'Everbridge (Nasdaq: EVBG)', role: 'Leadership · IPO' },
-  { company: 'ProcessMaker / Fastr Corp', role: 'CEO · PE-Backed' },
-  { company: 'PTC · BMC · Pegasystems', role: 'C-Suite Operator' },
-  { company: 'US Navy', role: 'Surface Warfare · Nuclear Qualified' },
-]
-
-function Experience() {
+function WhyTidalPoint() {
   return (
     <div className="bg-cga-navy py-24 sm:py-32">
       <Container>
-        <FadeIn>
+        <FadeIn className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-cga-warm-white">
-            Experience
+            Why Tidal Point
           </p>
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
-            He&rsquo;s actually been in the seat.
+            When the stakes are high, experience changes the quality of
+            decisions.
           </h2>
-          <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
-            <div className="space-y-6">
-              <p className="text-lg text-white/80 leading-relaxed">
-                Most advice comes from studying decisions. Jeff&rsquo;s comes
-                from making them — as a PE-backed CEO, through a Nasdaq IPO,
-                through acquisitions and growth that outpaced the systems
-                built to handle it. That&rsquo;s the difference between advice
-                and judgment.
-              </p>
-              <p className="text-lg text-white/80 leading-relaxed">
-                Before that, he served as a nuclear-qualified Surface Warfare
-                Officer aboard nuclear-powered Navy ships. He lives in
-                Plymouth and works with Southeastern Massachusetts business
-                owners as the operating partner they never had.
-              </p>
-              <blockquote className="border-l-4 border-cga-gold pl-6">
-                <p className="text-xl italic text-white leading-relaxed">
-                  &ldquo;I&rsquo;ve made these calls myself. I know what keeps owners up
-                  at night — because it kept me up too.&rdquo;
-                </p>
-                <footer className="mt-3 text-sm font-semibold text-cga-warm-white">
-                  — Jeff Lortz, Founder
-                </footer>
-              </blockquote>
-            </div>
-            <div>
-              <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {credentials.map((cred) => (
-                  <div
-                    key={cred.company}
-                    className="rounded-xl bg-white/5 p-5 ring-1 ring-white/10"
-                  >
-                    <dt className="font-display text-base font-bold text-white">
-                      {cred.company}
-                    </dt>
-                    <dd className="mt-1 text-sm text-cga-warm-white">{cred.role}</dd>
-                  </div>
-                ))}
-              </dl>
-              <Link
-                href="/about"
-                className="mt-8 inline-flex items-center text-sm font-semibold text-cga-warm-white hover:text-cga-warm-white/80"
-              >
-                Read Jeff&rsquo;s full story &rarr;
-              </Link>
-            </div>
-          </div>
+          <p className="mt-6 text-lg text-white/80 leading-relaxed">
+            Jeff Lortz has led as a PE-backed CEO through a Nasdaq IPO, guided
+            companies through acquisitions and rapid growth, and served as a
+            nuclear-qualified Surface Warfare Officer in the U.S. Navy. He has
+            sat in the seat where these decisions get made — not just studied
+            them from the outside.
+          </p>
+          <blockquote className="mt-8 border-l-4 border-cga-teal pl-6">
+            <p className="text-xl italic text-white leading-relaxed">
+              &ldquo;I&rsquo;ve made these calls myself. I know what keeps owners up
+              at night — because it kept me up too.&rdquo;
+            </p>
+            <footer className="mt-3 text-sm font-semibold text-cga-warm-white">
+              — Jeff Lortz, Founder
+            </footer>
+          </blockquote>
+          <Link
+            href="/about"
+            className="mt-8 inline-flex items-center text-sm font-semibold text-cga-warm-white hover:text-cga-warm-white/80"
+          >
+            Read Jeff&rsquo;s full story &rarr;
+          </Link>
         </FadeIn>
       </Container>
     </div>
@@ -221,38 +272,41 @@ function Experience() {
 
 // ─── Perspective ──────────────────────────────────────────────────────────────
 
-function Perspective() {
+async function Perspective() {
+  const articles = (await loadArticles()).slice(0, 3)
+
   return (
-    <div className="bg-cga-sand py-24 sm:py-32">
+    <div className="bg-cga-warm-white py-24 sm:py-32">
       <Container>
         <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-cga-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
             Perspective
           </p>
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
             A closer look at how we think.
           </h2>
         </FadeIn>
-        <FadeIn className="mt-12 max-w-2xl">
-          <Link
-            href="/articles/why-your-business-still-runs-through-you"
-            className="group block rounded-2xl bg-white p-8 ring-1 ring-cga-navy/10 transition hover:ring-cga-teal"
-          >
-            <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
-              Operations
-            </p>
-            <h3 className="mt-3 font-display text-2xl font-bold text-cga-navy transition group-hover:text-cga-teal">
-              Why Your Business Still Runs Through You
-            </h3>
-            <p className="mt-3 text-base leading-relaxed text-cga-body">
-              Owner dependency isn&rsquo;t a people problem. It&rsquo;s a structural
-              one — and it&rsquo;s fixable.
-            </p>
-            <p className="mt-5 text-sm font-semibold text-cga-teal">
-              Read the piece &rarr;
-            </p>
-          </Link>
-        </FadeIn>
+        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
+          {articles.map((article) => (
+            <FadeIn key={article.href}>
+              <Link href={article.href} className="group block border-t-2 border-cga-teal pt-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-cga-body">
+                  {formatDate(article.date)}
+                  {article.category ? ` · ${article.category}` : ''}
+                </p>
+                <h3 className="mt-3 font-display text-2xl font-bold text-cga-navy transition group-hover:text-cga-teal">
+                  {article.title}
+                </h3>
+                <p className="mt-3 text-base leading-relaxed text-cga-body">
+                  {article.description}
+                </p>
+                <p className="mt-5 text-sm font-semibold text-cga-teal">
+                  Read the piece &rarr;
+                </p>
+              </Link>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
       </Container>
     </div>
   )
@@ -262,20 +316,16 @@ function Perspective() {
 
 function Conversation() {
   return (
-    <div className="bg-cga-teal py-24 sm:py-32">
+    <div className="bg-white py-24 sm:py-32">
       <Container>
         <FadeIn className="text-center">
-          <h2 className="font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
+          <h2 className="font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
             Let&rsquo;s start with a conversation.
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            No pitch, no packaged program — just a conversation about where
-            your business is, and what&rsquo;s next.
-          </p>
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex items-center rounded-md bg-white px-8 py-3.5 text-sm font-semibold tracking-widest text-cga-teal uppercase shadow transition hover:bg-cga-sand"
+              className="inline-flex items-center rounded-md bg-cga-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-cga-navy/90"
             >
               Start a Conversation
             </Link>
@@ -288,66 +338,80 @@ function Conversation() {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default function Home() {
+export default async function Home() {
   return (
     <RootLayout>
       {/* Hero */}
       <div className="relative isolate overflow-hidden bg-cga-warm-white">
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
+        <div className="relative mx-auto grid max-w-[1800px] grid-cols-1 lg:grid-cols-[4fr_3fr]">
           {/* Text column */}
-          <div className="relative z-10 px-6 py-16 sm:py-24 lg:px-8 lg:py-32 lg:pr-16">
-            <FadeIn className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
-                For Privately Held Businesses &middot; Southeastern
-                Massachusetts
-              </p>
-              <div className="mt-6 h-px w-12 bg-cga-teal" />
-              <h1 className="mt-6 font-display text-5xl font-medium tracking-tight text-balance text-cga-navy sm:text-6xl lg:text-7xl">
-                The business that got you here isn&rsquo;t the business you
-                need next.
+          <div className="relative z-10 px-6 py-16 sm:py-24 lg:px-8 lg:pt-8 lg:pb-24 lg:pr-0">
+            <FadeIn className="max-w-3xl">
+              <h1 className="font-display text-5xl font-medium tracking-tight text-balance text-cga-navy sm:text-6xl lg:text-7xl lg:leading-[1.1]">
+                The Operating Partner Your Business Has Been Missing.
               </h1>
-              <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed">
-                We work alongside owners and leadership teams to make the
-                decisions — and do the work — the next stage requires.
+              <p className="mt-6 max-w-lg text-lg text-cga-body leading-relaxed lg:text-2xl">
+                As your Operating Partner, we bring the judgment of people
+                who&rsquo;ve actually run businesses — not simply advised
+                them.
               </p>
-              <div className="mt-10">
+              <div className="mt-20 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Link
                   href="/contact"
                   className="inline-flex items-center rounded-md bg-cga-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-cga-navy/90"
                 >
                   Start a Conversation
                 </Link>
+                <Link
+                  href="#how-we-work"
+                  className="inline-flex items-center text-sm font-semibold tracking-widest text-cga-navy uppercase transition hover:text-cga-teal"
+                >
+                  Learn How We Work &rarr;
+                </Link>
               </div>
             </FadeIn>
           </div>
 
-          {/* Image column — full-bleed on lg+, stacked block below the text on smaller screens */}
-          <div className="relative h-72 sm:h-96 lg:absolute lg:inset-y-0 lg:left-1/2 lg:h-full lg:w-screen">
+          {/* Image column — full-bleed on lg+, integrated behind the text with a wide, soft fade */}
+          <div className="relative h-72 sm:h-96 lg:absolute lg:inset-y-0 lg:left-[46%] lg:h-full lg:w-screen">
             <Image
               src={heroImageSrc}
               alt=""
               fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              className="object-cover object-[50%_75%]"
               priority
             />
-            {/* Soft fade into the warm-white content area */}
+            {/* Organic, multi-directional fade so the image emerges from behind the typography rather than a flat seam */}
             <div
               aria-hidden="true"
-              className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-cga-warm-white to-transparent lg:w-1/3"
+              className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-br from-cga-warm-white via-cga-warm-white/30 to-transparent lg:w-[34rem]"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-tr from-cga-warm-white/60 via-cga-warm-white/10 to-transparent lg:w-72"
+            />
+            {/* Subtle warm wash to unify the photo's tone with the page */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-tr from-cga-warm-white/15 via-transparent to-transparent"
             />
             <div
               aria-hidden="true"
               className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-cga-warm-white/70 to-transparent lg:hidden"
             />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cga-warm-white/40 to-transparent"
+            />
           </div>
         </div>
       </div>
 
-      <BusinessEvolution />
-      <WhenOwnersBringUsIn />
-      <OperatingPartnership />
-      <Experience />
+      <WhyOperatingPartner />
+      <WhenCompaniesBringUsIn />
+      <WhatWeDo />
+      <WhyTidalPoint />
       <Perspective />
       <Conversation />
     </RootLayout>
