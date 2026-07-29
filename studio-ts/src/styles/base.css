@@ -1,2 +1,8 @@
 /* Mona Sans self-hosted @font-face removed — replaced by Cormorant Garamond
    and Inter, loaded via next/font/google in src/app/layout.tsx. */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

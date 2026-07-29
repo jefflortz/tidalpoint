@@ -12,11 +12,11 @@ function SituationRow({ items }: { items: Array<Situation> }) {
     <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
       {items.map((item) => (
         <FadeIn key={item.label}>
-          <div className="border-t border-cga-navy/10 pt-8">
-            <h3 className="font-display text-lg font-medium text-cga-navy">
+          <div className="border-t border-tidal-navy/10 pt-8">
+            <h3 className="font-display text-lg font-medium text-tidal-navy">
               {item.label}
             </h3>
-            <p className="mt-3 text-base leading-relaxed text-cga-body">
+            <p className="mt-3 text-base leading-relaxed text-tidal-body">
               {item.body}
             </p>
           </div>
@@ -36,13 +36,13 @@ function Section2Shell({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-cga-warm-white py-32 sm:py-40">
+    <div className="bg-tidal-warm-white py-32 sm:py-40">
       <Container>
         <FadeIn className="max-w-2xl">
-          <h2 className="font-display text-4xl font-medium tracking-tight text-cga-navy sm:text-5xl">
+          <h2 className="font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
             {headline}
           </h2>
-          <p className="mt-6 text-lg text-cga-body leading-relaxed">
+          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
             {intro}
           </p>
         </FadeIn>

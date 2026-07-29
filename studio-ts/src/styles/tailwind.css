@@ -4,12 +4,12 @@
 
 @theme {
   /* Tidal Point Brand Colors — mapped from brand-style-guide-v1.png */
-  --color-cga-navy: #17324D; /* Atlantic Navy */
-  --color-cga-teal: #7A9E9F; /* Sea Glass */
-  --color-cga-sand: #D6CCC0; /* Sandstone */
-  --color-cga-body: #4F5962; /* Slate */
-  --color-cga-light: #7B848B; /* Slate-derived, fixed value */
-  --color-cga-warm-white: #F8F6F2; /* Warm White */
+  --color-tidal-navy: #17324D; /* Atlantic Navy */
+  --color-tidal-teal: #7A9E9F; /* Sea Glass */
+  --color-tidal-sand: #D6CCC0; /* Sandstone */
+  --color-tidal-body: #4F5962; /* Slate */
+  --color-tidal-light: #7B848B; /* Slate-derived, fixed value */
+  --color-tidal-warm-white: #F8F6F2; /* Warm White */
 
   --text-*: initial;
   --text-xs: 0.75rem;

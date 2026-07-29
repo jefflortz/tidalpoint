@@ -18,8 +18,8 @@ export function Button({
     className,
     'inline-flex items-center justify-center rounded-md px-4 py-2 text-xs font-semibold tracking-wide uppercase shadow transition',
     invert
-      ? 'bg-white text-cga-navy hover:bg-cga-sand'
-      : 'bg-cga-navy text-white hover:bg-cga-navy/90',
+      ? 'bg-white text-tidal-navy hover:bg-tidal-sand'
+      : 'bg-tidal-navy text-white hover:bg-tidal-navy/90',
   )
 
   if (typeof props.href === 'undefined') {

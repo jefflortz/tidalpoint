@@ -46,7 +46,7 @@ export default function CookiePolicy() {
               For more information about how Google uses data, see{' '}
               <a
                 href="https://policies.google.com/privacy"
-                className="text-cga-navy font-semibold"
+                className="text-tidal-navy font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -95,7 +95,7 @@ export default function CookiePolicy() {
               You can opt out of Google Analytics tracking by using the{' '}
               <a
                 href="https://tools.google.com/dlpage/gaoptout"
-                className="text-cga-navy font-semibold"
+                className="text-tidal-navy font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -123,7 +123,7 @@ export default function CookiePolicy() {
             <p>
               If you have questions about our use of cookies, please contact us
               at{' '}
-              <a href="mailto:jeff@tidalpointpartners.com" className="text-cga-navy font-semibold">
+              <a href="mailto:jeff@tidalpointpartners.com" className="text-tidal-navy font-semibold">
                 jeff@tidalpointpartners.com
               </a>
             </p>

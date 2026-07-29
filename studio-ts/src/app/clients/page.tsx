@@ -38,7 +38,7 @@ function WhoWeServeIntro() {
       <Container className="mt-24 sm:mt-32 lg:mt-40">
         <div className="mx-auto max-w-2xl lg:max-w-none">
           <FadeIn>
-            <p className="text-lg text-cga-body leading-relaxed">
+            <p className="text-lg text-tidal-body leading-relaxed">
               We work best with privately held businesses navigating a
               pivotal moment — growth, transition, or a decision that
               deserves an experienced, honest outside perspective. If that
@@ -50,10 +50,10 @@ function WhoWeServeIntro() {
             {signals.map((signal) => (
               <FadeIn key={signal.title}>
                 <Border className="pt-8">
-                  <h3 className="font-display text-lg font-bold text-cga-navy">
+                  <h3 className="font-display text-lg font-bold text-tidal-navy">
                     {signal.title}
                   </h3>
-                  <p className="mt-3 text-base leading-relaxed text-cga-body">
+                  <p className="mt-3 text-base leading-relaxed text-tidal-body">
                     {signal.body}
                   </p>
                 </Border>
@@ -68,22 +68,22 @@ function WhoWeServeIntro() {
 
 function ClientsCTA() {
   return (
-    <div className="bg-cga-teal mt-24 sm:mt-32 lg:mt-40 py-24 sm:py-32">
+    <div className="bg-tidal-teal mt-24 sm:mt-32 lg:mt-40 py-24 sm:py-32">
       <Container>
         <FadeIn className="text-center">
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Recognize your business in this?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            The first conversation is free. We&rsquo;ll tell you honestly whether
-            we&rsquo;re the right fit — and what we&rsquo;d do if we worked together.
+            We&rsquo;ll tell you honestly whether we&rsquo;re the right fit — and what
+            we&rsquo;d do if we worked together.
           </p>
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-cga-teal shadow transition hover:bg-cga-sand"
+              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-tidal-teal shadow transition hover:bg-tidal-sand"
             >
-              Schedule a Free Consultation
+              Schedule a Conversation
             </Link>
           </div>
         </FadeIn>

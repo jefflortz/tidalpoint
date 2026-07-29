@@ -107,7 +107,7 @@ function Header({
         {/* Right — CTA button */}
         <div className="flex justify-end">
           <Button href="/contact" invert={invert}>
-            Free Consultation
+            Schedule a Conversation
           </Button>
         </div>
       </div>
@@ -136,7 +136,7 @@ function DesktopNav() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-semibold tracking-widest text-cga-navy uppercase transition hover:text-cga-teal"
+                  className="text-sm font-semibold tracking-widest text-tidal-navy uppercase transition hover:text-tidal-teal"
                 >
                   {link.title}
                 </Link>
@@ -297,10 +297,10 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                       Get in touch
                     </h2>
                     <p className="mt-4 text-sm text-neutral-400">
-                      The first conversation is free.
+                      A real conversation, not a sales call.
                     </p>
                     <Button href="/contact" invert className="mt-6">
-                      Schedule a Free Consultation
+                      Schedule a Conversation
                     </Button>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
       <motion.div
         layout
         style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
-        className="relative flex flex-auto overflow-hidden bg-cga-warm-white pt-24 lg:pt-28"
+        className="relative flex flex-auto overflow-hidden bg-tidal-warm-white pt-24 lg:pt-28"
       >
         <motion.div
           layout

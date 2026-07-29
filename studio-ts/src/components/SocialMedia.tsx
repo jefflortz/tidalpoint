@@ -1,18 +1,8 @@
 import Link from 'next/link'
 import clsx from 'clsx'
 
-function FacebookIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12Z"
-      />
-    </svg>
-  )
-}
-
+// Dormant — no confirmed real LinkedIn company page URL yet. Re-add to
+// socialMediaProfiles below with a real href once available.
 function LinkedInIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
@@ -25,11 +15,27 @@ function LinkedInIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-export const socialMediaProfiles = [
-  // TODO: replace with the real LinkedIn company page URL once available.
-  { title: 'LinkedIn', href: '#', icon: LinkedInIcon },
-  // TODO: replace with the real Facebook page URL once available.
-  { title: 'Facebook', href: '#', icon: FacebookIcon },
+function EmailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.375.383L12 12.148l7.625-6.265a1 1 0 0 0-.125-.008h-15a1 1 0 0 0-.125.008ZM20 7.35l-6.996 5.751a1.75 1.75 0 0 1-2.008 0L4 7.35V18.5A1 1 0 0 0 5 19.5h14a1 1 0 0 0 1-1V7.35Z"
+      />
+    </svg>
+  )
+}
+
+// LinkedIn and Facebook are intentionally left out below — neither has a
+// confirmed real profile URL. Add an entry only once a real href exists;
+// do not link to "#" or a placeholder.
+export const socialMediaProfiles: {
+  title: string
+  href: string
+  icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
+}[] = [
+  { title: 'Email Jeff', href: 'mailto:jeff@tidalpointpartners.com', icon: EmailIcon },
 ]
 
 export function SocialMedia({
@@ -40,25 +46,20 @@ export function SocialMedia({
   invert?: boolean
 }) {
   return (
-    <ul
-      role="list"
-      className={clsx(
-        'flex gap-x-10',
-        invert ? 'text-white' : 'text-neutral-950',
-        className,
-      )}
-    >
+    <ul role="list" className={clsx('flex items-center gap-x-1', className)}>
       {socialMediaProfiles.map((socialMediaProfile) => (
         <li key={socialMediaProfile.title}>
           <Link
             href={socialMediaProfile.href}
             aria-label={socialMediaProfile.title}
             className={clsx(
-              'transition',
-              invert ? 'hover:text-neutral-200' : 'hover:text-neutral-700',
+              'flex h-11 w-11 items-center justify-center rounded-full transition',
+              invert
+                ? 'text-white hover:bg-white/10'
+                : 'text-neutral-950 hover:bg-neutral-950/5',
             )}
           >
-            <socialMediaProfile.icon className="h-6 w-6 fill-current" />
+            <socialMediaProfile.icon className="h-5 w-5 fill-current" />
           </Link>
         </li>
       ))}

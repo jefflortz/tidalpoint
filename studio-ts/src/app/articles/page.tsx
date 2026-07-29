@@ -24,22 +24,22 @@ export const metadata: Metadata = {
 
 function ArticlesCTA() {
   return (
-    <div className="bg-cga-teal mt-24 sm:mt-32 lg:mt-40 py-24 sm:py-32">
+    <div className="bg-tidal-teal mt-24 sm:mt-32 lg:mt-40 py-24 sm:py-32">
       <Container>
         <FadeIn className="text-center">
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Something resonate?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            The first conversation is free. Bring what&rsquo;s on your mind — we&rsquo;ll
-            tell you honestly whether we can help.
+            Bring what&rsquo;s on your mind — we&rsquo;ll tell you honestly whether we
+            can help.
           </p>
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-cga-teal shadow transition hover:bg-cga-sand"
+              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-tidal-teal shadow transition hover:bg-tidal-sand"
             >
-              Schedule a Free Consultation
+              Schedule a Conversation
             </Link>
           </div>
         </FadeIn>
@@ -81,7 +81,7 @@ export default async function Articles() {
                         </dd>
                         <dt className="sr-only">Author</dt>
                         <dd className="mt-6 flex items-center gap-x-3">
-                          <div className="flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-xl bg-cga-navy">
+                          <div className="flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-xl bg-tidal-navy">
                             <span className="text-xs font-bold text-white">JL</span>
                           </div>
                           <div className="text-sm text-neutral-950">

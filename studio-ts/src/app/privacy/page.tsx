@@ -104,7 +104,7 @@ export default function PrivacyPolicy() {
             <p>
               If you have questions about this privacy policy or our privacy
               practices, please contact us at{' '}
-              <a href="mailto:jeff@tidalpointpartners.com" className="text-cga-navy font-semibold">
+              <a href="mailto:jeff@tidalpointpartners.com" className="text-tidal-navy font-semibold">
                 jeff@tidalpointpartners.com
               </a>
             </p>

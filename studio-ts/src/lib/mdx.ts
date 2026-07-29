@@ -58,21 +58,6 @@ export interface CaseStudy {
   }
 }
 
-export interface Service {
-  date: string
-  title: string
-  tagline: string
-  description: string
-  tag: string
-  whoItsFor: string
-  engagementType: string
-  typicalDuration: string
-  quote: string
-  stats: Array<{ value: string; label: string }>
-  image: ImagePropsWithOptionalAlt
-  imageShape?: 0 | 1 | 2
-}
-
 export function loadArticles() {
   return loadEntries<Article>('articles', 'article')
 }
@@ -88,10 +73,6 @@ export interface ClientProfile {
   companySize: string
   engagementType: string
   summary: string
-}
-
-export function loadServices() {
-  return loadEntries<Service>('services', 'service')
 }
 
 export function loadClientProfiles() {

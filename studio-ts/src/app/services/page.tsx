@@ -1,213 +1,268 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
+import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
-import { FadeIn } from '@/components/FadeIn'
-import { List, ListItem } from '@/components/List'
-import { PageIntro } from '@/components/PageIntro'
-import { StylizedImage } from '@/components/StylizedImage'
+import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
-import imageWhiteboard from '@/images/whiteboard.jpg'
-import imageMeeting from '@/images/meeting.jpg'
-import imageLaptop from '@/images/laptop.jpg'
+import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
+import { OutcomesMiniNav } from './OutcomesMiniNav'
 
 export const metadata: Metadata = {
   title: 'Our Services',
   description:
-    'Coastal Growth Advisors offers three core services for owner-led businesses: performance planning, executive coaching, and revenue growth advisory. Tailored for $5M-$50M revenue companies.',
-  openGraph: {
-    title: 'Business Advisory Services - Tidal Point Partners',
-    description:
-      'Performance planning, executive coaching, and revenue growth advisory for Southeastern Massachusetts business owners.',
-    type: 'website',
+    'Tidal Point Partners is a single, embedded engagement — an experienced operator working alongside you. The work concentrates in three outcomes: growth, team, and operational maturity.',
+}
+
+function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M5 13l4 4L19 7"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+// ─── Outcome data ──────────────────────────────────────────────────────────────
+
+type Accent = 'teal' | 'navy' | 'sand'
+
+const accentStyles: Record<
+  Accent,
+  { dot: string; resultsBg: string; cardBorder: string }
+> = {
+  teal: {
+    dot: 'bg-tidal-teal',
+    resultsBg: 'bg-tidal-teal/8',
+    cardBorder: 'border-tidal-teal/60',
+  },
+  navy: {
+    dot: 'bg-tidal-navy',
+    resultsBg: 'bg-tidal-navy/5',
+    cardBorder: 'border-tidal-navy/25',
+  },
+  sand: {
+    dot: 'bg-tidal-sand',
+    resultsBg: 'bg-tidal-sand/30',
+    cardBorder: 'border-tidal-sand',
   },
 }
 
-function Section({
-  eyebrow,
-  title,
-  href,
-  image,
-  children,
+type Outcome = {
+  id: string
+  navLabel: string
+  accent: Accent
+  icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
+  heading: string
+  framing: string
+  results: string[]
+  deliverables: { name: string; body: string }[]
+}
+
+const outcomes: Outcome[] = [
+  {
+    id: 'growth',
+    navLabel: 'Growth',
+    accent: 'teal',
+    icon: GrowthIcon,
+    heading: 'Breaking through barriers to growth',
+    framing:
+      'When growth has stalled or the next stage feels out of reach, the first job is finding what’s actually in the way.',
+    results: [
+      'A clear read on what’s capping growth — market, model, or motion',
+      'A revenue engine that fills the pipeline without heroics',
+      'Sales that don’t depend on any one person in the room',
+    ],
+    deliverables: [
+      {
+        name: 'Growth Diagnostic',
+        body: 'A structured read on what’s actually capping growth: market, model, or motion. Where revenue is really coming from, where it’s stalling, and why.',
+      },
+      {
+        name: 'Revenue Engine Build',
+        body: 'Designing and installing a repeatable revenue process: pipeline, forecasting, and the operating discipline that makes growth predictable instead of episodic.',
+      },
+      {
+        name: 'Go-to-Market Realignment',
+        body: 'Sharpening positioning, pricing, and the path to market when the current motion has run out of room.',
+      },
+      {
+        name: 'Sales Leadership & Structure',
+        body: 'Building a sales organization that performs without the founder in every deal: roles, comp, playbook, and the cadence that holds it together.',
+      },
+    ],
+  },
+  {
+    id: 'team',
+    navLabel: 'Team',
+    accent: 'navy',
+    icon: AlignmentIcon,
+    heading: 'Building and aligning the right team for the moment',
+    framing:
+      'The team that got the business here isn’t always the team to carry it forward. This is about honestly assessing that gap and closing it.',
+    results: [
+      'An honest read on the team you have versus the one the plan needs',
+      'Leaders who understand how each other operate',
+      'Key seats filled, and the plan kept moving',
+    ],
+    deliverables: [
+      {
+        name: 'Leadership Team Assessment',
+        body: 'An honest read on the team you have against the one the plan actually needs, seat by seat.',
+      },
+      {
+        name: 'Team Alignment Workshop',
+        body: 'Giving the leadership team a shared language for how each other operate and decide, so friction turns into speed. (DISC-based.)',
+      },
+      {
+        name: 'Key-Seat Search & Onboarding',
+        body: 'Finding, hiring, and integrating the leaders the next stage requires.',
+      },
+    ],
+  },
+  {
+    id: 'operations',
+    navLabel: 'Operations',
+    accent: 'sand',
+    icon: MaturityIcon,
+    heading: 'Reaching the next level of operational maturity',
+    framing:
+      'As volume and complexity grow, informal ways of running the business start to strain. This is about building the backbone to carry what’s next.',
+    results: [
+      'Operations that hold up as volume and complexity grow',
+      'Clear decision rights and cadence, so nothing runs through one person',
+      'The structure and systems to take on what’s next',
+    ],
+    deliverables: [
+      {
+        name: 'Operational Assessment',
+        body: 'A structured look at where operations strain as volume and complexity grow, and what breaks first if nothing changes.',
+      },
+      {
+        name: 'Decision Rights & Governance',
+        body: 'Clarifying who decides what, so the business stops routing every call through one person.',
+      },
+      {
+        name: 'Systems & Process Design',
+        body: 'Building the operational backbone — process, tooling, structure — to carry the next stage of growth.',
+      },
+      {
+        name: 'Planning & Execution Rhythm',
+        body: 'Translating strategy into a 90-day operating system with clear priorities, owners, and measurable progress.',
+      },
+    ],
+  },
+]
+
+// ─── Outcome section ────────────────────────────────────────────────────────
+
+function OutcomeSection({
+  outcome,
+  divider,
 }: {
-  eyebrow: string
-  title: string
-  href: string
-  image: React.ComponentPropsWithoutRef<typeof StylizedImage>
-  children: React.ReactNode
+  outcome: Outcome
+  divider: boolean
 }) {
-  return (
-    <Container className="group/section [counter-increment:section]">
-      <div className="lg:flex lg:items-center lg:justify-end lg:gap-x-8 lg:group-even/section:justify-start xl:gap-x-20">
-        <div className="flex justify-center">
-          <FadeIn className="w-135 flex-none lg:w-180">
-            <StylizedImage
-              {...image}
-              sizes="(min-width: 1024px) 41rem, 31rem"
-              className="justify-center lg:justify-end lg:group-even/section:justify-start"
-            />
-          </FadeIn>
-        </div>
-        <div className="mt-12 lg:mt-0 lg:w-148 lg:flex-none lg:group-even/section:order-first">
-          <FadeIn>
-            <p className="text-xs font-semibold uppercase tracking-widest text-cga-teal">
-              {eyebrow}
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-cga-navy sm:text-4xl">
-              {title}
-            </h2>
-            <div className="mt-6">{children}</div>
-            <div className="mt-8">
-              <Link
-                href={href}
-                className="inline-flex rounded-full bg-cga-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-cga-navy/90"
-              >
-                Learn more &rarr;
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-    </Container>
-  )
-}
+  let style = accentStyles[outcome.accent]
 
-function PerformancePlanning() {
   return (
-    <Section
-      eyebrow="Strategy & Execution"
-      title="Business Performance Planning"
-      href="/services/performance-planning"
-      image={{ src: imageWhiteboard, shape: 0 }}
+    <div
+      id={outcome.id}
+      className={clsx(
+        'scroll-mt-24 bg-tidal-warm-white py-24 sm:py-32 lg:scroll-mt-32',
+        divider && 'border-t border-tidal-navy/10',
+      )}
     >
-      <div className="space-y-6 text-base text-neutral-600">
-        <p>
-          Most owner-led businesses don&rsquo;t have a strategy problem. They
-          have an{' '}
-          <strong className="font-semibold text-neutral-950">
-            execution problem.
-          </strong>
-        </p>
-        <p>
-          Business Performance Planning installs a 90-day operating rhythm built
-          around strategic prioritization, KPI accountability, and execution
-          discipline. The operating system your business has been missing —
-          finally installed.
-        </p>
-      </div>
-      <List className="mt-8">
-        <ListItem title="90-day operating rhythm">
-          Strategic priorities set, accountability structure in place, progress
-          measurable from week one.
-        </ListItem>
-        <ListItem title="KPI accountability">
-          Define the metrics that reflect your real business model — and a
-          cadence that keeps everyone on them.
-        </ListItem>
-        <ListItem title="Advisory retainer">
-          Direct access to Jeff throughout. Not a binder at the end.
-        </ListItem>
-      </List>
-    </Section>
-  )
-}
-
-function CEOCoaching() {
-  return (
-    <Section
-      eyebrow="Executive Coaching"
-      title="Owner & CEO Coaching"
-      href="/services/ceo-coaching"
-      image={{ src: imageMeeting, shape: 1 }}
-    >
-      <div className="space-y-6 text-base text-neutral-600">
-        <p>
-          Running a privately held business is a{' '}
-          <strong className="font-semibold text-neutral-950">
-            fundamentally isolated experience.
-          </strong>
-        </p>
-        <p>
-          FocalPoint-based 1:1 coaching for owners who are excellent at their
-          trade but need a trusted thinking partner for the decisions that keep
-          them up at night. Real work on real problems — not a curriculum walked
-          through in sequence.
-        </p>
-      </div>
-      <List className="mt-8">
-        <ListItem title="Monthly 1:1 sessions">
-          90 minutes, structured. Built around what&rsquo;s actually in front of
-          you right now.
-        </ListItem>
-        <ListItem title="FocalPoint methodology">
-          Certified executive and business coaching framework — applied to your
-          specific goals.
-        </ListItem>
-        <ListItem title="25+ years in the seat">
-          A coach who has already made the mistakes you might be about to make.
-        </ListItem>
-      </List>
-    </Section>
-  )
-}
-
-function RevenueGrowth() {
-  return (
-    <Section
-      eyebrow="Sales & Marketing"
-      title="Revenue Growth Advisory"
-      href="/services/revenue-growth"
-      image={{ src: imageLaptop, shape: 2 }}
-    >
-      <div className="space-y-6 text-base text-neutral-600">
-        <p>
-          In most owner-led businesses,{' '}
-          <strong className="font-semibold text-neutral-950">
-            the owner is the revenue engine.
-          </strong>
-        </p>
-        <p>
-          Sales process design, pipeline discipline, and GTM infrastructure for
-          businesses that are growing — but can&rsquo;t yet explain exactly why,
-          or how to make it happen faster and more reliably.
-        </p>
-      </div>
-      <List className="mt-8">
-        <ListItem title="Sales process design">
-          A defined process your team can follow — not one that only works when
-          you&rsquo;re personally in the deal.
-        </ListItem>
-        <ListItem title="Pipeline discipline">
-          Measurable pipeline at every stage. CRM structure that reflects how
-          your buyers actually buy.
-        </ListItem>
-        <ListItem title="GTM infrastructure">
-          Go-to-market strategy, ICP definition, and a repeatable revenue model.
-        </ListItem>
-      </List>
-    </Section>
-  )
-}
-
-function ServicesCTA() {
-  return (
-    <div className="bg-cga-teal mt-24 sm:mt-32 lg:mt-40 py-24 sm:py-32">
       <Container>
-        <FadeIn className="text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Not sure which service fits?
+        <FadeIn className="max-w-3xl">
+          <div className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className={clsx('h-2 w-2 rounded-full', style.dot)}
+            />
+            <p className="text-xs font-semibold uppercase tracking-widest text-tidal-body">
+              {outcome.navLabel}
+            </p>
+          </div>
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
+            {outcome.heading}
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            The free consultation is designed for exactly that. We&rsquo;ll talk
-            through your situation and tell you honestly what would move the
-            needle.
+          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
+            {outcome.framing}
           </p>
-          <div className="mt-10">
+        </FadeIn>
+
+        {/* Sub-outcomes — brief, secondary to the deliverables below */}
+        <FadeIn
+          className={clsx(
+            'mt-10 max-w-3xl rounded-2xl p-6 sm:p-7',
+            style.resultsBg,
+          )}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-body">
+            What this drives toward
+          </p>
+          <ul role="list" className="mt-4 space-y-3">
+            {outcome.results.map((result) => (
+              <li key={result} className="flex gap-3">
+                <CheckIcon className="mt-0.5 h-4 w-4 flex-none text-tidal-navy" />
+                <span className="text-sm leading-relaxed text-tidal-body sm:text-base">
+                  {result}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </FadeIn>
+
+        {/* Deliverables — the named work */}
+        <FadeInStagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {outcome.deliverables.map((deliverable) => (
+            <FadeIn key={deliverable.name} className="h-full">
+              <div
+                className={clsx(
+                  'h-full rounded-2xl border-l-4 bg-white p-6 shadow-sm',
+                  style.cardBorder,
+                )}
+              >
+                <h3 className="font-display text-lg font-bold text-tidal-navy">
+                  {deliverable.name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-tidal-body">
+                  {deliverable.body}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </Container>
+    </div>
+  )
+}
+
+// ─── Closing CTA ────────────────────────────────────────────────────────────
+
+function ClosingCTA() {
+  return (
+    <div className="bg-white py-24 sm:py-32">
+      <Container>
+        <FadeIn className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-medium tracking-tight text-tidal-navy sm:text-4xl">
+            Not sure which of these is the real constraint?
+          </h2>
+          <p className="mt-4 text-lg text-tidal-body leading-relaxed">
+            That&rsquo;s what the first conversation is for.
+          </p>
+          <div className="mt-8">
             <Link
               href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-cga-teal shadow transition hover:bg-cga-sand"
+              className="inline-flex items-center rounded-md bg-tidal-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-tidal-navy/90"
             >
-              Schedule a Free Consultation
+              Schedule a Conversation
             </Link>
           </div>
         </FadeIn>
@@ -216,27 +271,40 @@ function ServicesCTA() {
   )
 }
 
+// ─── Page ────────────────────────────────────────────────────────────────────
+
 export default function Services() {
   return (
     <RootLayout>
-      <PageIntro
-        eyebrow="Our Services"
-        title="Three ways we work with your business."
-      >
-        <p>
-          Every engagement starts with a free consultation. No packaged
-          programs, no fixed retainers before you&rsquo;re ready. We design the
-          scope around your business.
-        </p>
-      </PageIntro>
+      <div className="bg-white pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40">
+        <Container>
+          <FadeIn className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
+              What We Do
+            </p>
+            <h1 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
+              One seat. Three outcomes.
+            </h1>
+            <p className="mt-6 text-lg text-tidal-body leading-relaxed">
+              Tidal Point is a single, embedded engagement — an experienced
+              operator working alongside you. In practice, the work
+              concentrates in three areas. Every engagement is scoped to the
+              business; these are the outcomes it drives toward, and the
+              work that gets there.
+            </p>
+          </FadeIn>
 
-      <div className="mt-24 space-y-24 [counter-reset:section] sm:mt-32 sm:space-y-32 lg:mt-40 lg:space-y-40">
-        <PerformancePlanning />
-        <CEOCoaching />
-        <RevenueGrowth />
+          <div className="mt-12">
+            <OutcomesMiniNav />
+          </div>
+        </Container>
       </div>
 
-      <ServicesCTA />
+      {outcomes.map((outcome, index) => (
+        <OutcomeSection key={outcome.id} outcome={outcome} divider={index > 0} />
+      ))}
+
+      <ClosingCTA />
     </RootLayout>
   )
 }
