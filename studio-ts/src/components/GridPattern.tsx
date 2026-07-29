@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useId, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 function Block({
   x,
@@ -32,6 +32,7 @@ export function GridPattern({
   let ref = useRef<React.ElementRef<'svg'>>(null)
   let currentBlock = useRef<[x: number, y: number] | undefined>(undefined)
   let counter = useRef(0)
+  let shouldReduceMotion = useReducedMotion()
   let [hoveredBlocks, setHoveredBlocks] = useState<
     Array<[x: number, y: number, key: number]>
   >([])
@@ -45,7 +46,7 @@ export function GridPattern({
   ]
 
   useEffect(() => {
-    if (!interactive) {
+    if (!interactive || shouldReduceMotion) {
       return
     }
 
@@ -87,7 +88,7 @@ export function GridPattern({
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
     }
-  }, [yOffset, interactive])
+  }, [yOffset, interactive, shouldReduceMotion])
 
   return (
     <svg ref={ref} aria-hidden="true" {...props}>

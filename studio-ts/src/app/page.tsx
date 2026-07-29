@@ -6,6 +6,7 @@ import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
 import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
+import { GridPattern } from '@/components/GridPattern'
 import { formatDate } from '@/lib/formatDate'
 import { loadArticles } from '@/lib/mdx'
 
@@ -560,7 +561,12 @@ export default async function Home() {
   return (
     <RootLayout>
       {/* Hero */}
-      <div className="bg-tidal-navy">
+      <div className="relative z-0 overflow-hidden bg-tidal-navy">
+        <GridPattern
+          interactive
+          yOffset={-96}
+          className="absolute inset-0 -z-10 h-full w-full fill-white/[0.06] stroke-white/[0.12] mask-[linear-gradient(to_bottom_left,white,transparent_65%)]"
+        />
         <Container>
           <div className="py-24 sm:py-32">
             <FadeIn className="max-w-3xl">
