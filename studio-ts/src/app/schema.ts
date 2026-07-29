@@ -1,43 +1,43 @@
 export function getOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': 'ProfessionalService',
     name: 'Tidal Point Partners',
     url: 'https://tidalpointpartners.com',
     description:
-      'Business advisory and executive coaching for privately held, owner-operated businesses in Southeastern Massachusetts.',
+      'Business advisory for privately held, owner-operated businesses in Southeastern Massachusetts.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Plymouth, MA',
+      addressLocality: 'Plymouth',
       addressRegion: 'MA',
       addressCountry: 'US',
     },
+    areaServed: 'Southeastern New England',
     email: 'jeff@tidalpointpartners.com',
     sameAs: [
-      // Add your social media profiles here
+      // Add real social media profile URLs here once they exist — do not
+      // add placeholder or unverified links.
     ],
     image: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
   }
 }
 
-export function getWebPageSchema(
-  title: string,
-  description: string,
-  path: string
-) {
+export function getPersonSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: title,
-    description: description,
-    url: `https://tidalpointpartners.com${path}`,
-    publisher: {
-      '@type': 'Organization',
+    '@type': 'Person',
+    name: 'Jeff Lortz',
+    jobTitle: 'Founder',
+    url: 'https://tidalpointpartners.com/about',
+    worksFor: {
+      '@type': 'ProfessionalService',
       name: 'Tidal Point Partners',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
-      },
+      url: 'https://tidalpointpartners.com',
     },
+    email: 'jeff@tidalpointpartners.com',
+    image: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
+    sameAs: [
+      // Add a real LinkedIn profile URL here once confirmed.
+    ],
   }
 }

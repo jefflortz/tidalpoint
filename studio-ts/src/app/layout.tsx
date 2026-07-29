@@ -21,6 +21,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tidalpointpartners.com'),
   title: {
     template: '%s - Tidal Point Partners',
     default: 'Tidal Point Partners — Strategic Advisory for Privately Held Businesses',
@@ -42,7 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       className={clsx(
         cormorantGaramond.variable,
         inter.variable,
-        'h-full bg-cga-navy text-base antialiased',
+        'h-full bg-tidal-navy text-base antialiased',
       )}
     >
       <head>

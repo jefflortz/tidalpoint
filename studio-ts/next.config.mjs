@@ -22,6 +22,40 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Canonicalize the Vercel preview domain — keep it out of the index.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'tidalpoint.vercel.app' }],
+        destination: 'https://tidalpointpartners.com/:path*',
+        permanent: true,
+      },
+      // www → apex — tidalpointpartners.com is the canonical domain.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.tidalpointpartners.com' }],
+        destination: 'https://tidalpointpartners.com/:path*',
+        permanent: true,
+      },
+      // Legacy three-service routes → the consolidated /services page.
+      {
+        source: '/services/revenue-growth',
+        destination: '/services#growth',
+        permanent: true,
+      },
+      {
+        source: '/services/ceo-coaching',
+        destination: '/services#team',
+        permanent: true,
+      },
+      {
+        source: '/services/performance-planning',
+        destination: '/services#operations',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 function remarkMDXLayout(source, metaName) {
