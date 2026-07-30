@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container'
 import { PageIntro } from '@/components/PageIntro'
+import { RootLayout } from '@/components/RootLayout'
 
 export const metadata = {
   title: 'Cookie Policy',
@@ -7,17 +8,17 @@ export const metadata = {
 
 export default function CookiePolicy() {
   return (
-    <>
+    <RootLayout>
       <PageIntro eyebrow="Legal" title="Cookie Policy">
         <p>
           We use cookies and similar technologies to enhance your experience on
           our website and understand how you use it.
         </p>
       </PageIntro>
-      <Container className="mt-24 sm:mt-32 lg:mt-40">
-        <div className="space-y-8 text-base leading-7 text-neutral-600">
+      <Container className="mt-24 mb-24 sm:mt-32 sm:mb-32 lg:mt-40 lg:mb-40">
+        <div className="space-y-8 text-base leading-7 text-tidal-body">
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               1. What Are Cookies?
             </h2>
             <p>
@@ -28,10 +29,10 @@ export default function CookiePolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               2. Cookies We Use
             </h2>
-            <p className="font-semibold text-neutral-950 mt-4">
+            <p className="font-semibold text-tidal-navy mt-4">
               Google Analytics
             </p>
             <p>
@@ -40,7 +41,7 @@ export default function CookiePolicy() {
               Analytics sets cookies to track this information.
             </p>
             <p className="mt-4">
-              <strong>Cookie ID:</strong> G-BSTESBF5Y9
+              <strong>Cookie ID:</strong> G-D29KDZN4XQ
             </p>
             <p className="mt-4">
               For more information about how Google uses data, see{' '}
@@ -50,14 +51,14 @@ export default function CookiePolicy() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Google's Privacy Policy
+                Google&apos;s Privacy Policy
               </a>
               .
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               3. Cookie Management
             </h2>
             <p>
@@ -77,7 +78,7 @@ export default function CookiePolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               4. Third-Party Cookies
             </h2>
             <p>
@@ -88,7 +89,7 @@ export default function CookiePolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               5. Your Choices
             </h2>
             <p>
@@ -106,7 +107,7 @@ export default function CookiePolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               6. Changes to This Policy
             </h2>
             <p>
@@ -117,23 +118,23 @@ export default function CookiePolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               7. Contact Us
             </h2>
             <p>
               If you have questions about our use of cookies, please contact us
               at{' '}
-              <a href="mailto:jeff@tidalpointpartners.com" className="text-tidal-navy font-semibold">
-                jeff@tidalpointpartners.com
+              <a href="mailto:info@tidalpointpartners.com" className="text-tidal-navy font-semibold">
+                info@tidalpointpartners.com
               </a>
             </p>
           </div>
 
-          <div className="text-sm text-neutral-500 border-t pt-4 mt-8">
+          <div className="text-sm text-tidal-light border-t border-tidal-navy/10 pt-4 mt-8">
             Last updated: June 2026
           </div>
         </div>
       </Container>
-    </>
+    </RootLayout>
   )
 }

@@ -16,10 +16,10 @@ function ContactForm() {
       {/* Temporary CTA — swap for the Tidal Point Partners HubSpot form once available */}
       <div className="mt-6">
         <Link
-          href="mailto:jeff@tidalpointpartners.com"
+          href="mailto:info@tidalpointpartners.com"
           className="inline-flex items-center rounded-full bg-tidal-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-tidal-navy/90"
         >
-          Email jeff@tidalpointpartners.com
+          Email info@tidalpointpartners.com
         </Link>
       </div>
       <p className="mt-4 text-sm text-tidal-light">
@@ -51,17 +51,28 @@ function ContactDetails() {
 
       <Border className="mt-16 pt-16">
         <h2 className="font-display text-base font-bold text-tidal-navy">
-          Email us directly
+          Reach us directly
         </h2>
-        <dl className="mt-6 text-sm">
+        <dl className="mt-6 space-y-4 text-sm">
           <div>
-            <dt className="font-semibold text-tidal-navy">Jeff Lortz</dt>
+            <dt className="font-semibold text-tidal-navy">Email</dt>
             <dd>
               <Link
-                href="mailto:jeff@tidalpointpartners.com"
+                href="mailto:info@tidalpointpartners.com"
                 className="text-tidal-teal hover:text-tidal-teal/80"
               >
-                jeff@tidalpointpartners.com
+                info@tidalpointpartners.com
+              </Link>
+            </dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-tidal-navy">Phone</dt>
+            <dd>
+              <Link
+                href="tel:+17742034525"
+                className="text-tidal-teal hover:text-tidal-teal/80"
+              >
+                (774) 203-4525
               </Link>
             </dd>
           </div>

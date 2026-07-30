@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container'
 import { PageIntro } from '@/components/PageIntro'
+import { RootLayout } from '@/components/RootLayout'
 
 export const metadata = {
   title: 'Privacy Policy',
@@ -7,17 +8,17 @@ export const metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <>
+    <RootLayout>
       <PageIntro eyebrow="Legal" title="Privacy Policy">
         <p>
           Your privacy is important to us. This policy explains how we collect,
           use, and protect your information.
         </p>
       </PageIntro>
-      <Container className="mt-24 sm:mt-32 lg:mt-40">
-        <div className="space-y-8 text-base leading-7 text-neutral-600">
+      <Container className="mt-24 mb-24 sm:mt-32 sm:mb-32 lg:mt-40 lg:mb-40">
+        <div className="space-y-8 text-base leading-7 text-tidal-body">
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               1. Information We Collect
             </h2>
             <p>
@@ -35,7 +36,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               2. How We Use Your Information
             </h2>
             <p>We use the information we collect to:</p>
@@ -51,7 +52,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               3. Data Sharing
             </h2>
             <p>
@@ -63,7 +64,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               4. Data Security
             </h2>
             <p>
@@ -75,7 +76,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               5. Your Rights
             </h2>
             <p>
@@ -86,7 +87,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               6. Changes to This Policy
             </h2>
             <p>
@@ -98,23 +99,23 @@ export default function PrivacyPolicy() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold text-neutral-950 mb-4">
+            <h2 className="text-2xl font-semibold text-tidal-navy mb-4">
               7. Contact Us
             </h2>
             <p>
               If you have questions about this privacy policy or our privacy
               practices, please contact us at{' '}
-              <a href="mailto:jeff@tidalpointpartners.com" className="text-tidal-navy font-semibold">
-                jeff@tidalpointpartners.com
+              <a href="mailto:info@tidalpointpartners.com" className="text-tidal-navy font-semibold">
+                info@tidalpointpartners.com
               </a>
             </p>
           </div>
 
-          <div className="text-sm text-neutral-500 border-t pt-4 mt-8">
+          <div className="text-sm text-tidal-light border-t border-tidal-navy/10 pt-4 mt-8">
             Last updated: June 2026
           </div>
         </div>
       </Container>
-    </>
+    </RootLayout>
   )
 }

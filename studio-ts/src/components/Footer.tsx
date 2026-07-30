@@ -65,7 +65,8 @@ export function Footer() {
                 unoptimized
               />
               <p className="mt-4 text-sm text-white/70 leading-relaxed">
-                The operating partner your business has been missing.
+                Experienced partnership for pivotal points in the life of a
+                business.
               </p>
               <p className="mt-4 text-xs text-white/70">
                 A DBA of Agile Operators, LLC
@@ -102,18 +103,28 @@ export function Footer() {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/10 pt-6">
-            <Image
-              src="/logo-monogram-dark.svg"
-              alt="Tidal Point Partners"
-              width={48}
-              height={42}
-              className="h-6 w-auto opacity-60"
-              unoptimized
-            />
-            <p className="text-sm text-white/70">
-              &copy; {new Date().getFullYear()} Agile Operators, LLC. All rights reserved.
-            </p>
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-3 gap-y-4 border-t border-white/10 pt-6">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <Image
+                src="/logo-monogram-dark.svg"
+                alt="Tidal Point Partners"
+                width={48}
+                height={42}
+                className="h-6 w-auto opacity-60"
+                unoptimized
+              />
+              <p className="text-sm text-white/70">
+                &copy; {new Date().getFullYear()} Agile Operators, LLC. All rights reserved.
+              </p>
+            </div>
+            <div className="flex items-center gap-x-6 text-sm text-white/70">
+              <Link href="/privacy" className="transition hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/cookies" className="transition hover:text-white">
+                Cookie Policy
+              </Link>
+            </div>
           </div>
         </Container>
       </FadeIn>

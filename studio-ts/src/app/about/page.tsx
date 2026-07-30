@@ -64,7 +64,68 @@ function Hero() {
   )
 }
 
-// ─── Section 2: The Story ────────────────────────────────────────────────────
+// ─── Section 2: Why Tidal Point ───────────────────────────────────────────────
+
+function WhyTidalPoint() {
+  return (
+    <div className="bg-white pb-24 sm:pb-32">
+      <Container>
+        <FadeIn className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
+            Why Tidal Point
+          </p>
+          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
+            The moments that shape a business rarely announce themselves in
+            advance.
+          </h2>
+          <div className="mt-6 space-y-6 text-lg leading-relaxed text-tidal-body">
+            <p>
+              A tidal point is where forces meet and the current begins to
+              change. What worked before may no longer carry you forward, and
+              direction matters more than speed.
+            </p>
+            <p>Businesses reach tidal points too.</p>
+            <p>
+              Growth creates complexity. The company becomes too dependent on
+              its owner. Leadership needs change. A transition, acquisition,
+              or new ambition raises the stakes. The business may still be
+              healthy, but the path ahead is no longer obvious.
+            </p>
+            <p>
+              I created Tidal Point because owners should not have to
+              navigate those moments alone.
+            </p>
+            <p>
+              Over a career spent leading companies through growth, change,
+              and pivotal decisions, I have seen the value of having an
+              experienced operator beside the person carrying the
+              responsibility. Not another consultant with a predefined
+              answer, but a trusted partner who understands the whole
+              business, helps make the difficult calls, and stays involved
+              as those decisions become action.
+            </p>
+            <p>
+              Private equity firms have long understood the value of an
+              Operating Partner — an experienced executive who brings
+              judgment, accountability, and broader capability to the
+              businesses they support. Most privately held companies have
+              never had access to that kind of relationship.
+            </p>
+            <p>Tidal Point exists to provide it.</p>
+          </div>
+        </FadeIn>
+
+        <FadeIn className="mt-16 border-t border-tidal-navy/10 pt-10 sm:mt-20 sm:pt-12">
+          <p className="max-w-2xl font-display text-xl text-tidal-navy">
+            My career has prepared me for exactly those moments.
+          </p>
+        </FadeIn>
+      </Container>
+    </div>
+  )
+}
+
+// ─── Section 3: The Story ────────────────────────────────────────────────────
 
 function TheStory() {
   return (
@@ -125,7 +186,7 @@ function TheStory() {
   )
 }
 
-// ─── Section 3: Career Timeline ──────────────────────────────────────────────
+// ─── Section 4: Career Timeline ──────────────────────────────────────────────
 
 const timeline = [
   {
@@ -246,7 +307,7 @@ function CareerTimeline() {
   )
 }
 
-// ─── Section 4: Operating Philosophy ─────────────────────────────────────────
+// ─── Section 5: Operating Philosophy ─────────────────────────────────────────
 
 const principles = [
   {
@@ -307,7 +368,7 @@ function OperatingPhilosophy() {
   )
 }
 
-// ─── Section 5: Credentials ───────────────────────────────────────────────────
+// ─── Section 6: Credentials ───────────────────────────────────────────────────
 
 const credentials = [
   {
@@ -377,7 +438,7 @@ function Credentials() {
   )
 }
 
-// ─── Section 6: Pull Quotes ───────────────────────────────────────────────────
+// ─── Section 7: Pull Quotes ───────────────────────────────────────────────────
 
 function PullQuotes() {
   return (
@@ -414,7 +475,7 @@ function PullQuotes() {
   )
 }
 
-// ─── Section 7: Recent Articles ───────────────────────────────────────────────
+// ─── Section 8: Recent Articles ───────────────────────────────────────────────
 
 function RecentArticles({ articles }: { articles: Array<MDXEntry<Article>> }) {
   return (
@@ -472,7 +533,7 @@ function RecentArticles({ articles }: { articles: Array<MDXEntry<Article>> }) {
   )
 }
 
-// ─── Section 8: CTA ───────────────────────────────────────────────────────────
+// ─── Section 9: CTA ───────────────────────────────────────────────────────────
 
 function CTA() {
   return (
@@ -516,6 +577,7 @@ export default async function About() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <Hero />
+      <WhyTidalPoint />
       <TheStory />
       <CareerTimeline />
       <OperatingPhilosophy />

@@ -69,12 +69,12 @@ export default async function Articles() {
                 <Border className="pt-16">
                   <div className="relative lg:-mx-4 lg:flex lg:justify-end">
                     <div className="pt-10 lg:w-2/3 lg:flex-none lg:px-4 lg:pt-0">
-                      <h2 className="font-display text-2xl font-semibold text-neutral-950">
+                      <h2 className="font-display text-2xl font-semibold text-tidal-navy">
                         <Link href={article.href}>{article.title}</Link>
                       </h2>
                       <dl className="lg:absolute lg:top-0 lg:left-0 lg:w-1/3 lg:px-4">
                         <dt className="sr-only">Published</dt>
-                        <dd className="absolute top-0 left-0 text-sm text-neutral-950 lg:static">
+                        <dd className="absolute top-0 left-0 text-sm text-tidal-navy lg:static">
                           <time dateTime={article.date}>
                             {formatDate(article.date)}
                           </time>
@@ -84,13 +84,13 @@ export default async function Articles() {
                           <div className="flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-xl bg-tidal-navy">
                             <span className="text-xs font-bold text-white">JL</span>
                           </div>
-                          <div className="text-sm text-neutral-950">
+                          <div className="text-sm text-tidal-navy">
                             <div className="font-semibold">Jeff Lortz</div>
-                            <div className="text-neutral-600">Founder, Tidal Point Partners</div>
+                            <div className="text-tidal-body">Founder, Tidal Point Partners</div>
                           </div>
                         </dd>
                       </dl>
-                      <p className="mt-6 max-w-2xl text-base text-neutral-600">
+                      <p className="mt-6 max-w-2xl text-base text-tidal-body">
                         {article.description}
                       </p>
                       <Button

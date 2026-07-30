@@ -89,7 +89,7 @@ function Header({
             aria-controls={panelId}
             className={clsx(
               'group -m-2.5 rounded-full p-2.5 transition',
-              invert ? 'hover:bg-white/10' : 'hover:bg-neutral-950/10',
+              invert ? 'hover:bg-white/10' : 'hover:bg-tidal-navy/10',
             )}
             aria-label="Toggle navigation"
           >
@@ -98,7 +98,7 @@ function Header({
                 'h-6 w-6',
                 invert
                   ? 'fill-white group-hover:fill-neutral-200'
-                  : 'fill-neutral-950 group-hover:fill-neutral-700',
+                  : 'fill-tidal-navy group-hover:fill-tidal-navy/70',
               )}
             />
           </button>
@@ -151,7 +151,7 @@ function DesktopNav() {
 
 function NavigationRow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="even:mt-px sm:bg-neutral-950">
+    <div className="even:mt-px sm:bg-tidal-navy">
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-2">{children}</div>
       </Container>
@@ -169,10 +169,10 @@ function NavigationItem({
   return (
     <Link
       href={href}
-      className="group relative isolate -mx-6 bg-neutral-950 px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-neutral-800 sm:even:pl-16"
+      className="group relative isolate -mx-6 bg-tidal-navy px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-white/10 sm:even:pl-16"
     >
       {children}
-      <span className="absolute inset-y-0 -z-10 w-screen bg-neutral-900 opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100" />
+      <span className="absolute inset-y-0 -z-10 w-screen bg-white/5 opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100" />
     </Link>
   )
 }
@@ -182,11 +182,14 @@ function Navigation() {
     <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
       <NavigationRow>
         <NavigationItem href="/services">How We Work</NavigationItem>
-        <NavigationItem href="/about">About Jeff</NavigationItem>
+        <NavigationItem href="/about">About</NavigationItem>
       </NavigationRow>
       <NavigationRow>
         <NavigationItem href="/clients">Who We Serve</NavigationItem>
-        <NavigationItem href="/articles">Articles</NavigationItem>
+        <NavigationItem href="/articles">Insights</NavigationItem>
+      </NavigationRow>
+      <NavigationRow>
+        <NavigationItem href="/contact">Contact</NavigationItem>
       </NavigationRow>
     </nav>
   )
@@ -258,12 +261,12 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           layout
           id={panelId}
           style={{ height: expanded ? 'auto' : '0.5rem' }}
-          className="relative z-50 overflow-hidden bg-neutral-950 pt-2 lg:hidden"
+          className="relative z-50 overflow-hidden bg-tidal-navy pt-2 lg:hidden"
           aria-hidden={expanded ? undefined : 'true'}
           inert={expanded ? undefined : true}
         >
-          <motion.div layout className="bg-neutral-800">
-            <div ref={navRef} className="bg-neutral-950 pt-14 pb-16">
+          <motion.div layout className="bg-white/10">
+            <div ref={navRef} className="bg-tidal-navy pt-14 pb-16">
               <Header
                 invert
                 panelId={panelId}
@@ -280,23 +283,23 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
               />
             </div>
             <Navigation />
-            <div className="relative bg-neutral-950 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-neutral-800">
+            <div className="relative bg-tidal-navy before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/10">
               <Container>
                 <div className="grid grid-cols-1 gap-y-10 pt-10 pb-16 sm:grid-cols-2 sm:pt-16">
                   <div>
                     <h2 className="font-display text-base font-semibold text-white">
                       Tidal Point Partners
                     </h2>
-                    <p className="mt-4 text-sm text-neutral-400">
+                    <p className="mt-4 text-sm text-white/70">
                       Plymouth, MA<br />
                       Serving the South Shore, South Coast &amp; Cape Cod
                     </p>
                   </div>
-                  <div className="sm:border-l sm:border-neutral-800 sm:pl-16">
+                  <div className="sm:border-l sm:border-white/10 sm:pl-16">
                     <h2 className="font-display text-base font-semibold text-white">
                       Get in touch
                     </h2>
-                    <p className="mt-4 text-sm text-neutral-400">
+                    <p className="mt-4 text-sm text-white/70">
                       A real conversation, not a sales call.
                     </p>
                     <Button href="/contact" invert className="mt-6">

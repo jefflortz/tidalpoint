@@ -157,6 +157,18 @@ function TheSituationsWeAreBroughtInto() {
           <h2 className="font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
             The situations we&rsquo;re brought into.
           </h2>
+          <div className="mt-6 space-y-4">
+            <p className="text-lg text-tidal-body leading-relaxed">
+              Every business reaches a point where the forces around it
+              begin to change. Growth creates complexity. Leadership
+              evolves. New opportunities bring new risks. Decisions that
+              once felt straightforward carry greater consequence.
+            </p>
+            <p className="text-lg text-tidal-body leading-relaxed">
+              Those are the moments when experienced partnership matters
+              most.
+            </p>
+          </div>
         </FadeIn>
         <FadeInStagger className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {situations.map((situation) => (

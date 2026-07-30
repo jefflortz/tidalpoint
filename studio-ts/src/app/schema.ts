@@ -13,7 +13,8 @@ export function getOrganizationSchema() {
       addressCountry: 'US',
     },
     areaServed: 'Southeastern New England',
-    email: 'jeff@tidalpointpartners.com',
+    email: 'info@tidalpointpartners.com',
+    telephone: '+1-774-203-4525',
     sameAs: [
       // Add real social media profile URLs here once they exist — do not
       // add placeholder or unverified links.
@@ -34,7 +35,7 @@ export function getPersonSchema() {
       name: 'Tidal Point Partners',
       url: 'https://tidalpointpartners.com',
     },
-    email: 'jeff@tidalpointpartners.com',
+    email: 'info@tidalpointpartners.com',
     image: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
     sameAs: [
       // Add a real LinkedIn profile URL here once confirmed.
