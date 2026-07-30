@@ -5,16 +5,11 @@ import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { SocialMedia } from '@/components/SocialMedia'
 
-const servicesLinks = [
-  { title: 'Growth', href: '/services#growth' },
-  { title: 'Team', href: '/services#team' },
-  { title: 'Operations', href: '/services#operations' },
-]
-
 const companyLinks = [
-  { title: 'About Jeff', href: '/about' },
+  { title: 'About', href: '/about' },
+  { title: 'How We Work', href: '/services' },
   { title: 'Who We Serve', href: '/clients' },
-  { title: 'Articles', href: '/articles' },
+  { title: 'Insights', href: '/articles' },
   { title: 'Contact', href: '/contact' },
 ]
 
@@ -81,15 +76,11 @@ export function Footer() {
               <p className="mt-1 text-xs text-white/70">Plymouth, MA</p>
             </div>
 
-            {/* Nav groups — Services / Company / Connect */}
+            {/* Nav groups — Company / Connect */}
             <nav
               aria-label="Footer"
-              className="grid grid-cols-1 gap-y-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-0 lg:flex lg:gap-x-16"
+              className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-0 lg:flex lg:gap-x-16"
             >
-              <FooterColumn title="Services">
-                <FooterLinkList links={servicesLinks} />
-              </FooterColumn>
-
               <FooterColumn title="Company">
                 <FooterLinkList links={companyLinks} />
               </FooterColumn>
