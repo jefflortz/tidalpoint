@@ -7,6 +7,7 @@ import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
 import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
 import { GridPattern } from '@/components/GridPattern'
+import { OperatingModelRing } from '@/components/OperatingModelRing'
 import { formatDate } from '@/lib/formatDate'
 import { loadArticles } from '@/lib/mdx'
 
@@ -240,107 +241,125 @@ function WhatWeDo() {
 
 // ─── Operating Model ─────────────────────────────────────────────────────────
 
-const operatingHub = {
-  title: 'The Seat',
-  body: 'An experienced operator, embedded alongside you — collaborating on strategy, pressure testing decisions, and helping you see around corners to prepare for what’s next.',
-}
-
 type OperatingAccent = 'teal' | 'navy' | 'sand'
 
-const operatingAccentStyles: Record<
-  OperatingAccent,
-  { chip: string; hoverRing: string }
-> = {
+const operatingAccentStyles: Record<OperatingAccent, { chip: string; dot: string }> = {
   teal: {
     chip: 'bg-tidal-teal/15',
-    hoverRing: 'hover:ring-tidal-teal/70',
+    dot: 'bg-tidal-teal',
   },
   navy: {
     chip: 'bg-tidal-navy/8',
-    hoverRing: 'hover:ring-tidal-navy/40',
+    dot: 'bg-tidal-navy',
   },
   sand: {
     chip: 'bg-tidal-sand/60',
-    hoverRing: 'hover:ring-tidal-sand',
+    dot: 'bg-tidal-sand',
   },
 }
 
 const operatingOutcomes: {
-  title: string
+  label: string
+  body: string
+  bullets: string[]
   href: string
   accent: OperatingAccent
   icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
 }[] = [
   {
-    title: 'Breaking through barriers to growth',
+    label: 'Growth',
+    body: 'Create and capture profitable growth.',
+    bullets: [
+      'Strategy & positioning',
+      'Go-to-market',
+      'Sales effectiveness',
+      'Customer & market expansion',
+    ],
     href: '/services#growth',
     accent: 'teal',
     icon: GrowthIcon,
   },
   {
-    title: 'Building and aligning the right team for the moment',
+    label: 'Leadership & Team',
+    body: 'Build the leaders and culture that scale.',
+    bullets: [
+      'Leadership alignment',
+      'Team design',
+      'Talent & accountability',
+      'Culture & engagement',
+    ],
     href: '/services#team',
     accent: 'navy',
     icon: AlignmentIcon,
   },
   {
-    title: 'Reaching the next level of operational maturity',
+    label: 'Operational Maturity',
+    body: 'Strengthen the systems and discipline that drive performance.',
+    bullets: [
+      'Operating model & processes',
+      'Financial performance',
+      'Technology & systems',
+      'Risk & compliance',
+    ],
     href: '/services#operations',
     accent: 'sand',
     icon: MaturityIcon,
   },
 ]
 
-function OperatingHubCard({ className }: { className?: string }) {
-  return (
-    <FadeIn
-      className={clsx(
-        'rounded-4xl bg-tidal-navy px-8 py-10 text-center shadow-xl ring-1 ring-white/10',
-        className,
-      )}
-    >
-      <h3 className="font-display text-2xl font-bold text-white">
-        {operatingHub.title}
-      </h3>
-      <p className="mt-4 text-base leading-relaxed text-white/80">
-        {operatingHub.body}
-      </p>
-    </FadeIn>
-  )
-}
+const trustPoints = [
+  { icon: ShieldIcon, text: 'Right expertise. Right time.' },
+  { icon: PeopleIcon, text: 'One relationship. Total accountability.' },
+  { icon: ChartIcon, text: 'Built for outcomes. Aligned with you.' },
+]
 
-function OperatingModelCard({
+function OperatingOutcomeColumn({
   outcome,
+  centered = false,
 }: {
   outcome: (typeof operatingOutcomes)[number]
+  centered?: boolean
 }) {
+  let style = operatingAccentStyles[outcome.accent]
+
   return (
-    <Link
-      href={outcome.href}
-      className={clsx(
-        'group flex h-full items-start gap-4 rounded-2xl bg-white p-6 ring-1 ring-tidal-navy/10 transition',
-        'hover:-translate-y-0.5 hover:shadow-lg hover:ring-2',
-        operatingAccentStyles[outcome.accent].hoverRing,
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tidal-navy focus-visible:ring-offset-2 focus-visible:ring-offset-tidal-warm-white',
-      )}
-    >
+    <div className={centered ? 'text-center' : undefined}>
       <span
         className={clsx(
-          'flex h-11 w-11 flex-none items-center justify-center rounded-full',
-          operatingAccentStyles[outcome.accent].chip,
+          'flex h-11 w-11 items-center justify-center rounded-full',
+          centered && 'mx-auto',
+          style.chip,
         )}
       >
         <outcome.icon className="h-5 w-5 text-tidal-navy" />
       </span>
-      <span className="flex-1">
-        <h3 className="font-display text-lg font-bold text-tidal-navy">
-          {outcome.title}
-        </h3>
-        <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold tracking-wide text-tidal-body uppercase transition group-hover:text-tidal-navy">
-          View services <span aria-hidden="true">&rarr;</span>
-        </span>
-      </span>
-    </Link>
+      <h3 className="mt-4 font-display text-lg font-bold text-tidal-navy">
+        {outcome.label}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-tidal-body">
+        {outcome.body}
+      </p>
+      <ul
+        role="list"
+        className={clsx('mt-4 space-y-2', centered && 'mx-auto w-fit text-left')}
+      >
+        {outcome.bullets.map((bullet) => (
+          <li key={bullet} className="flex items-start gap-2.5 text-sm text-tidal-body">
+            <span
+              aria-hidden="true"
+              className={clsx('mt-2 h-1.5 w-1.5 flex-none rounded-full', style.dot)}
+            />
+            {bullet}
+          </li>
+        ))}
+      </ul>
+      <Link
+        href={outcome.href}
+        className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tidal-navy focus-visible:ring-offset-2 focus-visible:ring-offset-tidal-warm-white"
+      >
+        Learn more <span aria-hidden="true">&rarr;</span>
+      </Link>
+    </div>
   )
 }
 
@@ -351,79 +370,83 @@ function OperatingModel() {
       className="scroll-mt-24 bg-tidal-warm-white py-24 sm:py-32"
     >
       <Container>
-        <FadeIn className="max-w-2xl">
+        <FadeIn className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
             The Operating Model
           </p>
           <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            One seat. Three outcomes.
+            One Seat. Broader Impact.
           </h2>
+          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
+            You get one dedicated Operating Partner — sitting in the seat
+            with you. When specialized expertise is needed, we bring in the
+            right people from our trusted network. You work with one
+            partner, not a collection of firms.
+          </p>
         </FadeIn>
 
-        {/* Mobile / tablet — stacked flow (< lg) */}
-        <div className="mx-auto mt-16 max-w-md lg:hidden">
-          <OperatingHubCard />
+        {/* Mobile / tablet (< lg) — ring on top, columns stacked below */}
+        <div className="lg:hidden">
+          <FadeIn className="mt-16">
+            <OperatingModelRing />
+          </FadeIn>
 
-          <div aria-hidden="true" className="flex justify-center py-4">
-            <svg viewBox="0 0 24 24" className="h-6 w-6 text-tidal-navy/40" fill="none">
-              <path
-                d="M12 4v15M12 19l-5.5-5.5M12 19l5.5-5.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-
-          <FadeInStagger className="space-y-5 border-l-2 border-tidal-navy/15 pl-5">
+          <FadeInStagger className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
             {operatingOutcomes.map((outcome) => (
-              <FadeIn key={outcome.title}>
-                <OperatingModelCard outcome={outcome} />
+              <FadeIn key={outcome.label}>
+                <OperatingOutcomeColumn outcome={outcome} />
               </FadeIn>
             ))}
           </FadeInStagger>
         </div>
 
-        {/* Desktop — hub-and-spoke (lg+) */}
-        <div className="relative mx-auto mt-20 hidden max-w-4xl lg:block">
-          <OperatingHubCard className="mx-auto max-w-md" />
+        {/* Desktop (lg+) — ring flanked by its two side outcomes, third centered below */}
+        <div className="mx-auto mt-16 hidden max-w-5xl lg:grid lg:grid-cols-[1fr_1.1fr_1fr] lg:gap-x-4">
+          <FadeIn className="lg:col-start-1 lg:row-span-2 lg:self-start">
+            <OperatingOutcomeColumn outcome={operatingOutcomes[1]} />
+          </FadeIn>
 
-          <div aria-hidden="true" className="mx-auto h-20 w-full max-w-3xl">
-            <svg
-              viewBox="0 0 100 40"
-              preserveAspectRatio="none"
-              className="h-full w-full text-tidal-navy/20"
-            >
-              <path
-                d="M50,0 Q28,22 16,40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.6"
-              />
-              <path
-                d="M50,0 L50,40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.6"
-              />
-              <path
-                d="M50,0 Q72,22 84,40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.6"
-              />
-            </svg>
+          <FadeIn className="lg:col-start-2 lg:row-start-1">
+            <OperatingModelRing />
+          </FadeIn>
+
+          <FadeIn className="lg:col-start-3 lg:row-span-2 lg:self-start">
+            <OperatingOutcomeColumn outcome={operatingOutcomes[0]} />
+          </FadeIn>
+
+          <FadeIn className="lg:col-start-2 lg:row-start-2 lg:mt-6">
+            <OperatingOutcomeColumn outcome={operatingOutcomes[2]} centered />
+          </FadeIn>
+        </div>
+
+        {/* Trusted network callout */}
+        <FadeIn className="mt-16 rounded-3xl bg-white p-8 text-center ring-1 ring-tidal-navy/10 sm:p-10">
+          <div className="mx-auto flex max-w-2xl flex-col items-center">
+            <span className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-tidal-navy/8">
+              <PeopleIcon className="h-6 w-6 text-tidal-navy" />
+            </span>
+            <h3 className="mt-5 font-display text-xl font-bold text-tidal-navy">
+              A trusted network, engaged when it matters.
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-tidal-body">
+              We have a vetted network of specialists across finance,
+              HR, technology, legal, operations and more. You never
+              manage multiple firms — we assemble the right expertise
+              and remain your single point of accountability.
+            </p>
           </div>
 
-          <FadeInStagger className="grid grid-cols-3 gap-6">
-            {operatingOutcomes.map((outcome) => (
-              <FadeIn key={outcome.title} className="h-full">
-                <OperatingModelCard outcome={outcome} />
-              </FadeIn>
+          <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-8 border-t border-tidal-navy/10 pt-8 sm:grid-cols-3 sm:gap-6">
+            {trustPoints.map((point) => (
+              <div key={point.text} className="flex flex-col items-center gap-2">
+                <point.icon className="h-5 w-5 flex-none text-tidal-teal" />
+                <p className="text-sm font-semibold text-tidal-navy">
+                  {point.text}
+                </p>
+              </div>
             ))}
-          </FadeInStagger>
-        </div>
+          </div>
+        </FadeIn>
       </Container>
     </div>
   )
