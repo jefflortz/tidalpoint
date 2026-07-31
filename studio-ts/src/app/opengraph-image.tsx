@@ -1,10 +1,38 @@
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
 import { ImageResponse } from 'next/og'
 
 export const alt = 'Tidal Point Partners'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-export default function Image() {
+async function loadCormorantGaramond() {
+  try {
+    // A generic User-Agent gets served a plain .ttf link (no woff2
+    // negotiation needed) — Satori accepts TrueType directly.
+    let css = await fetch(
+      'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap',
+    ).then((res) => res.text())
+
+    let ttfUrl = css.match(/src: url\((.+?)\) format\('truetype'\)/)?.[1]
+    if (!ttfUrl) return null
+
+    return await fetch(ttfUrl).then((res) => res.arrayBuffer())
+  } catch {
+    return null
+  }
+}
+
+export default async function Image() {
+  let [backgroundBuffer, cormorantData] = await Promise.all([
+    readFile(
+      path.join(process.cwd(), 'public/images/og/navigation-background.jpg'),
+    ),
+    loadCormorantGaramond(),
+  ])
+  let backgroundSrc = `data:image/jpeg;base64,${backgroundBuffer.toString('base64')}`
+  let serif = cormorantData ? 'Cormorant Garamond' : 'Georgia, serif'
+
   return new ImageResponse(
     (
       <div
@@ -12,66 +40,132 @@ export default function Image() {
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: 'relative',
           backgroundColor: '#17324D',
         }}
       >
+        <img
+          src={backgroundSrc}
+          alt=""
+          width={1200}
+          height={630}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: '78% 45%',
+          }}
+        />
+
         <div
           style={{
+            position: 'relative',
             display: 'flex',
-            alignItems: 'baseline',
-            gap: 24,
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
+            padding: '64px 72px',
           }}
         >
-          <span
+          {/* Wordmark */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span
+              style={{
+                fontFamily: serif,
+                fontSize: 40,
+                fontWeight: 500,
+                letterSpacing: 4,
+                color: '#F8F6F2',
+              }}
+            >
+              TIDAL POINT
+            </span>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 16,
+                marginTop: 6,
+              }}
+            >
+              <span style={{ display: 'flex', width: 28, height: 1, backgroundColor: 'rgba(248,246,242,0.5)' }} />
+              <span
+                style={{
+                  fontFamily: 'Arial, sans-serif',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  letterSpacing: 6,
+                  color: '#F8F6F2',
+                }}
+              >
+                PARTNERS
+              </span>
+              <span style={{ display: 'flex', width: 28, height: 1, backgroundColor: 'rgba(248,246,242,0.5)' }} />
+            </div>
+          </div>
+
+          {/* Headline */}
+          <div
             style={{
-              fontSize: 96,
-              fontWeight: 600,
-              letterSpacing: 4,
-              color: '#F8F6F2',
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: 88,
+              maxWidth: 760,
             }}
           >
-            TIDAL POINT
-          </span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            marginTop: 4,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 32,
-              fontWeight: 400,
-              letterSpacing: 12,
-              color: '#7A9E9F',
-            }}
-          >
-            PARTNERS
-          </span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            marginTop: 56,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 28,
-              fontWeight: 400,
-              color: '#F8F6F2',
-              opacity: 0.85,
-            }}
-          >
-            The operating partner your business has been missing.
-          </span>
+            <span
+              style={{
+                fontFamily: serif,
+                fontSize: 42,
+                fontWeight: 500,
+                lineHeight: 1.25,
+                color: '#F8F6F2',
+              }}
+            >
+              Experienced partnership for pivotal points
+            </span>
+            <span
+              style={{
+                fontFamily: serif,
+                fontSize: 42,
+                fontWeight: 500,
+                lineHeight: 1.25,
+                color: '#F8F6F2',
+              }}
+            >
+              in the life of a business.
+            </span>
+          </div>
+
+          {/* URL */}
+          <div style={{ display: 'flex', flex: 1, alignItems: 'flex-end' }}>
+            <span
+              style={{
+                fontFamily: 'Arial, sans-serif',
+                fontSize: 20,
+                color: 'rgba(248,246,242,0.75)',
+              }}
+            >
+              tidalpointpartners.com
+            </span>
+          </div>
         </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: cormorantData
+        ? [
+            {
+              name: 'Cormorant Garamond',
+              data: cormorantData,
+              weight: 500,
+              style: 'normal',
+            },
+          ]
+        : undefined,
+    },
   )
 }
