@@ -182,3 +182,121 @@
     margin-bottom: 0 !important;
   }
 }
+
+/* Editorial article treatment */
+.article-content .typography {
+  color: var(--color-tidal-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+
+  :where(.typography > *) {
+    margin-top: 1.35rem;
+    margin-bottom: 1.35rem;
+  }
+
+  :where(p:first-child) {
+    color: var(--color-tidal-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 3vw, 2rem);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    margin-bottom: 2.25rem;
+  }
+
+  :where(h2) {
+    color: var(--color-tidal-navy);
+    font-size: clamp(2rem, 4vw, 2.65rem);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-top: 5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  :where(h3) {
+    color: var(--color-tidal-navy);
+    font-size: clamp(1.55rem, 3vw, 1.9rem);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-top: 3.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  :where(blockquote) {
+    position: relative;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border-left: 3px solid var(--color-tidal-teal);
+    background: color-mix(in srgb, var(--color-tidal-sand) 24%, white);
+    padding: 1.75rem 2rem;
+    color: var(--color-tidal-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 1.75rem);
+    line-height: 1.4;
+  }
+
+  :where(blockquote p) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  :where(blockquote p:first-child) {
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  :where(hr) {
+    width: 3rem;
+    border-color: var(--color-tidal-teal);
+    margin: 4.5rem auto;
+  }
+
+  :where(li)::marker {
+    color: var(--color-tidal-teal);
+  }
+
+  :where(h2:last-of-type + ol) {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-tidal-navy) 15%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-tidal-light);
+  }
+
+  :where(h2:last-of-type + ol li) {
+    margin-top: 0.8rem;
+    padding-left: 0.5rem;
+  }
+
+  :where(h2:last-of-type + ol li)::marker {
+    color: var(--color-tidal-navy);
+    font-size: 0.75rem;
+  }
+
+  :where(a) {
+    color: var(--color-tidal-navy);
+    text-decoration-color: color-mix(in srgb, var(--color-tidal-teal) 70%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  @media (width < 640px) {
+    font-size: 1.0625rem;
+    line-height: 1.78;
+
+    :where(h2) {
+      margin-top: 4rem;
+    }
+
+    :where(blockquote) {
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      padding: 1.5rem;
+    }
+  }
+}

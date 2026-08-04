@@ -4,7 +4,7 @@ export const article = {
   description:
     "Owner dependency isn't a people problem. It's a structural one — and it's fixable. Here's what's actually causing it and what to do about it.",
   category: 'Operations',
-  featuredImage: 'https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=1200&q=80',
+  featuredImage: '/images/articles/why-your-business-still-runs-through-you.jpg',
   author: {
     name: 'Jeff Lortz',
     role: 'Founder, Tidal Point Partners',
@@ -15,6 +15,12 @@ export const article = {
 export const metadata = {
   title: article.title,
   description: article.description,
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    images: [article.featuredImage],
+    type: 'article',
+  },
 }
 
 You have good people. You've been saying that for years, and you mean it. Your team is capable, experienced, loyal. Some of them have been with you since the beginning.
@@ -37,7 +43,7 @@ In the early years, your personal involvement was the product. Your relationship
 
 So you kept running it that way. Each year was a little bigger, a little more complex, a few more people. But the model stayed the same: run everything through the founder, keep standards high, stay close to the customer.
 
-The problem isn't that you built it this way. The problem is that the model that works brilliantly at 10 people starts to break around 25, and is genuinely unsustainable by 50. Research from the National Federation of Independent Business consistently shows that owners of growing businesses report spending over 60% of their time on operational decisions that could be handled by others — leaving less than a day a week for the strategic work that actually moves the business forward.[^1]
+The problem isn't that you built it this way. The problem is that the model that works brilliantly at 10 people starts to break around 25, and is genuinely unsustainable by 50. Research from the National Federation of Independent Business consistently shows that owners of growing businesses report spending over 60% of their time on operational decisions that could be handled by others — leaving less than a day a week for the strategic work that actually moves the business forward.
 
 > "Most business owners are working *in* their business rather than *on* it — trapped by the daily demands of a company that was never designed to run without them."
 >
@@ -97,7 +103,7 @@ The businesses I work with that break through the dependency ceiling do it with 
 
 These aren't novel ideas. They're the basic operating infrastructure that larger organizations have had for decades — and that most owner-led businesses have never formally installed because they were always too busy running the business to build the systems that would let the business run.
 
-A study by Harvard Business Review found that managers who clearly defined decision-making authority for their teams saw a 26% improvement in decision speed and a measurable reduction in escalations to senior leadership within 90 days.[^2]
+A study published by Harvard Business Review found that managers who clearly defined decision-making authority for their teams saw a 26% improvement in decision speed and a measurable reduction in escalations to senior leadership within 90 days.
 
 ---
 
@@ -135,13 +141,10 @@ Most owners who do this exercise are surprised — not by how much is on their p
 
 ---
 
-### Sources
+## Sources & Further Reading
 
-[^1]: National Federation of Independent Business, *Small Business Owner Time Use Study* (2023). Survey of 1,200 small business owners with 10–100 employees.
-
-[^2]: Blenko, M., Mankins, M., & Rogers, P. "The Decision-Driven Organization." *Harvard Business Review*, June 2010. Research across 760 companies on decision rights, speed, and organizational performance.
-
-**Further reading:**
-- Gerber, Michael E. *The E-Myth Revisited: Why Most Small Businesses Don't Work and What to Do About It.* HarperCollins, 1995.
-- Lencioni, Patrick. *The Advantage: Why Organizational Health Trumps Everything Else in Business.* Jossey-Bass, 2012.
-- Wickman, Gino. *Traction: Get a Grip on Your Business.* BenBella Books, 2011.
+1. National Federation of Independent Business. *Small Business Owner Time Use Study.* 2023.
+2. Blenko, M., Mankins, M., and Rogers, P. “The Decision-Driven Organization.” *Harvard Business Review*, June 2010.
+3. Gerber, Michael E. *The E-Myth Revisited: Why Most Small Businesses Don’t Work and What to Do About It.* HarperCollins, 1995.
+4. Lencioni, Patrick. *The Advantage: Why Organizational Health Trumps Everything Else in Business.* Jossey-Bass, 2012.
+5. Wickman, Gino. *Traction: Get a Grip on Your Business.* BenBella Books, 2011.

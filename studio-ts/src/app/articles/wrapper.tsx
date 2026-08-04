@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { type Metadata } from 'next'
 
-import { Border } from '@/components/Border'
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { MDXComponents } from '@/components/MDXComponents'
@@ -11,15 +9,9 @@ import { RootLayout } from '@/components/RootLayout'
 import { formatDate } from '@/lib/formatDate'
 import { type Article, type MDXEntry, loadArticles } from '@/lib/mdx'
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function estimateReadingTime(description: string): string {
-  // Rough estimate: assume ~800 words per typical article
-  // We don't have word count at render time so use a fixed estimate
+function estimateReadingTime() {
   return '8 min read'
 }
-
-// ─── JSON-LD structured data ──────────────────────────────────────────────────
 
 function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
   const schema = {
@@ -55,67 +47,83 @@ function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
   )
 }
 
-// ─── Author Bio ───────────────────────────────────────────────────────────────
+function AuthorPortrait({ size = 'large' }: { size?: 'small' | 'large' }) {
+  return (
+    <div
+      className={
+        size === 'large'
+          ? 'relative h-20 w-20 flex-none overflow-hidden rounded-full'
+          : 'relative h-10 w-10 flex-none overflow-hidden rounded-full'
+      }
+    >
+      <Image
+        src="/images/people/jeff-lortz.jpg"
+        alt="Jeff Lortz"
+        fill
+        sizes={size === 'large' ? '80px' : '40px'}
+        className="object-cover object-[72%_38%]"
+      />
+    </div>
+  )
+}
 
 function AuthorBio() {
   return (
-    <div className="mx-auto max-w-3xl">
-      <Border className="pt-12">
-        <div className="flex gap-x-6">
-          <div className="flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-tidal-navy">
-            <span className="text-sm font-bold text-white">JL</span>
-          </div>
-          <div>
-            <p className="font-display text-base font-bold text-tidal-navy">
-              Jeff Lortz
-            </p>
-            <p className="text-sm text-tidal-light">
-              Founder, Tidal Point Partners
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-tidal-body">
-              Jeff is a former PE-backed SaaS CEO, C-suite operator, and US
-              Navy Surface Warfare Officer. He works with privately held,
-              owner-led businesses in Southeastern Massachusetts as the
-              operating partner they never had.{' '}
-              <Link href="/about" className="font-semibold text-tidal-teal hover:text-tidal-teal/80">
-                Read his full background &rarr;
-              </Link>
-            </p>
-          </div>
+    <aside className="mx-auto max-w-[46rem] border-t border-tidal-navy/15 pt-10 sm:pt-12">
+      <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
+        <AuthorPortrait />
+        <div>
+          <p className="font-display text-2xl font-semibold text-tidal-navy">
+            Jeff Lortz
+          </p>
+          <p className="mt-1 text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+            Founder, Tidal Point Partners
+          </p>
+          <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-tidal-body">
+            Jeff is a former PE-backed SaaS CEO, C-suite operator, and US Navy
+            Surface Warfare Officer. He works alongside owners and leadership
+            teams at pivotal moments in the life of a business.
+          </p>
+          <Link
+            href="/about"
+            className="mt-4 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+          >
+            About Jeff <span className="ml-2" aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
-      </Border>
-    </div>
+      </div>
+    </aside>
   )
 }
-
-// ─── CTA ─────────────────────────────────────────────────────────────────────
 
 function ArticleCTA() {
   return (
-    <div className="bg-tidal-teal py-24 sm:py-32">
+    <section className="bg-tidal-navy py-20 sm:py-24">
       <Container>
-        <FadeIn className="text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Found this useful?
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            If this describes where your business is, let&rsquo;s talk.
-          </p>
-          <div className="mt-10">
-            <Link
-              href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-tidal-teal shadow transition hover:bg-tidal-sand"
-            >
-              Schedule a Conversation
-            </Link>
+        <FadeIn className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.2em] text-tidal-teal uppercase">
+              A useful next conversation
+            </p>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold tracking-[-0.02em] text-tidal-warm-white sm:text-5xl">
+              Does too much of the business still run through you?
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/70">
+              We can look at where decisions are getting stuck and whether the
+              right operating support would help.
+            </p>
           </div>
+          <Link
+            href="/contact"
+            className="inline-flex w-fit items-center border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-tidal-navy"
+          >
+            Start a conversation <span className="ml-3" aria-hidden="true">&rarr;</span>
+          </Link>
         </FadeIn>
       </Container>
-    </div>
+    </section>
   )
 }
-
-// ─── Layout ───────────────────────────────────────────────────────────────────
 
 export default async function ArticleWrapper({
   article,
@@ -133,76 +141,87 @@ export default async function ArticleWrapper({
     <RootLayout>
       <ArticleSchema article={article} />
 
-      <Container as="article" className="mt-24 sm:mt-32 lg:mt-40">
-        <FadeIn>
-          {/* Article header */}
-          <header className="mx-auto max-w-3xl">
-            {article.category && (
-              <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-                {article.category}
-              </p>
-            )}
-            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl lg:text-6xl">
-              {article.title}
-            </h1>
-            <p className="mt-4 text-xl text-tidal-body leading-relaxed">
-              {article.description}
-            </p>
+      <article className="pt-4 sm:pt-6 lg:pt-8">
+        <header className="relative overflow-hidden bg-tidal-navy">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)',
+              backgroundSize: '72px 72px',
+            }}
+          />
+          <Container className="relative py-10 sm:py-14 lg:py-16">
+            <FadeIn>
+              <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(26rem,0.88fr)] lg:items-center lg:gap-16">
+                <div className="flex flex-col justify-between py-1 lg:py-6">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold tracking-[0.18em] uppercase">
+                      {article.category && (
+                        <span className="text-tidal-teal">{article.category}</span>
+                      )}
+                      <span className="h-px w-8 bg-white/35" aria-hidden="true" />
+                      <time className="text-white/60" dateTime={article.date}>
+                        {formatDate(article.date)}
+                      </time>
+                    </div>
+                    <h1 className="mt-7 max-w-[13ch] font-display text-[2.75rem] leading-[0.98] font-semibold tracking-[-0.035em] text-tidal-warm-white sm:text-[3.6rem] lg:text-[4rem]">
+                      {article.title}
+                    </h1>
+                    <p className="mt-7 max-w-xl text-lg leading-8 text-white/72">
+                      {article.description}
+                    </p>
+                  </div>
 
-            {/* Meta bar */}
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-tidal-navy/10 pt-6">
-              <div className="flex items-center gap-x-3">
-                <div className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-tidal-navy">
-                  <span className="text-xs font-bold text-white">JL</span>
+                  <div className="mt-10 flex items-center gap-4 border-t border-white/15 pt-6 lg:mt-14">
+                    <AuthorPortrait size="small" />
+                    <div>
+                      <p className="text-sm font-semibold text-white">Jeff Lortz</p>
+                      <p className="mt-0.5 text-xs text-white/55">
+                        Founder, Tidal Point Partners &middot; {estimateReadingTime()}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-tidal-navy">Jeff Lortz</p>
-                  <p className="text-xs text-tidal-light">Founder, Tidal Point Partners</p>
-                </div>
+
+                {article.featuredImage && (
+                  <div className="relative min-h-[16rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[29rem]">
+                    <Image
+                      src={article.featuredImage}
+                      alt="A small leadership team working through a business decision"
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-tidal-navy/35 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-tidal-teal/15 mix-blend-color" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-tidal-navy/35 via-transparent to-tidal-navy/10 lg:bg-gradient-to-r lg:from-tidal-navy/30 lg:via-transparent lg:to-tidal-navy/10" />
+                  </div>
+                )}
               </div>
-              <div className="ml-auto flex items-center gap-x-4 text-sm text-tidal-light">
-                <time dateTime={article.date}>{formatDate(article.date)}</time>
-                <span aria-hidden="true">&middot;</span>
-                <span>{estimateReadingTime(article.description)}</span>
-              </div>
+            </FadeIn>
+          </Container>
+        </header>
+
+        <Container className="py-16 sm:py-20 lg:py-24">
+          <FadeIn>
+            <MDXComponents.wrapper className="article-content *:max-w-[46rem]!">
+              {children}
+            </MDXComponents.wrapper>
+          </FadeIn>
+
+          <FadeIn>
+            <div className="mt-20 sm:mt-24">
+              <AuthorBio />
             </div>
-          </header>
-
-          {/* Featured image */}
-          {article.featuredImage && (
-            <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl">
-              <div className="relative aspect-[2/1] w-full">
-                <Image
-                  src={article.featuredImage}
-                  alt={article.title}
-                  fill
-                  sizes="(min-width: 1024px) 64rem, 100vw"
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          )}
-        </FadeIn>
-
-        {/* Article body */}
-        <FadeIn>
-          <MDXComponents.wrapper className="mt-16 sm:mt-20">
-            {children}
-          </MDXComponents.wrapper>
-        </FadeIn>
-
-        {/* Author bio */}
-        <FadeIn>
-          <div className="mt-16 sm:mt-24">
-            <AuthorBio />
-          </div>
-        </FadeIn>
-      </Container>
+          </FadeIn>
+        </Container>
+      </article>
 
       {moreArticles.length > 0 && (
         <PageLinks
-          className="mt-24 sm:mt-32 lg:mt-40"
+          className="mt-8 sm:mt-12"
           title="More articles"
           pages={moreArticles}
         />
