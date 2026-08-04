@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   description:
     'Tidal Point Partners is a premium strategic advisory firm for privately held businesses at pivotal moments.',
   icons: {
-    icon: '/favicon-512.png',
+    icon: [{ url: '/favicon-512.png', sizes: '512x512', type: 'image/png' }],
     apple: '/apple-touch-icon.png',
   },
 }
