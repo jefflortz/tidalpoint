@@ -106,36 +106,37 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Headline */}
+          {/* Positioning */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              marginTop: 88,
-              maxWidth: 760,
+              marginTop: 76,
+              maxWidth: 780,
             }}
           >
             <span
               style={{
-                fontFamily: serif,
-                fontSize: 42,
-                fontWeight: 500,
-                lineHeight: 1.25,
-                color: '#F8F6F2',
+                fontFamily: 'Arial, sans-serif',
+                fontSize: 15,
+                fontWeight: 600,
+                letterSpacing: 3.5,
+                color: '#9BB8B8',
               }}
             >
-              Experienced partnership for pivotal points
+              FOR PRIVATELY HELD BUSINESSES
             </span>
             <span
               style={{
                 fontFamily: serif,
-                fontSize: 42,
+                fontSize: 48,
                 fontWeight: 500,
-                lineHeight: 1.25,
+                lineHeight: 1.12,
                 color: '#F8F6F2',
+                marginTop: 20,
               }}
             >
-              in the life of a business.
+              The Operating Partner Your Business Has Been Missing.
             </span>
           </div>
 

@@ -12,8 +12,28 @@ import { formatDate } from '@/lib/formatDate'
 import { loadArticles } from '@/lib/mdx'
 
 export const metadata: Metadata = {
+  title: {
+    absolute: 'Experienced Operating Partners for Privately Held Businesses',
+  },
   description:
-    'Tidal Point Partners becomes the experienced Operating Partner that many privately held businesses never had — working alongside owners and leadership teams to make better decisions and build a stronger company.',
+    'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Experienced Operating Partners for Privately Held Businesses',
+    description:
+      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+    url: '/',
+    siteName: 'Tidal Point Partners',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Experienced Operating Partners for Privately Held Businesses',
+    description:
+      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+  },
 }
 
 // ─── Shared icons ─────────────────────────────────────────────────────────────

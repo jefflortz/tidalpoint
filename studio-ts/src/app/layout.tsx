@@ -22,16 +22,52 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tidalpointpartners.com'),
+  applicationName: 'Tidal Point Partners',
   title: {
-    template: '%s - Tidal Point Partners',
-    default: 'Tidal Point Partners — Strategic Advisory for Privately Held Businesses',
+    template: '%s | Tidal Point Partners',
+    default: 'Experienced Operating Partners for Privately Held Businesses',
   },
   description:
-    'Tidal Point Partners is a premium strategic advisory firm for privately held businesses at pivotal moments.',
+    'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+  authors: [{ name: 'Tidal Point Partners', url: '/' }],
+  creator: 'Tidal Point Partners',
+  publisher: 'Tidal Point Partners',
+  referrer: 'origin-when-cross-origin',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: '/',
+    siteName: 'Tidal Point Partners',
+    title: 'Experienced Operating Partners for Privately Held Businesses',
+    description:
+      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Experienced Operating Partners for Privately Held Businesses',
+    description:
+      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   icons: {
-    icon: [{ url: '/favicon-512.png', sizes: '512x512', type: 'image/png' }],
+    icon: [
+      { url: '/favicon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
     apple: '/apple-touch-icon.png',
   },
+  manifest: '/manifest.webmanifest',
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
