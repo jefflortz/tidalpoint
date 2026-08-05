@@ -637,10 +637,10 @@ export default async function Home() {
         <div className="absolute inset-0 -z-10 bg-tidal-navy/58 sm:bg-[linear-gradient(90deg,rgba(23,50,77,0.96)_0%,rgba(23,50,77,0.84)_43%,rgba(23,50,77,0.08)_100%)]" />
         <span
           aria-hidden="true"
-          className="hero-pivot pointer-events-none absolute top-1/2 left-[84%] z-0 sm:left-[63%]"
+          className="hero-pivot pointer-events-none absolute top-1/2 left-[90%] z-0 sm:left-[63%]"
         />
         <Container>
-          <div className="py-24 sm:py-32">
+          <div className="pt-56 pb-24 sm:pt-60 sm:pb-32 lg:pt-64">
             <FadeIn className="max-w-3xl">
               <p className="text-xs font-semibold tracking-wide text-tidal-warm-white uppercase sm:tracking-widest">
                 For privately-held companies in SE New England

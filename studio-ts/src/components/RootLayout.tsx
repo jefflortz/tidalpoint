@@ -123,12 +123,12 @@ const desktopNavLinks = [
   { title: 'Contact', href: '/contact' },
 ]
 
-function DesktopNav() {
+function DesktopNav({ invert = false }: { invert?: boolean }) {
   return (
     <Container>
       <div className="flex items-center justify-between py-6">
         <Link href="/" aria-label="Home">
-          <Logo />
+          <Logo invert={invert} />
         </Link>
         <nav aria-label="Main navigation">
           <ul role="list" className="flex items-center gap-x-10">
@@ -136,7 +136,12 @@ function DesktopNav() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-semibold tracking-widest text-tidal-navy uppercase transition hover:text-tidal-teal"
+                  className={clsx(
+                    'text-sm font-semibold tracking-widest uppercase transition',
+                    invert
+                      ? 'text-white/90 hover:text-white'
+                      : 'text-tidal-navy hover:text-tidal-teal',
+                  )}
                 >
                   {link.title}
                 </Link>
@@ -195,7 +200,13 @@ function Navigation() {
   )
 }
 
-function RootLayoutInner({ children }: { children: React.ReactNode }) {
+function RootLayoutInner({
+  children,
+  home = false,
+}: {
+  children: React.ReactNode
+  home?: boolean
+}) {
   let panelId = useId()
   let [expanded, setExpanded] = useState(false)
   let [isTransitioning, setIsTransitioning] = useState(false)
@@ -236,7 +247,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
         >
           {/* Desktop — conventional inline nav, lg and up */}
           <div className="hidden lg:block">
-            <DesktopNav />
+            <DesktopNav invert={home} />
           </div>
 
           {/* Mobile/tablet — existing hamburger + full-screen mega-menu, below lg */}
@@ -246,6 +257,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
               icon={MenuIcon}
               toggleRef={openRef}
               expanded={expanded}
+              invert={home}
               onToggle={() => {
                 setIsTransitioning(true)
                 setExpanded((expanded) => !expanded)
@@ -316,11 +328,19 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
       <motion.div
         layout
         style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
-        className="relative flex flex-auto overflow-hidden bg-tidal-warm-white pt-24 lg:pt-28"
+        className={clsx(
+          'relative flex flex-auto overflow-hidden',
+          home
+            ? 'bg-tidal-navy'
+            : 'bg-tidal-warm-white pt-24 lg:pt-28',
+        )}
       >
         <motion.div
           layout
-          className="relative isolate flex w-full flex-col pt-9"
+          className={clsx(
+            'relative isolate flex w-full flex-col',
+            !home && 'pt-9',
+          )}
         >
           <main className="w-full flex-auto">{children}</main>
 
@@ -333,11 +353,14 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   let pathname = usePathname()
+  let home = pathname === '/'
   let [logoHovered, setLogoHovered] = useState(false)
 
   return (
     <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
-      <RootLayoutInner key={pathname}>{children}</RootLayoutInner>
+      <RootLayoutInner key={pathname} home={home}>
+        {children}
+      </RootLayoutInner>
     </RootLayoutContext.Provider>
   )
 }
