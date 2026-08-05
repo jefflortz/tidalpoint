@@ -1,4 +1,5 @@
 import { type Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx'
 
@@ -6,7 +7,6 @@ import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
 import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
-import { GridPattern } from '@/components/GridPattern'
 import { OperatingModelRing } from '@/components/OperatingModelRing'
 import { formatDate } from '@/lib/formatDate'
 import { loadArticles } from '@/lib/mdx'
@@ -27,12 +27,21 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Tidal Point Partners',
     type: 'website',
+    images: [
+      {
+        url: '/tidal-point-home-featured.jpg',
+        width: 1200,
+        height: 675,
+        alt: 'Navigation lines converging on a pivotal point',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Experienced Operating Partners for Privately Held Businesses',
     description:
       'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+    images: ['/tidal-point-home-featured.jpg'],
   },
 }
 
@@ -617,11 +626,15 @@ export default async function Home() {
     <RootLayout>
       {/* Hero */}
       <div className="relative z-0 overflow-hidden bg-tidal-navy">
-        <GridPattern
-          interactive
-          yOffset={-96}
-          className="absolute inset-0 -z-10 h-full w-full fill-white/[0.06] stroke-white/[0.12] mask-[linear-gradient(to_bottom_left,white,transparent_65%)]"
+        <Image
+          src="/tidal-point-home-featured.jpg"
+          alt="Abstract navigation lines converging on a pivotal point"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 -z-20 object-cover object-[63%_50%]"
         />
+        <div className="absolute inset-0 -z-10 bg-tidal-navy/72 sm:bg-[linear-gradient(90deg,rgba(23,50,77,0.98)_0%,rgba(23,50,77,0.92)_43%,rgba(23,50,77,0.28)_100%)]" />
         <Container>
           <div className="py-24 sm:py-32">
             <FadeIn className="max-w-3xl">

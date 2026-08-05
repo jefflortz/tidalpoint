@@ -14,6 +14,28 @@ export function getOrganizationSchema() {
         inLanguage: 'en-US',
       },
       {
+        '@type': 'WebPage',
+        '@id': 'https://tidalpointpartners.com/#webpage',
+        url: 'https://tidalpointpartners.com/',
+        name: 'Experienced Operating Partners for Privately Held Businesses',
+        description:
+          'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+        isPartOf: {
+          '@id': 'https://tidalpointpartners.com/#website',
+        },
+        about: {
+          '@id': 'https://tidalpointpartners.com/#organization',
+        },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          '@id': 'https://tidalpointpartners.com/#primaryimage',
+          url: 'https://tidalpointpartners.com/tidal-point-home-featured.jpg',
+          width: 1200,
+          height: 675,
+        },
+        inLanguage: 'en-US',
+      },
+      {
         '@type': ['Organization', 'ProfessionalService'],
         '@id': 'https://tidalpointpartners.com/#organization',
         name: 'Tidal Point Partners',
@@ -27,7 +49,7 @@ export function getOrganizationSchema() {
           width: 512,
           height: 512,
         },
-        image: 'https://tidalpointpartners.com/opengraph-image',
+        image: 'https://tidalpointpartners.com/tidal-point-home-featured.jpg',
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Plymouth',
