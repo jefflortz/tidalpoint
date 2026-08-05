@@ -632,9 +632,13 @@ export default async function Home() {
           fill
           priority
           sizes="100vw"
-          className="absolute inset-0 -z-20 object-cover object-[63%_50%]"
+          className="absolute inset-0 -z-20 object-cover object-[53%_50%] brightness-[1.14] contrast-[1.16] saturate-[1.12] sm:object-[63%_50%]"
         />
-        <div className="absolute inset-0 -z-10 bg-tidal-navy/72 sm:bg-[linear-gradient(90deg,rgba(23,50,77,0.98)_0%,rgba(23,50,77,0.92)_43%,rgba(23,50,77,0.28)_100%)]" />
+        <div className="absolute inset-0 -z-10 bg-tidal-navy/58 sm:bg-[linear-gradient(90deg,rgba(23,50,77,0.96)_0%,rgba(23,50,77,0.84)_43%,rgba(23,50,77,0.08)_100%)]" />
+        <span
+          aria-hidden="true"
+          className="hero-pivot pointer-events-none absolute top-1/2 left-[84%] z-0 sm:left-[63%]"
+        />
         <Container>
           <div className="py-24 sm:py-32">
             <FadeIn className="max-w-3xl">

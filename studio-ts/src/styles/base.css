@@ -5,4 +5,71 @@
   html {
     scroll-behavior: smooth;
   }
+
+  .hero-pivot {
+    animation: hero-pivot-glow 6s ease-in-out infinite;
+  }
+
+  .hero-pivot::after {
+    animation: hero-pivot-ring 6s ease-out infinite;
+  }
+}
+
+.hero-pivot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #f8f6f2;
+  box-shadow:
+    0 0 12px rgba(248, 246, 242, 0.72),
+    0 0 30px rgba(214, 204, 192, 0.38);
+  transform: translate(-50%, -50%);
+}
+
+.hero-pivot::after {
+  position: absolute;
+  inset: -13px;
+  content: '';
+  border: 1px solid rgba(214, 204, 192, 0.55);
+  border-radius: inherit;
+}
+
+@keyframes hero-pivot-glow {
+  0%,
+  100% {
+    opacity: 0.72;
+    box-shadow:
+      0 0 10px rgba(248, 246, 242, 0.55),
+      0 0 24px rgba(214, 204, 192, 0.25);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 18px rgba(248, 246, 242, 0.9),
+      0 0 42px rgba(214, 204, 192, 0.48);
+  }
+}
+
+@keyframes hero-pivot-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  22% {
+    opacity: 0.52;
+  }
+
+  72%,
+  100% {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pivot::after {
+    opacity: 0.35;
+  }
 }
