@@ -1,7 +1,6 @@
 import { type Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
@@ -43,72 +42,6 @@ export const metadata: Metadata = {
       'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
     images: ['/tidal-point-home-featured.jpg'],
   },
-}
-
-// ─── Shared icons ─────────────────────────────────────────────────────────────
-
-function CompassIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M15 9l-2.5 5.5L9 17l2.5-5.5L15 9z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function ChartIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M3.75 20h16.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <rect x="5.5" y="14" width="3" height="6" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="11" y="10" width="3" height="10" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="16.5" y="6" width="3" height="14" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
-
-function ShieldIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function PeopleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M4 20c0-3 2-5 5-5s5 2 5 5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <circle cx="17" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M15.5 20c0-2.5 1-4.5 3-4.8"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
 }
 
 // ─── Why An Operating Partner ─────────────────────────────────────────────────
@@ -153,60 +86,70 @@ function WhyOperatingPartner() {
 
 const situations = [
   {
+    number: '01',
     title: 'Growth is outpacing the organization.',
-    body: 'Expansion, new markets, or acquisitions are moving faster than the leadership and systems built to support them.',
+    body: 'New markets, acquisitions or expansion are moving faster than the leadership and systems supporting them.',
   },
   {
-    title: 'Growth has stalled and the reason isn’t obvious.',
-    body: 'Sales have slowed or margins are compressing, and from inside the business it’s hard to tell whether it’s the market, the model, or the team.',
+    number: '02',
+    title: 'Performance has stalled.',
+    body: 'Growth has slowed or margins are compressing, and the underlying constraint is not obvious from inside the business.',
   },
   {
-    title: 'You just acquired a business and the prior owner is still here.',
-    body: 'Earn-out periods have their own physics — two sets of incentives, a clock running, and integration decisions that can’t wait for the handoff to finish.',
+    number: '03',
+    title: 'An acquisition needs to become one business.',
+    body: 'Incentives, leadership and operating decisions cannot wait for the transition or earn-out period to end.',
   },
   {
-    title: 'Succession is closer than the business is ready for.',
-    body: 'Stepping back, handing to family, or eventually selling — and the company still runs through one person.',
+    number: '04',
+    title: 'Succession is getting closer.',
+    body: 'The owner is preparing to step back, transfer leadership or sell—but the company still depends on one person.',
   },
   {
-    title: 'You’re accountable to people beyond yourself.',
-    body: 'A board, outside investors, or employee-owners expect a defensible plan and a leadership team that can carry it.',
+    number: '05',
+    title: 'Accountability now extends beyond the owner.',
+    body: 'A board, investors or employee-owners expect a defensible plan and a leadership team capable of carrying it.',
   },
   {
-    title: 'The team that built the business isn’t the team that scales it.',
-    body: 'Key seats need to be filled or key people need to grow, and you can’t do both while running the company.',
+    number: '06',
+    title: 'The leadership team must evolve.',
+    body: 'Important seats need to be filled and capable people need to grow while the company continues operating.',
   },
 ]
 
 function TheSituationsWeAreBroughtInto() {
   return (
-    <div className="bg-tidal-warm-white py-28 sm:py-40">
+    <div className="bg-tidal-warm-white py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn className="max-w-2xl">
-          <h2 className="font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            The situations we&rsquo;re brought into.
-          </h2>
-          <div className="mt-6 space-y-4">
-            <p className="text-lg text-tidal-body leading-relaxed">
-              Every business reaches a point where the forces around it
-              begin to change. Growth creates complexity. Leadership
-              evolves. New opportunities bring new risks. Decisions that
-              once felt straightforward carry greater consequence.
+        <FadeIn className="grid gap-7 border-b border-tidal-navy/15 pb-12 lg:grid-cols-12 lg:gap-12 lg:pb-16">
+          <div className="lg:col-span-5">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              When Leaders Call Us
             </p>
-            <p className="text-lg text-tidal-body leading-relaxed">
-              Those are the moments when experienced partnership matters
-              most.
-            </p>
+            <h2 className="mt-5 max-w-xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              Pivotal moments rarely arrive one at a time.
+            </h2>
           </div>
+          <p className="max-w-2xl self-end text-lg leading-8 text-tidal-body lg:col-span-5 lg:col-start-8 lg:pb-1">
+            The need for an Operating Partner usually becomes clear when
+            complexity is rising, the stakes are higher and familiar ways of
+            working are no longer enough.
+          </p>
         </FadeIn>
-        <FadeInStagger className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        <FadeInStagger className="mt-4 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-16">
           {situations.map((situation) => (
-            <FadeIn key={situation.title} className="h-full">
-              <div className="flex h-full flex-col border-t border-tidal-navy/15 pt-6">
-                <h3 className="font-display text-xl font-bold text-tidal-navy">
+            <FadeIn
+              key={situation.number}
+              className="grid grid-cols-[2.75rem_1fr] gap-x-4 border-b border-tidal-navy/15 py-8 sm:grid-cols-[3.5rem_1fr] sm:gap-x-6 sm:py-10"
+            >
+              <span className="pt-1 text-xs font-semibold tracking-[0.16em] text-tidal-teal">
+                {situation.number}
+              </span>
+              <div>
+                <h3 className="max-w-lg font-display text-2xl leading-tight font-semibold text-tidal-navy sm:text-[1.7rem]">
                   {situation.title}
                 </h3>
-                <p className="mt-3 text-base leading-relaxed text-tidal-body">
+                <p className="mt-3 max-w-xl text-base leading-7 text-tidal-body">
                   {situation.body}
                 </p>
               </div>
@@ -222,56 +165,80 @@ function TheSituationsWeAreBroughtInto() {
 
 const partnershipPrinciples = [
   {
-    title: 'Clarify what matters most.',
-    body: 'We help leadership see the handful of things that actually move the business, and pressure test the assumptions underneath the plan.',
-    icon: CompassIcon,
+    number: '01',
+    title: 'Clarify',
+    headline: 'See what matters most.',
+    body: 'Identify the few decisions with the greatest leverage and pressure-test the assumptions beneath them.',
   },
   {
-    title: 'Sit in the room for the decisions.',
-    body: 'Not as an observer. As someone with a view, the experience to back it, and no agenda but the company’s.',
-    icon: PeopleIcon,
+    number: '02',
+    title: 'Decide',
+    headline: 'Make the difficult calls.',
+    body: 'Bring an experienced point of view into the room when the answer is consequential and not immediately clear.',
   },
   {
-    title: 'Carry accountability for outcomes.',
-    body: 'Someone experienced is answerable for whether it worked — not just for whether the advice was sound.',
-    icon: ShieldIcon,
+    number: '03',
+    title: 'Drive',
+    headline: 'Turn judgment into progress.',
+    body: 'Stay through execution, remove obstacles and remain accountable for whether the decision creates the intended result.',
   },
   {
-    title: 'Bring in what the situation requires.',
-    body: 'Planning, team development, go-to-market — the capability comes with the seat rather than as a separate engagement.',
-    icon: ChartIcon,
+    number: '04',
+    title: 'Extend',
+    headline: 'Add capability when needed.',
+    body: 'Bring in trusted specialists for defined work without fragmenting ownership or asking you to manage multiple firms.',
   },
 ]
 
 function WhatWeDo() {
   return (
-    <div id="how-we-work" className="scroll-mt-24 bg-white py-24 sm:py-32">
+    <div id="how-we-work" className="scroll-mt-24 bg-tidal-navy py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            How We Work
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            What the seat actually does.
-          </h2>
-          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
-            An Operating Partner isn&rsquo;t there to deliver a
-            recommendation and move on. The value is in staying — through
-            the decision, the execution, and whatever comes after it.
-          </p>
+        <FadeIn className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              How We Work
+            </p>
+            <h2 className="mt-5 max-w-xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl">
+              Judgment that stays through the work.
+            </h2>
+          </div>
+          <div className="max-w-2xl self-end lg:col-span-5 lg:col-start-8">
+            <p className="text-lg leading-8 text-white/70">
+              An Operating Partner does more than deliver a recommendation.
+              The value is in helping make the call, carrying it into action
+              and staying accountable for what happens next.
+            </p>
+            <Link
+              href="/services"
+              className="group mt-7 inline-flex items-center gap-3 text-sm font-semibold tracking-wide text-white transition hover:text-tidal-teal"
+            >
+              Explore how we work
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </div>
         </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
+        <FadeInStagger className="relative mt-16 grid grid-cols-1 border-t border-white/20 sm:mt-20 lg:grid-cols-4">
+          <span
+            aria-hidden="true"
+            className="absolute top-0 right-0 left-0 hidden h-px bg-[linear-gradient(90deg,#7a9e9f_0%,#7a9e9f_34%,#d6ccc0_67%,rgba(255,255,255,0.2)_100%)] lg:block"
+          />
           {partnershipPrinciples.map((principle) => (
-            <FadeIn key={principle.title}>
-              <div className="border-t border-tidal-navy/10 pt-6">
-                <principle.icon className="h-7 w-7 text-tidal-navy" />
-                <h3 className="mt-4 font-display text-lg font-bold text-tidal-navy">
-                  {principle.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-tidal-body">
-                  {principle.body}
-                </p>
-              </div>
+            <FadeIn
+              key={principle.number}
+              className="relative border-b border-white/15 py-9 lg:border-r lg:border-b-0 lg:px-8 lg:py-12 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+            >
+              <span className="text-xs font-semibold tracking-[0.16em] text-tidal-teal">
+                {principle.number} / {principle.title}
+              </span>
+              <h3 className="mt-6 font-display text-2xl leading-tight font-semibold text-white sm:text-3xl">
+                {principle.headline}
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-white/65">
+                {principle.body}
+              </p>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -282,211 +249,120 @@ function WhatWeDo() {
 
 // ─── Operating Model ─────────────────────────────────────────────────────────
 
-type OperatingAccent = 'teal' | 'navy' | 'sand'
-
-const operatingAccentStyles: Record<OperatingAccent, { chip: string; dot: string }> = {
-  teal: {
-    chip: 'bg-tidal-teal/15',
-    dot: 'bg-tidal-teal',
-  },
-  navy: {
-    chip: 'bg-tidal-navy/8',
-    dot: 'bg-tidal-navy',
-  },
-  sand: {
-    chip: 'bg-tidal-sand/60',
-    dot: 'bg-tidal-sand',
-  },
-}
-
-const operatingOutcomes: {
-  label: string
-  body: string
-  bullets: string[]
-  href: string
-  accent: OperatingAccent
-  icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
-}[] = [
+const operatingOutcomes = [
   {
+    number: '01',
     label: 'Growth',
-    body: 'Create and capture profitable growth.',
-    bullets: [
-      'Strategy & positioning',
-      'Go-to-market',
-      'Sales effectiveness',
-      'Customer & market expansion',
-    ],
-    href: '/services#growth',
-    accent: 'teal',
+    body: 'Create and capture profitable growth with sharper choices about where to play and how to win.',
     icon: GrowthIcon,
+    accent: 'bg-tidal-teal',
+    iconBackground: 'bg-tidal-teal/15',
+    panelBackground: 'bg-[#dcebea]',
   },
   {
+    number: '02',
     label: 'Leadership & Team',
-    body: 'Build the leaders and culture that scale.',
-    bullets: [
-      'Leadership alignment',
-      'Team design',
-      'Talent & accountability',
-      'Culture & engagement',
-    ],
-    href: '/services#team',
-    accent: 'navy',
+    body: 'Build the leadership, accountability and organizational clarity required for the next stage.',
     icon: AlignmentIcon,
+    accent: 'bg-tidal-navy',
+    iconBackground: 'bg-tidal-navy/10',
+    panelBackground: 'bg-[#dfe5eb]',
   },
   {
+    number: '03',
     label: 'Operational Maturity',
-    body: 'Strengthen the systems and discipline that drive performance.',
-    bullets: [
-      'Operating model & processes',
-      'Financial performance',
-      'Technology & systems',
-      'Risk & compliance',
-    ],
-    href: '/services#operations',
-    accent: 'sand',
+    body: 'Strengthen the systems and operating discipline that turn good decisions into durable performance.',
     icon: MaturityIcon,
+    accent: 'bg-tidal-sand',
+    iconBackground: 'bg-tidal-sand/35',
+    panelBackground: 'bg-[#eee8e1]',
   },
 ]
-
-const trustPoints = [
-  { icon: ShieldIcon, text: 'Right expertise. Right time.' },
-  { icon: PeopleIcon, text: 'One relationship. Total accountability.' },
-  { icon: ChartIcon, text: 'Built for outcomes. Aligned with you.' },
-]
-
-function OperatingOutcomeColumn({
-  outcome,
-  centered = false,
-}: {
-  outcome: (typeof operatingOutcomes)[number]
-  centered?: boolean
-}) {
-  let style = operatingAccentStyles[outcome.accent]
-
-  return (
-    <div className={centered ? 'text-center' : undefined}>
-      <span
-        className={clsx(
-          'flex h-11 w-11 items-center justify-center rounded-full',
-          centered && 'mx-auto',
-          style.chip,
-        )}
-      >
-        <outcome.icon className="h-5 w-5 text-tidal-navy" />
-      </span>
-      <h3 className="mt-4 font-display text-lg font-bold text-tidal-navy">
-        {outcome.label}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-tidal-body">
-        {outcome.body}
-      </p>
-      <ul
-        role="list"
-        className={clsx('mt-4 space-y-2', centered && 'mx-auto w-fit text-left')}
-      >
-        {outcome.bullets.map((bullet) => (
-          <li key={bullet} className="flex items-start gap-2.5 text-sm text-tidal-body">
-            <span
-              aria-hidden="true"
-              className={clsx('mt-2 h-1.5 w-1.5 flex-none rounded-full', style.dot)}
-            />
-            {bullet}
-          </li>
-        ))}
-      </ul>
-      <Link
-        href={outcome.href}
-        className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tidal-navy focus-visible:ring-offset-2 focus-visible:ring-offset-tidal-warm-white"
-      >
-        Learn more <span aria-hidden="true">&rarr;</span>
-      </Link>
-    </div>
-  )
-}
 
 function OperatingModel() {
   return (
     <div
       id="operating-model"
-      className="scroll-mt-24 bg-tidal-warm-white py-24 sm:py-32"
+      className="scroll-mt-24 bg-white py-20 sm:py-28 lg:py-36"
     >
       <Container>
-        <FadeIn className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
+        <FadeIn className="max-w-3xl">
+          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
             The Operating Model
           </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            One Seat. Broader Impact.
+          <h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.98] font-medium tracking-tight text-tidal-navy sm:text-6xl lg:text-7xl">
+            One seat. Broader impact.
           </h2>
-          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
-            You get one dedicated Operating Partner — sitting in the seat
-            with you. When specialized expertise is needed, we bring in the
-            right people from our trusted network. You work with one
-            partner, not a collection of firms.
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-tidal-body">
+            One experienced Operating Partner works alongside you—bringing
+            judgment, accountability and the ability to move the business
+            forward.
           </p>
         </FadeIn>
 
-        {/* Mobile / tablet (< lg) — ring on top, columns stacked below */}
-        <div className="lg:hidden">
-          <FadeIn className="mt-16">
-            <OperatingModelRing />
+        <div className="mt-16 grid items-center gap-16 border-t border-tidal-navy/15 pt-14 lg:mt-20 lg:grid-cols-12 lg:gap-12 lg:pt-20">
+          <FadeIn className="mx-auto w-full max-w-[29rem] lg:col-span-5 lg:mx-0">
+            <div className="lg:-translate-y-8">
+              <OperatingModelRing />
+            </div>
           </FadeIn>
 
-          <FadeInStagger className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
+          <FadeInStagger className="lg:col-span-6 lg:col-start-7">
             {operatingOutcomes.map((outcome) => (
-              <FadeIn key={outcome.label}>
-                <OperatingOutcomeColumn outcome={outcome} />
+              <FadeIn
+                key={outcome.number}
+                className={`relative grid grid-cols-[3.25rem_1fr] gap-x-4 border-t border-tidal-warm-white px-5 py-7 first:border-t-0 sm:grid-cols-[4rem_1fr] sm:gap-x-6 sm:px-7 sm:py-9 ${outcome.panelBackground}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-y-0 left-0 w-[3px] ${outcome.accent}`}
+                />
+                <div>
+                  <span
+                    className={`flex h-11 w-11 items-center justify-center rounded-full text-tidal-navy ${outcome.iconBackground}`}
+                  >
+                    <outcome.icon className="h-5 w-5" />
+                  </span>
+                  <span className="mt-3 block text-[10px] font-semibold tracking-[0.16em] text-tidal-body/65">
+                    {outcome.number}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl font-semibold tracking-tight text-tidal-navy sm:text-3xl">
+                    {outcome.label}
+                  </h3>
+                  <p className="mt-3 max-w-xl text-base leading-7 text-tidal-body">
+                    {outcome.body}
+                  </p>
+                </div>
               </FadeIn>
             ))}
+            <FadeIn className="mt-8 border-t border-tidal-navy/15 pt-8">
+              <Link
+                href="/services"
+                className="group inline-flex items-center gap-3 text-sm font-semibold tracking-wide text-tidal-navy transition hover:text-tidal-teal"
+              >
+                Explore the operating model
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </FadeIn>
           </FadeInStagger>
         </div>
 
-        {/* Desktop (lg+) — ring flanked by its two side outcomes, third centered below */}
-        <div className="mx-auto mt-16 hidden max-w-5xl lg:grid lg:grid-cols-[1fr_1.1fr_1fr] lg:gap-x-4">
-          <FadeIn className="lg:col-start-1 lg:row-span-2 lg:self-start">
-            <OperatingOutcomeColumn outcome={operatingOutcomes[1]} />
-          </FadeIn>
-
-          <FadeIn className="lg:col-start-2 lg:row-start-1">
-            <OperatingModelRing />
-          </FadeIn>
-
-          <FadeIn className="lg:col-start-3 lg:row-span-2 lg:self-start">
-            <OperatingOutcomeColumn outcome={operatingOutcomes[0]} />
-          </FadeIn>
-
-          <FadeIn className="lg:col-start-2 lg:row-start-2 lg:mt-6">
-            <OperatingOutcomeColumn outcome={operatingOutcomes[2]} centered />
-          </FadeIn>
-        </div>
-
-        {/* Trusted network callout */}
-        <FadeIn className="mt-16 rounded-3xl bg-white p-8 text-center ring-1 ring-tidal-navy/10 sm:p-10">
-          <div className="mx-auto flex max-w-2xl flex-col items-center">
-            <span className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-tidal-navy/8">
-              <PeopleIcon className="h-6 w-6 text-tidal-navy" />
-            </span>
-            <h3 className="mt-5 font-display text-xl font-bold text-tidal-navy">
-              A trusted network, engaged when it matters.
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-tidal-body">
-              We have a vetted network of specialists across finance,
-              HR, technology, legal, operations and more. You never
-              manage multiple firms — we assemble the right expertise
-              and remain your single point of accountability.
-            </p>
-          </div>
-
-          <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-8 border-t border-tidal-navy/10 pt-8 sm:grid-cols-3 sm:gap-6">
-            {trustPoints.map((point) => (
-              <div key={point.text} className="flex flex-col items-center gap-2">
-                <point.icon className="h-5 w-5 flex-none text-tidal-teal" />
-                <p className="text-sm font-semibold text-tidal-navy">
-                  {point.text}
-                </p>
-              </div>
-            ))}
-          </div>
+        <FadeIn className="mt-20 border-y border-tidal-navy/15 py-10 sm:mt-28 sm:py-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-12">
+          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase lg:col-span-2">
+            The Network
+          </p>
+          <h3 className="mt-4 max-w-2xl font-display text-3xl leading-tight font-medium tracking-tight text-tidal-navy sm:text-4xl lg:col-span-4 lg:mt-0">
+            The right expertise, brought in at the right moment.
+          </h3>
+          <p className="mt-6 max-w-2xl text-base leading-7 text-tidal-body lg:col-span-5 lg:col-start-8 lg:mt-1">
+            Your Operating Partner remains accountable. Specialists join for
+            defined work when the situation requires capability beyond the
+            seat—without asking you to manage a collection of firms.
+          </p>
         </FadeIn>
       </Container>
     </div>
@@ -495,88 +371,83 @@ function OperatingModel() {
 
 // ─── Why Tidal Point ──────────────────────────────────────────────────────────
 
+const founderCredentials = [
+  { value: '25+', label: 'Years operating businesses' },
+  { value: '2', label: 'PE-backed CEO roles' },
+  { value: '2', label: 'Companies taken public' },
+]
+
 function WhyTidalPoint() {
   return (
-    <div className="bg-tidal-navy py-24 sm:py-32">
+    <div className="overflow-hidden bg-tidal-navy py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-warm-white">
-            Why Tidal Point
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
-            The seat is only as good as who&rsquo;s in it.
-          </h2>
-          <p className="mt-6 text-lg text-white/80 leading-relaxed">
-            Tidal Point Partners was founded by Jeff Lortz. He&rsquo;s an
-            experienced executive operator who has led two PE-backed
-            companies as CEO and helped take two companies public on Nasdaq.
-            He&rsquo;s guided businesses through acquisitions and rapid
-            growth, and served as a nuclear-qualified Surface Warfare Officer
-            in the U.S. Navy. He&rsquo;s sat in the seat where these
-            decisions get made — not studied it from the outside.
-          </p>
-          <p className="mt-6 text-lg text-white/80 leading-relaxed">
-            Jeff holds the seat himself. What he brings to it is a network
-            built over a career — a vetted group of operators, specialists,
-            and service providers he can pull in when the situation calls
-            for capability beyond his own. You get one accountable partner
-            who knows the business, and the reach of many behind him.
-          </p>
-          <blockquote className="mt-8 border-l-4 border-tidal-teal pl-6">
-            <p className="text-xl italic text-white leading-relaxed">
-              &ldquo;I&rsquo;ve made these calls myself. I know what keeps a
-              CEO up at night — because it kept me up too.&rdquo;
+        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
+          <FadeIn className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Why Tidal Point
             </p>
-            <footer className="mt-3 text-sm font-semibold text-tidal-warm-white">
-              — Jeff Lortz, Founder
-            </footer>
-          </blockquote>
-          <Link
-            href="/about"
-            className="mt-8 inline-flex items-center text-sm font-semibold text-tidal-warm-white hover:text-tidal-warm-white/80"
-          >
-            Read Jeff&rsquo;s full story &rarr;
-          </Link>
-        </FadeIn>
-      </Container>
-    </div>
-  )
-}
+            <h2 className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl lg:text-7xl">
+              The seat is only as good as who&rsquo;s in it.
+            </h2>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/75">
+              Jeff Lortz has led PE-backed companies as CEO, helped take two
+              businesses public, and made the calls that shape growth,
+              leadership and value. He brings that experience directly to
+              your business—not through a junior team or a prescribed
+              playbook.
+            </p>
+            <blockquote className="mt-10 max-w-2xl border-l-2 border-tidal-teal pl-6">
+              <p className="font-display text-2xl leading-snug font-medium text-white sm:text-3xl">
+                &ldquo;I&rsquo;ve made these calls myself. I know what keeps a
+                CEO up at night—because it kept me up too.&rdquo;
+              </p>
+            </blockquote>
+            <Link
+              href="/about"
+              className="group mt-10 inline-flex items-center gap-3 text-sm font-semibold tracking-wide text-white transition hover:text-tidal-teal"
+            >
+              Read Jeff&rsquo;s story
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </FadeIn>
 
-// ─── Perspective ──────────────────────────────────────────────────────────────
+          <FadeIn className="relative mx-auto w-full max-w-md lg:col-span-4 lg:col-start-9">
+            <div className="absolute -top-5 -right-5 h-full w-full border border-tidal-teal/45" />
+            <div className="relative aspect-[4/5] overflow-hidden bg-tidal-navy ring-1 ring-white/10">
+              <Image
+                src="/images/people/jeff-lortz-home.jpg"
+                alt="Jeff Lortz, founder of Tidal Point Partners"
+                fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                className="object-cover object-[63%_50%] saturate-[0.7] contrast-[1.06]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(23,50,77,0.9)_100%)]" />
+              <div className="absolute right-0 bottom-0 left-0 p-6 sm:p-8">
+                <p className="font-display text-2xl font-semibold text-white">
+                  Jeff Lortz
+                </p>
+                <p className="mt-1 text-xs font-semibold tracking-[0.16em] text-white/65 uppercase">
+                  Founder &amp; Operating Partner
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
 
-async function Perspective() {
-  const articles = (await loadArticles()).slice(0, 3)
-
-  return (
-    <div className="bg-tidal-warm-white py-24 sm:py-32">
-      <Container>
-        <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            Perspective
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            A closer look at how we think.
-          </h2>
-        </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
-          {articles.map((article) => (
-            <FadeIn key={article.href}>
-              <Link href={article.href} className="group block border-t-2 border-tidal-teal pt-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-tidal-body">
-                  {formatDate(article.date)}
-                  {article.category ? ` · ${article.category}` : ''}
-                </p>
-                <h3 className="mt-3 font-display text-2xl font-bold text-tidal-navy transition group-hover:text-tidal-teal">
-                  {article.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-tidal-body">
-                  {article.description}
-                </p>
-                <p className="mt-5 text-sm font-semibold text-tidal-teal">
-                  Read the piece &rarr;
-                </p>
-              </Link>
+        <FadeInStagger className="mt-16 grid grid-cols-1 border-y border-white/15 sm:mt-24 sm:grid-cols-3">
+          {founderCredentials.map((credential) => (
+            <FadeIn
+              key={credential.label}
+              className="border-t border-white/15 py-7 first:border-t-0 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 sm:first:border-l-0 sm:first:pl-0"
+            >
+              <p className="font-display text-4xl font-medium text-white sm:text-5xl">
+                {credential.value}
+              </p>
+              <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-white/55 uppercase">
+                {credential.label}
+              </p>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -585,32 +456,171 @@ async function Perspective() {
   )
 }
 
+// ─── Perspective ──────────────────────────────────────────────────────────────
+
+async function Perspective() {
+  const [article] = await loadArticles()
+
+  if (!article) return null
+
+  return (
+    <div className="bg-tidal-warm-white py-20 sm:py-28 lg:py-32">
+      <Container>
+        <FadeIn className="flex flex-col gap-7 border-b border-tidal-navy/15 pb-10 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Perspective
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-none font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              A closer look at how we think.
+            </h2>
+          </div>
+          <Link
+            href="/articles"
+            className="group inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-tidal-navy transition hover:text-tidal-teal"
+          >
+            View all perspectives
+            <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+              &rarr;
+            </span>
+          </Link>
+        </FadeIn>
+
+        <FadeIn className="mt-12 lg:mt-16">
+          <article className="group grid overflow-hidden bg-white ring-1 ring-tidal-navy/10 lg:grid-cols-12">
+            <Link
+              href={article.href}
+              className="relative block min-h-[18rem] overflow-hidden lg:col-span-7 lg:min-h-[29rem]"
+              aria-label={`Read ${article.title}`}
+            >
+              <Image
+                src={article.featuredImage ?? '/tidal-point-home-featured.jpg'}
+                alt="Business leaders in discussion around a table"
+                fill
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="object-cover object-center saturate-[0.72] contrast-[1.04] transition duration-700 ease-out group-hover:scale-[1.015]"
+              />
+              <div className="absolute inset-0 bg-tidal-navy/10 mix-blend-multiply" />
+            </Link>
+
+            <div className="flex flex-col justify-between p-7 sm:p-10 lg:col-span-5 lg:p-12 xl:p-14">
+              <div>
+                <p className="text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+                  {article.category ?? 'Perspective'}
+                  <span className="px-2 text-tidal-navy/25">/</span>
+                  {formatDate(article.date)}
+                </p>
+                <h3 className="mt-6 max-w-lg font-display text-4xl leading-[1.06] font-medium tracking-tight text-tidal-navy sm:text-5xl">
+                  <Link
+                    href={article.href}
+                    className="transition group-hover:text-tidal-teal"
+                  >
+                    {article.title}
+                  </Link>
+                </h3>
+                <p className="mt-6 max-w-lg text-base leading-7 text-tidal-body">
+                  {article.description}
+                </p>
+              </div>
+              <Link
+                href={article.href}
+                className="mt-10 inline-flex items-center gap-3 border-t border-tidal-navy/15 pt-7 text-sm font-semibold tracking-wide text-tidal-navy transition group-hover:text-tidal-teal"
+              >
+                Read the perspective
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </div>
+          </article>
+        </FadeIn>
+      </Container>
+    </div>
+  )
+}
+
 // ─── How It Begins ────────────────────────────────────────────────────────────
+
+const beginningSteps = [
+  {
+    number: '01',
+    title: 'An Introductory Conversation',
+    body: 'We begin with a substantive conversation about the business—its ambitions, its context and the questions carrying the most consequence.',
+  },
+  {
+    number: '02',
+    title: 'A Shared Perspective',
+    body: 'We offer an experienced point of view on what we hear, where the greatest leverage may be and what deserves attention first.',
+  },
+  {
+    number: '03',
+    title: 'A Way Forward',
+    body: 'Together, we agree on the priorities, the role Tidal Point should play and how the partnership can create the most value.',
+  },
+]
 
 function HowItBegins() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            How It Begins
+        <FadeIn className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              How It Begins
+            </p>
+            <h2 className="mt-5 max-w-2xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              A thoughtful beginning. A shared path forward.
+            </h2>
+          </div>
+          <p className="max-w-xl self-end text-lg leading-8 text-tidal-body lg:col-span-5 lg:col-start-8 lg:pb-1">
+            The first conversation should be valuable in its own right. We
+            listen carefully, bring a point of view and decide together
+            whether there is a meaningful path forward.
           </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-            A conversation, then a clear read, then a scope that fits.
-          </h2>
-          <p className="mt-6 text-lg text-tidal-body leading-relaxed">
-            It starts with a conversation about the business and
-            what&rsquo;s in the way. From there, a structured look at where
-            the real leverage is — and if it makes sense to work together,
-            an engagement scoped to your situation, not a package off a
-            shelf. You&rsquo;ll see progress inside the first ninety days.
-          </p>
-          <div className="mt-10">
+        </FadeIn>
+
+        <FadeInStagger className="relative mt-16 grid grid-cols-1 sm:mt-20 lg:grid-cols-3">
+          <span
+            aria-hidden="true"
+            className="absolute top-[0.45rem] right-0 left-0 hidden h-px bg-tidal-navy/20 lg:block"
+          />
+          {beginningSteps.map((step) => (
+            <FadeIn
+              key={step.number}
+              className="relative border-l border-tidal-navy/20 pb-11 pl-8 last:pb-0 lg:border-l-0 lg:px-8 lg:pb-0 lg:first:pl-0 lg:last:pr-0"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute top-0 -left-[0.3rem] h-2.5 w-2.5 rounded-full bg-tidal-teal ring-8 ring-white lg:left-0"
+              />
+              <p className="text-xs font-semibold tracking-[0.16em] text-tidal-teal lg:pt-8">
+                {step.number}
+              </p>
+              <h3 className="mt-4 font-display text-3xl font-semibold tracking-tight text-tidal-navy sm:text-4xl">
+                {step.title}
+              </h3>
+              <p className="mt-4 max-w-md text-base leading-7 text-tidal-body">
+                {step.body}
+              </p>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+
+        <FadeIn className="mt-16 grid items-center gap-8 border-y border-tidal-navy/15 bg-tidal-warm-white px-6 py-9 sm:mt-24 sm:px-10 sm:py-11 lg:grid-cols-12 lg:px-12">
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              The Partnership
+            </p>
+            <p className="mt-3 font-display text-3xl leading-tight font-medium text-tidal-navy sm:text-4xl">
+              Clear expectations. Shared priorities. One accountable partner.
+            </p>
+          </div>
+          <div className="lg:col-span-4 lg:col-start-9 lg:text-right">
             <Link
               href="/contact"
-              className="inline-flex items-center rounded-md bg-tidal-navy px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase shadow transition hover:bg-tidal-navy/90"
+              className="inline-flex items-center bg-tidal-navy px-7 py-3.5 text-sm font-semibold tracking-[0.1em] text-white uppercase transition hover:bg-tidal-navy/90"
             >
-              Schedule a Conversation
+              Begin a Conversation
             </Link>
           </div>
         </FadeIn>
