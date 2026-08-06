@@ -63,7 +63,10 @@ export function getOrganizationSchema() {
         email: 'info@tidalpointpartners.com',
         telephone: '+1-774-203-4525',
         sameAs: [
-          // Add confirmed company social profile URLs as they go live.
+          'https://www.linkedin.com/company/tidal-point-partners',
+          'https://x.com/tidalpointpart',
+          'https://www.facebook.com/people/Tidal-Point-Partners',
+          'https://www.instagram.com/tidalpointpartners/',
         ],
       },
     ],

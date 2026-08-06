@@ -61,9 +61,6 @@ function InstagramIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-// LinkedIn, X, Facebook, and Instagram hrefs are placeholders ("#") pending
-// real profile URLs from the client. Replace with real links before this
-// goes live — do not leave "#" in production.
 export const socialMediaProfiles: {
   title: string
   href: string
@@ -71,10 +68,22 @@ export const socialMediaProfiles: {
 }[] = [
   { title: 'Email Us', href: 'mailto:info@tidalpointpartners.com', icon: EmailIcon },
   { title: 'Call Us', href: 'tel:+17742034525', icon: PhoneIcon },
-  { title: 'LinkedIn', href: '#', icon: LinkedInIcon },
-  { title: 'X', href: '#', icon: XIcon },
-  { title: 'Facebook', href: '#', icon: FacebookIcon },
-  { title: 'Instagram', href: '#', icon: InstagramIcon },
+  {
+    title: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/tidal-point-partners',
+    icon: LinkedInIcon,
+  },
+  { title: 'X', href: 'https://x.com/tidalpointpart', icon: XIcon },
+  {
+    title: 'Facebook',
+    href: 'https://www.facebook.com/people/Tidal-Point-Partners',
+    icon: FacebookIcon,
+  },
+  {
+    title: 'Instagram',
+    href: 'https://www.instagram.com/tidalpointpartners/',
+    icon: InstagramIcon,
+  },
 ]
 
 export function SocialMedia({
