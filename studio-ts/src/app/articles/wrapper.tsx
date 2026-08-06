@@ -179,7 +179,7 @@ export default async function ArticleWrapper({
                   </div>
                 </div>
 
-                <div className="relative min-h-[16rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[29rem]">
+                <div className="relative aspect-video overflow-hidden">
                   <Image
                     src={article.featuredImage}
                     alt={article.featuredImageAlt}
@@ -188,9 +188,6 @@ export default async function ArticleWrapper({
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-tidal-navy/35 mix-blend-multiply" />
-                  <div className="absolute inset-0 bg-tidal-teal/15 mix-blend-color" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-tidal-navy/35 via-transparent to-tidal-navy/10 lg:bg-gradient-to-r lg:from-tidal-navy/30 lg:via-transparent lg:to-tidal-navy/10" />
                 </div>
               </div>
             </FadeIn>

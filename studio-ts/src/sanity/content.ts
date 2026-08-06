@@ -25,6 +25,7 @@ export interface ArticleSummary {
   href: string
   featuredImage: string
   featuredImageAlt: string
+  featured: boolean
 }
 
 export interface ArticleDocument extends ArticleSummary {
@@ -68,7 +69,8 @@ const summaryProjection = `{
   "category": category->title,
   "href": "/articles/" + slug.current,
   "featuredImageSource": featuredImage,
-  "featuredImageAlt": featuredImage.alt
+  "featuredImageAlt": featuredImage.alt,
+  "featured": coalesce(featured, false)
 }`
 
 export async function getArticles(): Promise<ArticleSummary[]> {
@@ -80,7 +82,7 @@ export async function getArticles(): Promise<ArticleSummary[]> {
   return articles.map(({featuredImageSource, ...article}) => ({
     ...article,
     date: article.date.slice(0, 10),
-    featuredImage: imageUrl(featuredImageSource, 1200, 900),
+    featuredImage: imageUrl(featuredImageSource, 1200, 675),
   }))
 }
 
@@ -129,7 +131,7 @@ export async function getArticle(slug: string): Promise<ArticleDocument | null> 
   return {
     ...rest,
     date: rest.date.slice(0, 10),
-    featuredImage: imageUrl(featuredImageSource, 1600, 1200),
+    featuredImage: imageUrl(featuredImageSource, 1600, 900),
     socialImage: socialImageSource ? imageUrl(socialImageSource, 1200, 630) : undefined,
     author: {
       ...author,

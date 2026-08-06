@@ -4,11 +4,12 @@ import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
+import { ArticleCarousel } from '@/components/ArticleCarousel'
 import { RootLayout } from '@/components/RootLayout'
 import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
 import { OperatingModelRing } from '@/components/OperatingModelRing'
 import { formatDate } from '@/lib/formatDate'
-import { loadArticles } from '@/lib/mdx'
+import { getArticles } from '@/sanity/content'
 
 export const metadata: Metadata = {
   title: {
@@ -441,9 +442,14 @@ function WhyTidalPoint() {
 // ─── Perspective ──────────────────────────────────────────────────────────────
 
 async function Perspective() {
-  const [article] = await loadArticles()
+  const articles = await getArticles()
+  const article = articles.find((item) => item.featured) ?? articles[0]
 
   if (!article) return null
+
+  const recentArticles = articles
+    .filter((item) => item._id !== article._id)
+    .slice(0, 3)
 
   return (
     <div className="bg-tidal-warm-white py-20 sm:py-28 lg:py-32">
@@ -477,12 +483,11 @@ async function Perspective() {
             >
               <Image
                 src={article.featuredImage ?? '/tidal-point-home-featured.jpg'}
-                alt="Business leaders in discussion around a table"
+                alt={article.featuredImageAlt}
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"
-                className="object-cover object-center saturate-[0.72] contrast-[1.04] transition duration-700 ease-out group-hover:scale-[1.015]"
+                className="object-cover object-center transition duration-700 ease-out group-hover:scale-[1.015]"
               />
-              <div className="absolute inset-0 bg-tidal-navy/10 mix-blend-multiply" />
             </Link>
 
             <div className="flex flex-col justify-between p-7 sm:p-10 lg:col-span-5 lg:p-12 xl:p-14">
@@ -516,6 +521,12 @@ async function Perspective() {
             </div>
           </article>
         </FadeIn>
+
+        {recentArticles.length > 0 && (
+          <FadeIn className="mt-8 lg:mt-10">
+            <ArticleCarousel articles={recentArticles} />
+          </FadeIn>
+        )}
       </Container>
     </div>
   )

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '@/components/Container'
-import { FadeIn } from '@/components/FadeIn'
+import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
 import { formatDate } from '@/lib/formatDate'
 import { getArticles } from '@/sanity/content'
@@ -48,6 +48,8 @@ function ArticlesCTA() {
 
 export default async function Articles() {
   const articles = await getArticles()
+  const featuredArticle = articles.find((article) => article.featured) ?? articles[0]
+  const remainingArticles = articles.filter((article) => article._id !== featuredArticle?._id)
 
   return (
     <RootLayout>
@@ -72,54 +74,98 @@ export default async function Articles() {
 
       <section className="bg-tidal-warm-white py-10 sm:py-12 lg:py-14">
         <Container>
-          <div className="space-y-10 sm:space-y-12 lg:space-y-8">
-            {articles.map((article) => (
-              <FadeIn key={article.href}>
-                <article className="grid gap-7 border-b border-tidal-navy/15 pb-10 sm:pb-12 lg:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)] lg:items-center lg:gap-12 lg:pb-8">
-                  {article.featuredImage && (
+          {featuredArticle && (
+            <FadeIn>
+              <article className="group grid overflow-hidden bg-white ring-1 ring-tidal-navy/10 lg:grid-cols-12">
+                <Link
+                  href={featuredArticle.href}
+                  className="relative block aspect-video overflow-hidden bg-tidal-navy lg:col-span-7 lg:self-center"
+                  aria-label={`Read ${featuredArticle.title}`}
+                >
+                  <Image
+                    src={featuredArticle.featuredImage}
+                    alt={featuredArticle.featuredImageAlt}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                    className="object-cover transition duration-700 ease-out group-hover:scale-[1.015]"
+                  />
+                </Link>
+
+                <div className="flex flex-col justify-between p-7 sm:p-10 lg:col-span-5 lg:p-12">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-semibold tracking-[0.16em] uppercase">
+                      {featuredArticle.category && (
+                        <span className="text-tidal-teal">{featuredArticle.category}</span>
+                      )}
+                      <span className="text-tidal-light">{formatDate(featuredArticle.date)}</span>
+                    </div>
+                    <h2 className="mt-5 max-w-[18ch] font-display text-4xl leading-[1.03] font-semibold tracking-[-0.025em] text-tidal-navy sm:text-5xl">
+                      <Link href={featuredArticle.href} className="transition group-hover:text-tidal-teal">
+                        {featuredArticle.title}
+                      </Link>
+                    </h2>
+                    <p className="mt-5 max-w-xl text-base leading-7 text-tidal-body">
+                      {featuredArticle.description}
+                    </p>
+                  </div>
+                  <Link
+                    href={featuredArticle.href}
+                    className="mt-8 inline-flex items-center border-t border-tidal-navy/15 pt-6 text-sm font-semibold text-tidal-navy transition group-hover:text-tidal-teal"
+                  >
+                    Read the featured article <span className="ml-3" aria-hidden="true">&rarr;</span>
+                  </Link>
+                </div>
+              </article>
+            </FadeIn>
+          )}
+
+          {remainingArticles.length > 0 && (
+            <FadeInStagger className="mt-12 grid gap-x-8 gap-y-12 border-t border-tidal-navy/15 pt-10 md:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:pt-12">
+              {remainingArticles.map((article) => (
+                <FadeIn key={article.href}>
+                  <article className="group flex h-full flex-col">
                     <Link
                       href={article.href}
-                      className="group relative block aspect-[4/3] overflow-hidden bg-tidal-navy lg:h-52 lg:aspect-auto"
+                      className="relative block aspect-video overflow-hidden bg-tidal-navy"
                       aria-label={`Read ${article.title}`}
                     >
                       <Image
                         src={article.featuredImage}
-                        alt="A small leadership team working through a business decision"
+                        alt={article.featuredImageAlt}
                         fill
-                        sizes="(min-width: 1024px) 36vw, 100vw"
-                        className="object-cover grayscale contrast-[1.05] brightness-[0.78] transition duration-700 group-hover:scale-[1.025]"
+                        sizes="(min-width: 1024px) 31vw, (min-width: 768px) 48vw, 100vw"
+                        className="object-cover transition duration-700 ease-out group-hover:scale-[1.025]"
                       />
-                      <div className="absolute inset-0 bg-tidal-navy/70 mix-blend-color transition group-hover:bg-tidal-navy/60" />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-tidal-navy/45 via-transparent to-tidal-teal/20" />
                     </Link>
-                  )}
 
-                  <div>
+                    <div className="flex flex-1 flex-col pt-6">
                     <div className="flex flex-wrap items-center gap-3 text-xs font-semibold tracking-[0.16em] uppercase">
                       {article.category && (
                         <span className="text-tidal-teal">{article.category}</span>
                       )}
                       <span className="text-tidal-light">{formatDate(article.date)}</span>
                     </div>
-                    <h2 className="mt-4 max-w-[20ch] font-display text-3xl leading-[1.05] font-semibold tracking-[-0.02em] text-tidal-navy sm:text-4xl">
+                      <h2 className="mt-4 max-w-[20ch] font-display text-3xl leading-[1.05] font-semibold tracking-[-0.02em] text-tidal-navy">
                       <Link href={article.href} className="transition hover:text-tidal-teal">
                         {article.title}
                       </Link>
                     </h2>
-                    <p className="mt-4 max-w-xl text-[0.95rem] leading-7 text-tidal-body">
+                      <p className="mt-4 text-[0.95rem] leading-7 text-tidal-body">
                       {article.description}
                     </p>
                     <Link
                       href={article.href}
-                      className="mt-5 inline-flex items-center text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+                        className="mt-auto inline-flex items-center pt-6 text-sm font-semibold text-tidal-navy transition group-hover:text-tidal-teal"
                     >
                       Read the article <span className="ml-3" aria-hidden="true">&rarr;</span>
                     </Link>
-                  </div>
-                </article>
-              </FadeIn>
-            ))}
-          </div>
+                    </div>
+                  </article>
+                </FadeIn>
+              ))}
+            </FadeInStagger>
+          )}
         </Container>
       </section>
 
