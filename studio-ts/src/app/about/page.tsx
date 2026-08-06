@@ -1,590 +1,371 @@
 import { type Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
-import { type MDXEntry, type Article, loadArticles } from '@/lib/mdx'
-import { getPersonSchema } from '../schema'
 
 export const metadata: Metadata = {
-  title: 'About Jeff Lortz',
+  title: 'About Tidal Point Partners',
   description:
-    'Meet Jeff Lortz: former PE-backed SaaS CEO with 25+ years operating experience and US Navy Surface Warfare Officer background. Your operating partner for Southeastern Massachusetts business growth.',
+    'Meet the experienced Operating Partners and specialist network behind Tidal Point Partners, serving privately held businesses across Southeastern New England.',
+  alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About Jeff Lortz - Tidal Point Partners',
+    title: 'About Tidal Point Partners',
     description:
-      'Learn about Jeff Lortz, founder of Tidal Point Partners. Ex-PE CEO with deep operating experience helping owner-led businesses scale.',
+      'Experienced Operating Partners bringing judgment, accountability and broader capability to privately held businesses at pivotal moments.',
+    url: '/about',
     type: 'website',
   },
 }
 
-// ─── Section 1: Hero ─────────────────────────────────────────────────────────
+const principles = [
+  {
+    number: '01',
+    title: 'Judgment before frameworks',
+    body: 'Every situation starts with the business in front of us—not a predetermined answer.',
+  },
+  {
+    number: '02',
+    title: 'Candor with respect',
+    body: 'The partnership must be honest enough to surface what matters and trusted enough to act on it.',
+  },
+  {
+    number: '03',
+    title: 'Accountability through action',
+    body: 'Good advice is not the finish line. We remain involved as decisions become operating reality.',
+  },
+  {
+    number: '04',
+    title: 'Capability without complexity',
+    body: 'The right specialist joins when needed while one Operating Partner retains ownership of the relationship.',
+  },
+]
 
-const heroStats = [
-  { number: '25+', label: 'Years Operating Experience' },
-  { number: '2', label: 'PE-Backed CEO Roles' },
-  { number: '2', label: 'Nasdaq\nIPOs' },
+const networkAreas = [
+  'Finance & performance',
+  'People & leadership',
+  'Commercial growth',
+  'Technology & systems',
+  'Operations & process',
+  'Legal, risk & transactions',
 ]
 
 function Hero() {
   return (
-    <div className="bg-white py-16 sm:py-24">
+    <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            About Jeff Lortz &middot; Founder
+        <FadeIn className="max-w-5xl">
+          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+            About Tidal Point Partners
           </p>
-          <h1 className="mt-4 font-display text-5xl font-bold tracking-tight text-tidal-navy sm:text-7xl">
-            He&rsquo;s actually been{' '}
-            <em className="not-italic italic text-tidal-teal">in the seat.</em>
+          <h1 className="mt-6 max-w-5xl font-display text-5xl leading-[0.98] font-medium tracking-tight text-tidal-navy sm:text-7xl lg:text-8xl">
+            Experienced operators for the moments that shape a business.
           </h1>
-          <p className="mt-6 max-w-2xl text-xl text-tidal-body leading-relaxed">
-            PE-backed CEO. COO. CCO. Nuclear-qualified Navy Surface Warfare
-            Officer. Member of an IPO leadership team. Jeff has done the work
-            most business coaches only read about — and now brings that
-            operating experience to Southeastern Massachusetts businesses that
-            have earned it.
+          <p className="mt-8 max-w-2xl text-xl leading-9 text-tidal-body">
+            Tidal Point brings senior operating judgment, direct accountability
+            and broader capability to privately held businesses navigating
+            consequential change.
           </p>
-          <dl className="mt-12 grid grid-cols-3 gap-8 border-t border-tidal-navy/10 pt-12 sm:max-w-lg">
-            {heroStats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="whitespace-pre-line text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-                  {stat.label}
-                </dt>
-                <dd className="mt-2 font-display text-4xl font-bold text-tidal-navy">
-                  {stat.number}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </FadeIn>
       </Container>
-    </div>
+    </section>
   )
 }
 
-// ─── Section 2: Why Tidal Point ───────────────────────────────────────────────
-
-function WhyTidalPoint() {
+function Purpose() {
   return (
-    <div className="bg-white pb-24 sm:pb-32">
+    <section className="bg-white py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            Why Tidal Point
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
-            The moments that shape a business rarely announce themselves in
-            advance.
-          </h2>
-          <div className="mt-6 space-y-6 text-lg leading-relaxed text-tidal-body">
-            <p>
-              A tidal point is where forces meet and the current begins to
-              change. What worked before may no longer carry you forward, and
-              direction matters more than speed.
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <FadeIn className="lg:col-span-5">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Why Tidal Point
             </p>
-            <p>Businesses reach tidal points too.</p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              Direction matters most when the current begins to change.
+            </h2>
+          </FadeIn>
+          <FadeIn className="space-y-6 text-lg leading-8 text-tidal-body lg:col-span-6 lg:col-start-7">
             <p>
-              Growth creates complexity. The company becomes too dependent on
-              its owner. Leadership needs change. A transition, acquisition,
-              or new ambition raises the stakes. The business may still be
-              healthy, but the path ahead is no longer obvious.
+              A tidal point is where forces meet and familiar currents begin
+              to shift. Businesses reach those moments too: growth creates
+              complexity, leadership must evolve, or a transition raises the
+              consequence of every decision.
             </p>
             <p>
-              I created Tidal Point because owners should not have to
-              navigate those moments alone.
+              Tidal Point was created so owners and leadership teams do not
+              have to navigate those moments alone. We place an experienced
+              Operating Partner alongside the people carrying the
+              responsibility—someone who understands the whole business,
+              helps make the difficult calls and stays as decisions become
+              action.
             </p>
-            <p>
-              Over a career spent leading companies through growth, change,
-              and pivotal decisions, I have seen the value of having an
-              experienced operator beside the person carrying the
-              responsibility. Not another consultant with a predefined
-              answer, but a trusted partner who understands the whole
-              business, helps make the difficult calls, and stays involved
-              as those decisions become action.
+            <p className="border-l-2 border-tidal-teal pl-6 font-display text-2xl leading-snug font-medium text-tidal-navy sm:text-3xl">
+              Experienced partnership for pivotal points in the life of a
+              business.
             </p>
-            <p>
-              Private equity firms have long understood the value of an
-              Operating Partner — an experienced executive who brings
-              judgment, accountability, and broader capability to the
-              businesses they support. Most privately held companies have
-              never had access to that kind of relationship.
+          </FadeIn>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+function FirmModel() {
+  return (
+    <section className="bg-tidal-navy py-20 sm:py-28 lg:py-36">
+      <Container>
+        <FadeIn className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              How the Firm Is Built
             </p>
-            <p>Tidal Point exists to provide it.</p>
+            <h2 className="mt-5 max-w-2xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl">
+              One accountable partner. Broader capability behind the seat.
+            </h2>
           </div>
-        </FadeIn>
-
-        <FadeIn className="mt-16 border-t border-tidal-navy/10 pt-10 sm:mt-20 sm:pt-12">
-          <p className="max-w-2xl font-display text-xl text-tidal-navy">
-            My career has prepared me for exactly those moments.
+          <p className="max-w-xl self-end text-lg leading-8 text-white/70 lg:col-span-5 lg:col-start-8">
+            Every relationship is led by an experienced Operating Partner who
+            knows the business and remains accountable. A trusted specialist
+            network extends the work when the situation requires additional
+            depth.
           </p>
         </FadeIn>
-      </Container>
-    </div>
-  )
-}
 
-// ─── Section 3: The Story ────────────────────────────────────────────────────
-
-function TheStory() {
-  return (
-    <div className="bg-tidal-sand py-24 sm:py-32">
-      <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            The Story
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
-            From warships to boardrooms to{' '}
-            <em className="not-italic italic text-tidal-teal">your business.</em>
-          </h2>
-        </FadeIn>
-        <FadeInStagger className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start">
-          <FadeIn>
-            <h3 className="font-display text-xl font-bold text-tidal-navy">
-              The Navy &amp; Enterprise Years
+        <FadeInStagger className="mt-16 grid border-y border-white/15 lg:mt-20 lg:grid-cols-2">
+          <FadeIn className="py-10 lg:pr-14 lg:py-12">
+            <p className="text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+              Operating Partners
+            </p>
+            <h3 className="mt-5 font-display text-3xl font-medium text-white sm:text-4xl">
+              Senior executives in the relationship.
             </h3>
-            <p className="mt-4 text-base leading-relaxed text-tidal-body">
-              Jeff&rsquo;s operating career started on the bridge of a
-              nuclear-powered surface ship — where the cost of a bad decision
-              wasn&rsquo;t a missed quarter. Eight years as a US Navy Surface Warfare
-              Officer instilled a permanent belief: systems matter, standards
-              matter, and leadership means owning outcomes, not just activities.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-tidal-body">
-              After the Navy, he spent over two decades in enterprise technology
-              — PTC, BMC, BladeLogic, Pegasystems, Acoustic, TOMIA, and
-              Everbridge, where he was part of the leadership team through the
-              company&rsquo;s Nasdaq IPO. COO, CCO, Chief of Staff, SVP. He has
-              managed P&amp;Ls under PE pressure, rebuilt sales organizations, and
-              led teams through acquisitions.
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/65">
+              Operating Partners bring firsthand leadership experience,
+              independent judgment and direct accountability to the work.
+              They are not intermediaries between the client and the people
+              making the decisions.
             </p>
           </FadeIn>
-          <FadeIn>
-            <h3 className="font-display text-xl font-bold text-tidal-navy">
-              The CEO Chapter &amp; Why Plymouth
+          <FadeIn className="border-t border-white/15 py-10 lg:border-t-0 lg:border-l lg:py-12 lg:pl-14">
+            <p className="text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+              Specialist Network
+            </p>
+            <h3 className="mt-5 font-display text-3xl font-medium text-white sm:text-4xl">
+              Focused expertise at the right moment.
             </h3>
-            <p className="mt-4 text-base leading-relaxed text-tidal-body">
-              Jeff&rsquo;s most formative experiences came as PE-backed CEO at
-              ProcessMaker and Fastr Corp — where the margin for error was thin,
-              the investors had opinions, and every decision was his to make.
-              He&rsquo;s made the mistakes. He&rsquo;s also made the right calls. Both
-              inform how he works with clients.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-tidal-body">
-              Now he lives in Plymouth with his family — coaching youth sports
-              on weekends, eating at the same restaurants, driving the same
-              roads as the business leaders he works with. Tidal Point
-              Partners isn&rsquo;t a remote consultancy. It&rsquo;s a local operating
-              partnership built by someone invested in this region.
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/65">
+              Functional specialists join for clearly defined needs. The
+              Operating Partner coordinates their contribution and retains
+              ownership of the relationship, priorities and outcomes.
             </p>
           </FadeIn>
         </FadeInStagger>
       </Container>
-    </div>
+    </section>
   )
 }
 
-// ─── Section 4: Career Timeline ──────────────────────────────────────────────
-
-const timeline = [
-  {
-    period: '2025 – Present',
-    company: 'Tidal Point Partners',
-    tag: 'Founder',
-    tagColor: 'bg-tidal-teal text-white',
-    role: 'Founder & Principal Advisor',
-    description:
-      'Business advisory and executive coaching for privately held businesses across the South Shore, South Coast, and Cape Cod.',
-  },
-  {
-    period: '2022 – 2024',
-    company: 'Fastr Corp',
-    tag: 'PE-Backed CEO',
-    tagColor: 'bg-tidal-teal text-white',
-    role: 'Chief Executive Officer',
-    description:
-      'Full P&L ownership, board management, GTM strategy, and investor relations at a PE-backed SaaS company.',
-  },
-  {
-    period: '2019 – 2022',
-    company: 'ProcessMaker',
-    tag: 'PE-Backed CEO',
-    tagColor: 'bg-tidal-teal text-white',
-    role: 'Chief Executive Officer',
-    description:
-      'Led product repositioning, GTM rebuild, and international expansion at a PE-backed BPM SaaS platform.',
-  },
-  {
-    period: '2016 – 2019',
-    company: 'Everbridge',
-    tag: 'Nasdaq IPO',
-    tagColor: 'bg-tidal-teal text-white',
-    role: 'Chief Customer Officer / SVP Operations',
-    description:
-      "Leadership team member through Everbridge's Nasdaq IPO (EVBG). Customer success, professional services, global operations.",
-  },
-  {
-    period: '2014 – 2016',
-    company: 'Acoustic / IBM Watson Marketing',
-    tag: 'Enterprise',
-    tagColor: 'bg-tidal-navy text-white',
-    role: 'Chief of Staff / VP Operations',
-    description:
-      'Chief of Staff to the CEO at a major marketing technology platform. Strategic initiatives, operational discipline, cross-functional execution.',
-  },
-  {
-    period: '1998 – 2014',
-    company: 'PTC · BMC · Pegasystems · TOMIA · BladeLogic',
-    tag: 'Enterprise',
-    tagColor: 'bg-tidal-navy text-white',
-    role: 'Senior Operating Roles — COO, CCO, SVP',
-    description:
-      '15+ years across enterprise software. Led global teams, rebuilt revenue organizations, managed through acquisitions.',
-  },
-  {
-    period: '1990 – 1998',
-    company: 'United States Navy',
-    tag: 'Military',
-    tagColor: 'bg-slate-700 text-white',
-    role: 'Surface Warfare Officer — Nuclear Qualified',
-    description:
-      'Eight years commissioned service. Nuclear qualified. The foundational leadership experience that shaped everything after.',
-  },
-]
-
-function CareerTimeline() {
+function OperatingPartners() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <section id="operating-partners" className="scroll-mt-24 bg-tidal-warm-white py-20 sm:py-28 lg:py-36">
       <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            Career History
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
-            25+ years operating{' '}
-            <em className="not-italic italic text-tidal-teal">
-              at the highest levels.
-            </em>
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg text-tidal-body">
-            The full arc — from naval service to PE-backed CEO — now applied to
-            Southeastern Massachusetts businesses.
+        <FadeIn className="flex flex-col gap-6 border-b border-tidal-navy/15 pb-10 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Our Operating Partners
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-none font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              Experience in the seat.
+            </h2>
+          </div>
+          <p className="max-w-md text-base leading-7 text-tidal-body">
+            Each relationship is personal, senior-led and grounded in
+            firsthand operating experience.
           </p>
         </FadeIn>
-        <FadeInStagger className="mt-16">
-          {timeline.map((entry, i) => (
-            <FadeIn key={i}>
-              <div className="flex gap-6 border-t border-tidal-navy/10 py-8">
-                <div className="w-32 shrink-0 pt-1 text-sm font-semibold text-tidal-light">
-                  {entry.period}
-                </div>
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="font-display text-lg font-bold text-tidal-navy">
-                      {entry.company}
-                    </span>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${entry.tagColor}`}
-                    >
-                      {entry.tag}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm font-semibold text-tidal-teal">
-                    {entry.role}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-tidal-body">
-                    {entry.description}
-                  </p>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-      </Container>
-    </div>
-  )
-}
 
-// ─── Section 5: Operating Philosophy ─────────────────────────────────────────
-
-const principles = [
-  {
-    title: 'Systems Over Heroics',
-    body: "Great organizations don't depend on heroic effort. They have systems that work consistently — so when a crisis hits, the response is disciplined, not improvised.",
-  },
-  {
-    title: 'Standards Are Binary',
-    body: "A standard that isn't enforced isn't a standard. Tolerance for exceptions creates cultures where exceptions become the norm.",
-  },
-  {
-    title: 'Accountability Without Blame',
-    body: 'After-action reviews — honest analysis of what happened and why, without witch hunts. Learn from mistakes without destroying people.',
-  },
-  {
-    title: 'Lead Through Others',
-    body: "A leader personally executing every critical task isn't leading — they're a single point of failure. Jeff works with leaders to stop being that.",
-  },
-]
-
-function OperatingPhilosophy() {
-  return (
-    <div className="bg-tidal-navy py-24 sm:py-32">
-      <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-warm-white">
-            What the Navy Taught Him
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            The lessons that{' '}
-            <em className="not-italic italic text-tidal-teal">
-              don&rsquo;t leave you.
-            </em>
-          </h2>
-          <p className="mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            Eight years commanding nuclear-powered ships taught Jeff things about
-            leadership and operational discipline that no MBA covers. The same
-            principles that applied on the bridge apply in a $20M business in
-            New Bedford. Context changes. Fundamentals don&rsquo;t.
-          </p>
-        </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {principles.map((p) => (
-            <FadeIn key={p.title}>
-              <div className="rounded-2xl bg-white/5 p-8 ring-1 ring-white/10">
-                <h3 className="font-display text-xl font-bold text-tidal-warm-white">
-                  {p.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-white/80">
-                  {p.body}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-      </Container>
-    </div>
-  )
-}
-
-// ─── Section 6: Credentials ───────────────────────────────────────────────────
-
-const credentials = [
-  {
-    title: 'MBA — University of Rhode Island',
-    body: 'Graduate business education with a regional focus.',
-  },
-  {
-    title: 'BS Mechanical Engineering — UNH',
-    body: "An engineer's mindset: systematic, evidence-based, intolerant of solutions that don't actually work.",
-  },
-  {
-    title: 'Certified Executive Coach — FocalPoint',
-    body: "Brian Tracy's FocalPoint methodology — one of the most established frameworks in executive coaching.",
-  },
-  {
-    title: 'Certified Business Coach — FocalPoint',
-    body: 'Dual certification covering executive coaching and business performance advisory.',
-  },
-  {
-    title: 'US Navy Surface Warfare Officer — Nuclear',
-    body: 'Eight years commissioned service. The foundation of everything that came after.',
-  },
-  {
-    title: 'Plymouth, MA Resident',
-    body: 'Not a remote consultant. A neighbor invested in this region and the businesses that define it.',
-  },
-]
-
-function Credentials() {
-  return (
-    <div className="bg-tidal-sand py-24 sm:py-32">
-      <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            Credentials &amp; Roots
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
-            South Shore roots.{' '}
-            <em className="not-italic italic text-tidal-teal">
-              Enterprise discipline.
-            </em>
-          </h2>
-          <p className="mt-6 max-w-2xl text-lg text-tidal-body leading-relaxed">
-            Southeastern Massachusetts has an extraordinary concentration of
-            privately held businesses that have built real things over real time.
-            These businesses deserve enterprise-grade operating discipline. They
-            just haven&rsquo;t had access to it. That&rsquo;s the gap Tidal Point
-            Partners was built to close.
-          </p>
-        </FadeIn>
-        <FadeInStagger className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {credentials.map((cred) => (
-            <FadeIn key={cred.title}>
-              <div className="rounded-2xl bg-white p-6 ring-1 ring-tidal-navy/10">
-                <h3 className="font-display text-base font-bold text-tidal-navy">
-                  {cred.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-tidal-body">
-                  {cred.body}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-      </Container>
-    </div>
-  )
-}
-
-// ─── Section 7: Pull Quotes ───────────────────────────────────────────────────
-
-function PullQuotes() {
-  return (
-    <div className="bg-white py-24 sm:py-32">
-      <Container>
-        <FadeInStagger className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <FadeIn>
-            <blockquote className="border-l-4 border-tidal-teal pl-6">
-              <p className="text-xl italic leading-relaxed text-tidal-navy">
-                &ldquo;I&rsquo;m not here to impress you with my r&eacute;sum&eacute;. I&rsquo;m here to
-                help you solve your actual problems. The r&eacute;sum&eacute; just tells you
-                I&rsquo;ve seen enough to know what a real problem looks like.&rdquo;
-              </p>
-              <footer className="mt-4 text-sm font-semibold text-tidal-light">
-                — Jeff Lortz
-              </footer>
-            </blockquote>
-          </FadeIn>
-          <FadeIn>
-            <blockquote className="border-l-4 border-tidal-teal pl-6">
-              <p className="text-xl italic leading-relaxed text-tidal-navy">
-                &ldquo;The best thing that can happen at the end of an engagement is
-                that you don&rsquo;t need me anymore. That means the system is
-                working.&rdquo;
-              </p>
-              <footer className="mt-4 text-sm font-semibold text-tidal-light">
-                — Jeff Lortz
-              </footer>
-            </blockquote>
-          </FadeIn>
-        </FadeInStagger>
-      </Container>
-    </div>
-  )
-}
-
-// ─── Section 8: Recent Articles ───────────────────────────────────────────────
-
-function RecentArticles({ articles }: { articles: Array<MDXEntry<Article>> }) {
-  return (
-    <div className="bg-tidal-sand py-24 sm:py-32">
-      <Container>
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-            From the Articles
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-tidal-navy sm:text-5xl">
-            Practical thinking for business operators.
-          </h2>
-          <p className="mt-6 max-w-2xl text-lg text-tidal-body leading-relaxed">
-            Jeff writes about the operational challenges facing owner-led
-            businesses in Southeastern Massachusetts — not theory, not
-            frameworks for their own sake. Practical thinking from someone
-            who&rsquo;s been in the seat.
-          </p>
-        </FadeIn>
-        <FadeInStagger className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {articles.map((article) => (
-            <FadeIn key={article.href}>
-              <article className="rounded-2xl bg-white p-8 ring-1 ring-tidal-navy/10">
-                <time className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-                  {article.date}
-                </time>
-                <h3 className="mt-3 font-display text-xl font-bold text-tidal-navy">
-                  <Link href={article.href} className="hover:text-tidal-teal">
-                    {article.title}
-                  </Link>
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-tidal-body">
-                  {article.description}
-                </p>
-                <Link
-                  href={article.href}
-                  className="mt-6 inline-flex text-sm font-semibold text-tidal-teal hover:text-tidal-teal/80"
-                >
-                  Read more &rarr;
-                </Link>
-              </article>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-        <FadeIn className="mt-10">
-          <Link
-            href="/articles"
-            className="text-sm font-semibold text-tidal-navy hover:text-tidal-teal"
-          >
-            View all articles &rarr;
-          </Link>
-        </FadeIn>
-      </Container>
-    </div>
-  )
-}
-
-// ─── Section 9: CTA ───────────────────────────────────────────────────────────
-
-function CTA() {
-  return (
-    <div className="bg-tidal-teal py-24 sm:py-32">
-      <Container>
-        <FadeIn className="text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Ready to meet your operating partner?
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 leading-relaxed">
-            No forms, no assessments — just a real discussion about your
-            business and whether this is the right fit.
-          </p>
-          <div className="mt-10">
+        <FadeIn className="mt-12 flex flex-col gap-8 bg-white p-6 ring-1 ring-tidal-navy/10 sm:flex-row sm:items-center sm:p-8 lg:gap-12 lg:p-10">
+          <div className="relative aspect-[4/5] w-full max-w-[14rem] flex-none overflow-hidden bg-tidal-navy sm:max-w-[12rem] lg:max-w-[14rem]">
+            <Image
+              src="/images/people/jeff-lortz-home.jpg"
+              alt="Jeff Lortz, founder and operating partner"
+              fill
+              sizes="224px"
+              className="object-cover object-[61%_50%] saturate-[0.72] contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-tidal-navy/10 mix-blend-multiply" />
+          </div>
+          <div className="flex flex-1 flex-col justify-center">
+            <p className="text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+              Founder &amp; Operating Partner
+            </p>
+            <h3 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
+              Jeff Lortz
+            </h3>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-tidal-body">
+              Jeff is a former PE-backed CEO and senior operating executive
+              who has led businesses through growth, acquisitions, operational
+              change and public-company transitions. He founded Tidal Point to
+              make experienced Operating Partner support available to privately
+              held companies beyond the private-equity model.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-x-7 gap-y-3 text-[11px] font-semibold tracking-[0.12em] text-tidal-body uppercase">
+              <span>PE-backed CEO</span>
+              <span>Two public-company transitions</span>
+              <span>US Navy officer</span>
+            </div>
             <Link
-              href="/contact"
-              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-semibold text-tidal-teal shadow transition hover:bg-tidal-sand"
+              href="/team/jeff-lortz"
+              className="group mt-7 inline-flex items-center gap-3 self-start text-sm font-semibold tracking-wide text-tidal-navy transition hover:text-tidal-teal"
             >
-              Schedule a Conversation
+              View Jeff&rsquo;s profile
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                &rarr;
+              </span>
             </Link>
-            <p className="mt-4 text-sm text-white/60">
-              Plymouth, MA &middot; Serving the South Shore, South Coast &amp; Cape Cod
-            </p>
           </div>
         </FadeIn>
       </Container>
-    </div>
+    </section>
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+function Network() {
+  return (
+    <section className="bg-white py-20 sm:py-28 lg:py-36">
+      <Container>
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <FadeIn className="lg:col-span-5">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              The Extended Network
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              Depth without a collection of firms to manage.
+            </h2>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-tidal-body">
+              The network is engaged selectively, based on the work—not as a
+              standing layer of overhead around the relationship.
+            </p>
+          </FadeIn>
+          <FadeInStagger className="grid grid-cols-1 border-t border-tidal-navy/15 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
+            {networkAreas.map((area, index) => (
+              <FadeIn
+                key={area}
+                className="grid grid-cols-[2rem_1fr] gap-3 border-b border-tidal-navy/15 py-6 sm:odd:pr-6 sm:even:border-l sm:even:pl-6"
+              >
+                <span className="text-[10px] font-semibold tracking-[0.14em] text-tidal-teal">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <p className="font-display text-xl font-semibold text-tidal-navy">
+                  {area}
+                </p>
+              </FadeIn>
+            ))}
+          </FadeInStagger>
+        </div>
+      </Container>
+    </section>
+  )
+}
 
-export default async function About() {
-  const articles = (await loadArticles()).slice(0, 2)
-  const schema = getPersonSchema()
+function Principles() {
+  return (
+    <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-36">
+      <Container>
+        <FadeIn className="max-w-3xl">
+          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+            How We Operate
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+            Different backgrounds. Shared standards.
+          </h2>
+        </FadeIn>
+        <FadeInStagger className="mt-14 grid grid-cols-1 border-t border-tidal-navy/15 lg:mt-16 lg:grid-cols-4">
+          {principles.map((principle) => (
+            <FadeIn
+              key={principle.number}
+              className="border-b border-tidal-navy/15 py-8 lg:border-r lg:px-7 lg:py-10 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+            >
+              <span className="text-xs font-semibold tracking-[0.16em] text-tidal-teal">
+                {principle.number}
+              </span>
+              <h3 className="mt-5 font-display text-2xl leading-tight font-semibold text-tidal-navy">
+                {principle.title}
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-tidal-body">
+                {principle.body}
+              </p>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </Container>
+    </section>
+  )
+}
 
+function RegionAndCTA() {
+  return (
+    <>
+      <section className="bg-tidal-sand py-20 sm:py-24">
+        <Container>
+          <FadeIn className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+                Rooted in Southeastern New England
+              </p>
+              <h2 className="mt-5 max-w-3xl font-display text-4xl leading-tight font-medium text-tidal-navy sm:text-5xl">
+                Close enough to understand the context. Experienced enough to
+                widen the view.
+              </h2>
+            </div>
+            <p className="max-w-xl text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">
+              Based in Plymouth and serving the South Shore, South Coast and
+              Cape Cod, Tidal Point is invested in the businesses that shape
+              this region.
+            </p>
+          </FadeIn>
+        </Container>
+      </section>
+
+      <section className="bg-tidal-navy py-20 sm:py-24">
+        <Container>
+          <FadeIn className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+                Begin a Conversation
+              </p>
+              <h2 className="mt-5 max-w-3xl font-display text-4xl leading-tight font-medium text-white sm:text-5xl">
+                Start with the business. Decide together what comes next.
+              </h2>
+            </div>
+            <div className="lg:col-span-4 lg:col-start-9 lg:text-right">
+              <Link
+                href="/contact"
+                className="inline-flex bg-white px-7 py-3.5 text-sm font-semibold tracking-[0.1em] text-tidal-navy uppercase transition hover:bg-tidal-sand"
+              >
+                Begin a Conversation
+              </Link>
+            </div>
+          </FadeIn>
+        </Container>
+      </section>
+    </>
+  )
+}
+
+export default function About() {
   return (
     <RootLayout>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
       <Hero />
-      <WhyTidalPoint />
-      <TheStory />
-      <CareerTimeline />
-      <OperatingPhilosophy />
-      <Credentials />
-      <PullQuotes />
-      <RecentArticles articles={articles} />
-      <CTA />
+      <Purpose />
+      <FirmModel />
+      <OperatingPartners />
+      <Network />
+      <Principles />
+      <RegionAndCTA />
     </RootLayout>
   )
 }

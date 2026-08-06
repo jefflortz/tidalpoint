@@ -381,62 +381,44 @@ function WhyTidalPoint() {
   return (
     <div className="overflow-hidden bg-tidal-navy py-20 sm:py-28 lg:py-36">
       <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
-          <FadeIn className="lg:col-span-7">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <FadeIn className="lg:col-span-6">
             <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
               Why Tidal Point
             </p>
             <h2 className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl lg:text-7xl">
               The seat is only as good as who&rsquo;s in it.
             </h2>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/75">
-              Jeff Lortz has led PE-backed companies as CEO, helped take two
-              businesses public, and made the calls that shape growth,
-              leadership and value. He brings that experience directly to
-              your business—not through a junior team or a prescribed
-              playbook.
+          </FadeIn>
+
+          <FadeIn className="self-end lg:col-span-5 lg:col-start-8">
+            <p className="max-w-2xl text-lg leading-8 text-white/75">
+              Tidal Point was founded by Jeff Lortz, a former PE-backed CEO
+              and senior operating executive. The firm is built around
+              experienced Operating Partners who bring firsthand judgment,
+              direct accountability and broader capability to the businesses
+              they support.
             </p>
-            <blockquote className="mt-10 max-w-2xl border-l-2 border-tidal-teal pl-6">
-              <p className="font-display text-2xl leading-snug font-medium text-white sm:text-3xl">
-                &ldquo;I&rsquo;ve made these calls myself. I know what keeps a
-                CEO up at night—because it kept me up too.&rdquo;
-              </p>
-            </blockquote>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/60">
+              Each relationship is led by a senior operator—not passed through
+              a junior team or divided among a collection of firms.
+            </p>
             <Link
-              href="/about"
+              href="/about#operating-partners"
               className="group mt-10 inline-flex items-center gap-3 text-sm font-semibold tracking-wide text-white transition hover:text-tidal-teal"
             >
-              Read Jeff&rsquo;s story
+              Meet our Operating Partners
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                 &rarr;
               </span>
             </Link>
           </FadeIn>
-
-          <FadeIn className="relative mx-auto w-full max-w-md lg:col-span-4 lg:col-start-9">
-            <div className="absolute -top-5 -right-5 h-full w-full border border-tidal-teal/45" />
-            <div className="relative aspect-[4/5] overflow-hidden bg-tidal-navy ring-1 ring-white/10">
-              <Image
-                src="/images/people/jeff-lortz-home.jpg"
-                alt="Jeff Lortz, founder of Tidal Point Partners"
-                fill
-                sizes="(min-width: 1024px) 33vw, 100vw"
-                className="object-cover object-[63%_50%] saturate-[0.7] contrast-[1.06]"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(23,50,77,0.9)_100%)]" />
-              <div className="absolute right-0 bottom-0 left-0 p-6 sm:p-8">
-                <p className="font-display text-2xl font-semibold text-white">
-                  Jeff Lortz
-                </p>
-                <p className="mt-1 text-xs font-semibold tracking-[0.16em] text-white/65 uppercase">
-                  Founder &amp; Operating Partner
-                </p>
-              </div>
-            </div>
-          </FadeIn>
         </div>
 
-        <FadeInStagger className="mt-16 grid grid-cols-1 border-y border-white/15 sm:mt-24 sm:grid-cols-3">
+        <FadeIn className="mt-16 text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase sm:mt-20">
+          Founding Operating Experience
+        </FadeIn>
+        <FadeInStagger className="mt-5 grid grid-cols-1 border-y border-white/15 sm:grid-cols-3">
           {founderCredentials.map((credential) => (
             <FadeIn
               key={credential.label}

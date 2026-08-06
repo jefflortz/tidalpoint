@@ -312,7 +312,7 @@ function RootLayoutInner({
                       Get in touch
                     </h2>
                     <p className="mt-4 text-sm text-white/70">
-                      A real conversation, not a sales call.
+                      Start with the business. Decide together what comes next.
                     </p>
                     <Button href="/contact" invert className="mt-6">
                       Schedule a Conversation

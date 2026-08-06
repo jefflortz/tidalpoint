@@ -85,10 +85,10 @@ function AuthorBio() {
             teams at pivotal moments in the life of a business.
           </p>
           <Link
-            href="/about"
+            href="/team/jeff-lortz"
             className="mt-4 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
           >
-            About Jeff <span className="ml-2" aria-hidden="true">&rarr;</span>
+            View Jeff&rsquo;s profile <span className="ml-2" aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </div>

@@ -85,7 +85,7 @@ function ContactDetails() {
 export const metadata: Metadata = {
   title: "Let's Talk",
   description:
-    'Schedule a 60-minute conversation with Jeff Lortz. Honest advice for owner-led businesses in Southeastern Massachusetts. It\'s a real conversation, not a sales call.',
+    'Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England.',
   openGraph: {
     title: 'Schedule a Conversation - Tidal Point Partners',
     description:
@@ -99,8 +99,9 @@ export default function Contact() {
     <RootLayout>
       <PageIntro eyebrow="Contact" title="Let’s talk about your business.">
         <p>
-          It’s a real conversation, not a sales call. Bring your biggest
-          challenge. We’ll tell you honestly whether we can help.
+          Bring the opportunity, challenge or decision carrying the most
+          consequence. We&rsquo;ll listen carefully, offer a point of view and
+          decide together whether there is a meaningful path forward.
         </p>
       </PageIntro>
 
