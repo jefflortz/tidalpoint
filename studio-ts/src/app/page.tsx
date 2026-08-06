@@ -626,7 +626,7 @@ function HowItBegins() {
 
 export default async function Home() {
   return (
-    <RootLayout>
+    <RootLayout home>
       {/* Hero */}
       <div className="relative z-0 overflow-hidden bg-tidal-navy">
         <Image

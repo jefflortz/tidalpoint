@@ -351,9 +351,14 @@ function RootLayoutInner({
   )
 }
 
-export function RootLayout({ children }: { children: React.ReactNode }) {
+export function RootLayout({
+  children,
+  home = false,
+}: {
+  children: React.ReactNode
+  home?: boolean
+}) {
   let pathname = usePathname()
-  let home = pathname === '/'
   let [logoHovered, setLogoHovered] = useState(false)
 
   return (
