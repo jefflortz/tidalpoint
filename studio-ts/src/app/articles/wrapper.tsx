@@ -7,13 +7,13 @@ import { MDXComponents } from '@/components/MDXComponents'
 import { PageLinks } from '@/components/PageLinks'
 import { RootLayout } from '@/components/RootLayout'
 import { formatDate } from '@/lib/formatDate'
-import { type Article, type MDXEntry, loadArticles } from '@/lib/mdx'
+import { type ArticleDocument, type ArticleSummary } from '@/sanity/content'
 
 function estimateReadingTime() {
   return '8 min read'
 }
 
-function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
+function ArticleSchema({ article }: { article: ArticleDocument }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -23,8 +23,8 @@ function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
     dateModified: article.date,
     author: {
       '@type': 'Person',
-      name: 'Jeff Lortz',
-      jobTitle: 'Founder',
+      name: article.author.name,
+      jobTitle: article.author.role,
       worksFor: {
         '@type': 'Organization',
         name: 'Tidal Point Partners',
@@ -36,7 +36,7 @@ function ArticleSchema({ article }: { article: MDXEntry<Article> }) {
       name: 'Tidal Point Partners',
       url: 'https://tidalpointpartners.com',
     },
-    ...(article.featuredImage && { image: article.featuredImage }),
+    image: article.featuredImage,
   }
 
   return (
@@ -67,28 +67,26 @@ function AuthorPortrait({ size = 'large' }: { size?: 'small' | 'large' }) {
   )
 }
 
-function AuthorBio() {
+function AuthorBio({ article }: { article: ArticleDocument }) {
   return (
     <aside className="mx-auto max-w-[46rem] border-t border-tidal-navy/15 pt-10 sm:pt-12">
       <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
         <AuthorPortrait />
         <div>
           <p className="font-display text-2xl font-semibold text-tidal-navy">
-            Jeff Lortz
+            {article.author.name}
           </p>
           <p className="mt-1 text-xs font-semibold tracking-[0.16em] text-tidal-teal uppercase">
-            Founder, Tidal Point Partners
+            {article.author.role}
           </p>
           <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-tidal-body">
-            Jeff is a former PE-backed SaaS CEO, C-suite operator, and US Navy
-            Surface Warfare Officer. He works alongside owners and leadership
-            teams at pivotal moments in the life of a business.
+            {article.author.shortBio}
           </p>
           <Link
-            href="/team/jeff-lortz"
+            href={article.author.profileUrl ?? '/team/jeff-lortz'}
             className="mt-4 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
           >
-            View Jeff&rsquo;s profile <span className="ml-2" aria-hidden="true">&rarr;</span>
+            View {article.author.name.split(' ')[0]}&rsquo;s profile <span className="ml-2" aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </div>
@@ -96,28 +94,28 @@ function AuthorBio() {
   )
 }
 
-function ArticleCTA() {
+function ArticleCTA({ article }: { article: ArticleDocument }) {
+  const cta = article.cta
   return (
     <section className="bg-tidal-navy py-20 sm:py-24">
       <Container>
         <FadeIn className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-tidal-teal uppercase">
-              A useful next conversation
+              {cta?.eyebrow ?? 'A useful next conversation'}
             </p>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold tracking-[-0.02em] text-tidal-warm-white sm:text-5xl">
-              Does too much of the business still run through you?
+              {cta?.title ?? 'Would an experienced operating perspective help?'}
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-white/70">
-              We can look at where decisions are getting stuck and whether the
-              right operating support would help.
+              {cta?.body ?? 'Bring what is on your mind. We will tell you honestly whether we can help.'}
             </p>
           </div>
           <Link
-            href="/contact"
+            href={cta?.buttonHref ?? '/contact'}
             className="inline-flex w-fit items-center border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-tidal-navy"
           >
-            Start a conversation <span className="ml-3" aria-hidden="true">&rarr;</span>
+            {cta?.buttonLabel ?? 'Start a conversation'} <span className="ml-3" aria-hidden="true">&rarr;</span>
           </Link>
         </FadeIn>
       </Container>
@@ -127,16 +125,13 @@ function ArticleCTA() {
 
 export default async function ArticleWrapper({
   article,
+  moreArticles,
   children,
 }: {
-  article: MDXEntry<Article>
+  article: ArticleDocument
+  moreArticles: ArticleSummary[]
   children: React.ReactNode
 }) {
-  const allArticles = await loadArticles()
-  const moreArticles = allArticles
-    .filter(({ metadata }) => metadata !== article)
-    .slice(0, 2)
-
   return (
     <RootLayout>
       <ArticleSchema article={article} />
@@ -184,21 +179,19 @@ export default async function ArticleWrapper({
                   </div>
                 </div>
 
-                {article.featuredImage && (
-                  <div className="relative min-h-[16rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[29rem]">
-                    <Image
-                      src={article.featuredImage}
-                      alt="A small leadership team working through a business decision"
-                      fill
-                      sizes="(min-width: 1024px) 50vw, 100vw"
-                      className="object-cover"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-tidal-navy/35 mix-blend-multiply" />
-                    <div className="absolute inset-0 bg-tidal-teal/15 mix-blend-color" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-tidal-navy/35 via-transparent to-tidal-navy/10 lg:bg-gradient-to-r lg:from-tidal-navy/30 lg:via-transparent lg:to-tidal-navy/10" />
-                  </div>
-                )}
+                <div className="relative min-h-[16rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[29rem]">
+                  <Image
+                    src={article.featuredImage}
+                    alt={article.featuredImageAlt}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-tidal-navy/35 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-tidal-teal/15 mix-blend-color" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-tidal-navy/35 via-transparent to-tidal-navy/10 lg:bg-gradient-to-r lg:from-tidal-navy/30 lg:via-transparent lg:to-tidal-navy/10" />
+                </div>
               </div>
             </FadeIn>
           </Container>
@@ -207,13 +200,27 @@ export default async function ArticleWrapper({
         <Container className="py-16 sm:py-20 lg:py-24">
           <FadeIn>
             <MDXComponents.wrapper className="article-content *:max-w-[46rem]!">
-              {children}
+              <div className="typography">{children}</div>
             </MDXComponents.wrapper>
+
+            {article.sources && article.sources.length > 0 && (
+              <div className="mx-auto mt-16 max-w-[46rem] border-t border-tidal-navy/15 pt-10">
+                <h2 className="font-display text-3xl font-semibold text-tidal-navy">Sources &amp; further reading</h2>
+                <ol className="mt-6 space-y-4 text-sm leading-6 text-tidal-body">
+                  {article.sources.map((source) => (
+                    <li key={source._key}>
+                      {source.url ? <a href={source.url} className="font-semibold text-tidal-navy underline underline-offset-4">{source.title}</a> : <span className="font-semibold text-tidal-navy">{source.title}</span>}
+                      {source.publisher && <span> — {source.publisher}</span>}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
           </FadeIn>
 
           <FadeIn>
             <div className="mt-20 sm:mt-24">
-              <AuthorBio />
+              <AuthorBio article={article} />
             </div>
           </FadeIn>
         </Container>
@@ -227,7 +234,7 @@ export default async function ArticleWrapper({
         />
       )}
 
-      <ArticleCTA />
+      <ArticleCTA article={article} />
     </RootLayout>
   )
 }

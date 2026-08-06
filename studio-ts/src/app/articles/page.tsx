@@ -6,7 +6,7 @@ import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
 import { formatDate } from '@/lib/formatDate'
-import { loadArticles } from '@/lib/mdx'
+import { getArticles } from '@/sanity/content'
 
 export const metadata: Metadata = {
   title: 'Articles & Insights',
@@ -47,7 +47,7 @@ function ArticlesCTA() {
 }
 
 export default async function Articles() {
-  const articles = await loadArticles()
+  const articles = await getArticles()
 
   return (
     <RootLayout>
