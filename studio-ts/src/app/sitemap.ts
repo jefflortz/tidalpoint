@@ -1,10 +1,13 @@
 import { MetadataRoute } from 'next'
 
-import { loadArticles } from '@/lib/mdx'
+import { getArticles, getIndexableLocationPages } from '@/sanity/content'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://tidalpointpartners.com'
-  const articles = await loadArticles()
+  const [articles, locations] = await Promise.all([
+    getArticles(),
+    getIndexableLocationPages(),
+  ])
 
   return [
     {
@@ -48,6 +51,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(article.date),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+    })),
+    ...locations.map((location) => ({
+      url: `${baseUrl}/locations/${location.slug}`,
+      lastModified: new Date(location.updatedAt),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
     {
       url: `${baseUrl}/contact`,
