@@ -1,9 +1,14 @@
+import { type Metadata } from 'next'
+
 import { Container } from '@/components/Container'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Cookie Policy',
+  description: 'How Tidal Point Partners uses cookies and analytics technologies on this website.',
+  alternates: { canonical: '/cookies' },
+  robots: { index: false, follow: true },
 }
 
 export default function CookiePolicy() {

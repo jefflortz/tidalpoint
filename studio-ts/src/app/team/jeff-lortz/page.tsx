@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 import { getPersonSchema } from '../../schema'
 
 export const metadata: Metadata = {
@@ -335,6 +336,13 @@ export default function JeffLortzProfile() {
 
   return (
     <RootLayout>
+      <PageSchema
+        path="/team/jeff-lortz"
+        name="Jeff Lortz — Founder & Operating Partner"
+        description="Meet Jeff Lortz, founder and Operating Partner at Tidal Point Partners. Former PE-backed CEO, public-company operator and US Navy officer."
+        type="ProfilePage"
+        mainEntityId="https://tidalpointpartners.com/team/jeff-lortz#person"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

@@ -14,28 +14,6 @@ export function getOrganizationSchema() {
         inLanguage: 'en-US',
       },
       {
-        '@type': 'WebPage',
-        '@id': 'https://tidalpointpartners.com/#webpage',
-        url: 'https://tidalpointpartners.com/',
-        name: 'Experienced Operating Partners for Privately Held Businesses',
-        description:
-          'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
-        isPartOf: {
-          '@id': 'https://tidalpointpartners.com/#website',
-        },
-        about: {
-          '@id': 'https://tidalpointpartners.com/#organization',
-        },
-        primaryImageOfPage: {
-          '@type': 'ImageObject',
-          '@id': 'https://tidalpointpartners.com/#primaryimage',
-          url: 'https://tidalpointpartners.com/tidal-point-home-featured.jpg',
-          width: 1200,
-          height: 675,
-        },
-        inLanguage: 'en-US',
-      },
-      {
         '@type': ['Organization', 'ProfessionalService'],
         '@id': 'https://tidalpointpartners.com/#organization',
         name: 'Tidal Point Partners',
@@ -73,20 +51,80 @@ export function getOrganizationSchema() {
   }
 }
 
+export function getHomePageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': 'https://tidalpointpartners.com/#webpage',
+    url: 'https://tidalpointpartners.com/',
+    name: 'Experienced Operating Partners for Privately Held Businesses',
+    description:
+      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+    isPartOf: {
+      '@id': 'https://tidalpointpartners.com/#website',
+    },
+    about: {
+      '@id': 'https://tidalpointpartners.com/#organization',
+    },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      '@id': 'https://tidalpointpartners.com/#primaryimage',
+      url: 'https://tidalpointpartners.com/tidal-point-home-featured.jpg',
+      width: 1200,
+      height: 675,
+    },
+    inLanguage: 'en-US',
+  }
+}
+
+export function getWebPageSchema({
+  path,
+  name,
+  description,
+  type = 'WebPage',
+  mainEntityId,
+}: {
+  path: string
+  name: string
+  description: string
+  type?: 'WebPage' | 'CollectionPage' | 'ContactPage' | 'ProfilePage'
+  mainEntityId?: string
+}) {
+  const url = `https://tidalpointpartners.com${path}`
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': type,
+    '@id': `${url}#webpage`,
+    url,
+    name,
+    description,
+    isPartOf: {
+      '@id': 'https://tidalpointpartners.com/#website',
+    },
+    about: {
+      '@id': 'https://tidalpointpartners.com/#organization',
+    },
+    ...(mainEntityId ? { mainEntity: { '@id': mainEntityId } } : {}),
+    inLanguage: 'en-US',
+  }
+}
+
 export function getPersonSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://tidalpointpartners.com/team/jeff-lortz#person',
     name: 'Jeff Lortz',
-    jobTitle: 'Founder',
-    url: 'https://tidalpointpartners.com/about',
+    jobTitle: 'Founder & Operating Partner',
+    url: 'https://tidalpointpartners.com/team/jeff-lortz',
     worksFor: {
       '@type': 'ProfessionalService',
       name: 'Tidal Point Partners',
       url: 'https://tidalpointpartners.com',
     },
     email: 'info@tidalpointpartners.com',
-    image: 'https://tidalpointpartners.com/logo-wordmark-light.svg',
+    image: 'https://tidalpointpartners.com/images/people/jeff-lortz-home.jpg',
     sameAs: [
       // Add a real LinkedIn profile URL here once confirmed.
     ],

@@ -1,9 +1,14 @@
+import { type Metadata } from 'next'
+
 import { Container } from '@/components/Container'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Privacy Policy',
+  description: 'How Tidal Point Partners collects, uses and protects information provided through this website.',
+  alternates: { canonical: '/privacy' },
+  robots: { index: false, follow: true },
 }
 
 export default function PrivacyPolicy() {

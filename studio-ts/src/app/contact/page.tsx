@@ -6,6 +6,7 @@ import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 
 function ContactForm() {
   return (
@@ -38,8 +39,15 @@ function ContactDetails() {
       </h2>
       <p className="mt-6 text-base text-tidal-body leading-relaxed">
         Tidal Point Partners works with businesses across the South Shore,
-        South Coast, and Cape Cod. Engagements are structured around your
-        calendar — in person where it makes sense, remote where it doesn&rsquo;t.
+        South Coast, and Cape Cod as part of our broader{' '}
+        <Link
+          href="/locations/southeastern-new-england"
+          className="font-semibold text-tidal-navy underline decoration-tidal-teal/60 underline-offset-4 transition hover:decoration-tidal-navy"
+        >
+          Southeastern New England practice
+        </Link>
+        . Engagements are structured around your calendar — in person where it
+        makes sense, remote where it doesn&rsquo;t.
       </p>
 
       <div className="mt-10 rounded-2xl bg-tidal-sand p-6">
@@ -86,10 +94,12 @@ export const metadata: Metadata = {
   title: "Let's Talk",
   description:
     'Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England.',
+  alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Schedule a Conversation - Tidal Point Partners',
     description:
-      'Ready to discuss your biggest business challenge? Schedule a conversation with an ex-PE CEO.',
+      'Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England.',
+    url: '/contact',
     type: 'website',
   },
 }
@@ -97,6 +107,12 @@ export const metadata: Metadata = {
 export default function Contact() {
   return (
     <RootLayout>
+      <PageSchema
+        path="/contact"
+        name="Contact Tidal Point Partners"
+        description="Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England."
+        type="ContactPage"
+      />
       <PageIntro eyebrow="Contact" title="Let’s talk about your business.">
         <p>
           Bring the opportunity, challenge or decision carrying the most

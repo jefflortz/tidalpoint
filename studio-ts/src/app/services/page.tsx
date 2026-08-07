@@ -4,12 +4,21 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIcons'
 
 export const metadata: Metadata = {
   title: 'How We Work',
   description:
     'Tidal Point gives privately held businesses one experienced Operating Partner, supported by a trusted network, to improve growth, leadership, and operational maturity.',
+  alternates: { canonical: '/services' },
+  openGraph: {
+    title: 'How We Work | Tidal Point Partners',
+    description:
+      'Tidal Point gives privately held businesses one experienced Operating Partner, supported by a trusted network, to improve growth, leadership, and operational maturity.',
+    url: '/services',
+    type: 'website',
+  },
 }
 
 // ─── Section 1: Hero ─────────────────────────────────────────────────────────
@@ -375,6 +384,11 @@ function ClosingCTA() {
 export default function Services() {
   return (
     <RootLayout>
+      <PageSchema
+        path="/services"
+        name="How We Work"
+        description="Tidal Point gives privately held businesses one experienced Operating Partner, supported by a trusted network, to improve growth, leadership, and operational maturity."
+      />
       <Hero />
       <WhatYouCanExpect />
       <FirstNinetyDays />

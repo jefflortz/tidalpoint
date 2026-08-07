@@ -10,6 +10,7 @@ import { GrowthIcon, AlignmentIcon, MaturityIcon } from '@/components/OutcomeIco
 import { OperatingModelRing } from '@/components/OperatingModelRing'
 import { formatDate } from '@/lib/formatDate'
 import { getArticles } from '@/sanity/content'
+import { getHomePageSchema } from './schema'
 
 export const metadata: Metadata = {
   title: {
@@ -625,8 +626,14 @@ function HowItBegins() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function Home() {
+  const schema = getHomePageSchema()
+
   return (
     <RootLayout home>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       {/* Hero */}
       <div className="relative z-0 overflow-hidden bg-tidal-navy">
         <Image

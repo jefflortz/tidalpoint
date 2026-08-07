@@ -72,7 +72,12 @@ export function Footer() {
                 A DBA of Agile Operators, LLC
               </p>
               <p className="mt-1 text-xs text-white/70">
-                Serving Southeastern New England
+                <Link
+                  href="/locations/southeastern-new-england"
+                  className="transition hover:text-white"
+                >
+                  Serving Southeastern New England
+                </Link>
               </p>
               <p className="mt-1 text-xs text-white/70">Plymouth, MA</p>
             </div>

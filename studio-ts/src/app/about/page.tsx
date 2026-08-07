@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 
 export const metadata: Metadata = {
   title: 'About Tidal Point Partners',
@@ -324,7 +325,13 @@ function RegionAndCTA() {
             <p className="max-w-xl text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">
               Based in Plymouth and serving the South Shore, South Coast and
               Cape Cod, Tidal Point is invested in the businesses that shape
-              this region.
+              this region.{' '}
+              <Link
+                href="/locations/southeastern-new-england"
+                className="font-semibold text-tidal-navy underline decoration-tidal-teal/60 underline-offset-4 transition hover:decoration-tidal-navy"
+              >
+                See how we serve Southeastern New England.
+              </Link>
             </p>
           </FadeIn>
         </Container>
@@ -359,6 +366,11 @@ function RegionAndCTA() {
 export default function About() {
   return (
     <RootLayout>
+      <PageSchema
+        path="/about"
+        name="About Tidal Point Partners"
+        description="Meet the experienced Operating Partners and specialist network behind Tidal Point Partners, serving privately held businesses across Southeastern New England."
+      />
       <Hero />
       <Purpose />
       <FirmModel />

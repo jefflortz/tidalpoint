@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 
 export const metadata: Metadata = {
   title: 'Who We Serve',
   description:
-    'Tidal Point Partners works with established privately held and PE-backed businesses navigating growth, leadership change and consequential transitions.',
+    'Tidal Point Partners works with established privately held businesses navigating growth, leadership change and consequential transitions.',
   alternates: { canonical: '/clients' },
   openGraph: {
     title: 'Who We Serve | Tidal Point Partners',
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 }
 
 const businessProfile = [
-  ['Ownership', 'Privately held, founder-led, family-owned or PE-backed'],
+  ['Ownership', 'Privately held, founder-led, family-owned or professionally managed'],
   ['Scale', 'Often $5M–$50M in revenue, with real operating complexity'],
   ['Stage', 'Established businesses—not early-stage ventures'],
   ['Geography', 'Southeastern New England and select adjacent markets'],
@@ -320,6 +321,11 @@ function CTA() {
 export default function WhoWeServe() {
   return (
     <RootLayout>
+      <PageSchema
+        path="/clients"
+        name="Who We Serve"
+        description="Tidal Point Partners works with established privately held businesses navigating growth, leadership change and consequential transitions."
+      />
       <Hero />
       <Profile />
       <Recognition />

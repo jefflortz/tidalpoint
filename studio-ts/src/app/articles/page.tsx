@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { RootLayout } from '@/components/RootLayout'
+import { PageSchema } from '@/components/PageSchema'
 import { formatDate } from '@/lib/formatDate'
 import { getArticles } from '@/sanity/content'
 
@@ -12,10 +13,12 @@ export const metadata: Metadata = {
   title: 'Articles & Insights',
   description:
     'Practical thinking for owners and leadership teams navigating pivotal moments in the life of a business.',
+  alternates: { canonical: '/articles' },
   openGraph: {
     title: 'Articles & Insights - Tidal Point Partners',
     description:
       'Practical thinking for owners and leadership teams navigating pivotal moments in the life of a business.',
+    url: '/articles',
     type: 'website',
   },
 }
@@ -53,6 +56,12 @@ export default async function Articles() {
 
   return (
     <RootLayout>
+      <PageSchema
+        path="/articles"
+        name="Articles & Insights"
+        description="Practical thinking for owners and leadership teams navigating pivotal moments in the life of a business."
+        type="CollectionPage"
+      />
       <section className="bg-tidal-warm-white pt-6 sm:pt-8 lg:pt-10">
         <Container>
           <FadeIn className="border-b border-tidal-navy/15 pb-10 sm:pb-12">
