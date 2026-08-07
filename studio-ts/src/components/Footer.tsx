@@ -87,7 +87,7 @@ export function Footer() {
               </FooterColumn>
 
               <FooterColumn title="Connect">
-                <SocialMedia invert className="-ml-3" />
+                <SocialMedia invert className="-ml-2" />
               </FooterColumn>
             </nav>
 

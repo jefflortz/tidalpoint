@@ -61,13 +61,31 @@ function InstagramIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
+const contactProfiles: {
+  title: string
+  label: string
+  href: string
+  icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
+}[] = [
+  {
+    title: 'Email Us',
+    label: 'info@tidalpointpartners.com',
+    href: 'mailto:info@tidalpointpartners.com',
+    icon: EmailIcon,
+  },
+  {
+    title: 'Call Us',
+    label: '(774) 203-4525',
+    href: 'tel:+17742034525',
+    icon: PhoneIcon,
+  },
+]
+
 export const socialMediaProfiles: {
   title: string
   href: string
   icon: (props: React.ComponentPropsWithoutRef<'svg'>) => React.JSX.Element
 }[] = [
-  { title: 'Email Us', href: 'mailto:info@tidalpointpartners.com', icon: EmailIcon },
-  { title: 'Call Us', href: 'tel:+17742034525', icon: PhoneIcon },
   {
     title: 'LinkedIn',
     href: 'https://www.linkedin.com/company/tidal-point-partners',
@@ -94,23 +112,51 @@ export function SocialMedia({
   invert?: boolean
 }) {
   return (
-    <ul role="list" className={clsx('flex flex-wrap items-center gap-x-1', className)}>
-      {socialMediaProfiles.map((socialMediaProfile) => (
-        <li key={socialMediaProfile.title}>
-          <Link
-            href={socialMediaProfile.href}
-            aria-label={socialMediaProfile.title}
-            className={clsx(
-              'flex h-11 w-11 items-center justify-center rounded-full transition',
-              invert
-                ? 'text-white hover:bg-white/10'
-                : 'text-tidal-navy hover:bg-tidal-navy/5',
-            )}
-          >
-            <socialMediaProfile.icon className="h-5 w-5 fill-current" />
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <div className={className}>
+      <ul role="list" className="space-y-2">
+        {contactProfiles.map((contactProfile) => (
+          <li key={contactProfile.title}>
+            <Link
+              href={contactProfile.href}
+              className={clsx(
+                'group inline-flex min-h-9 items-center gap-3 text-sm transition',
+                invert
+                  ? 'text-white/75 hover:text-white'
+                  : 'text-tidal-body hover:text-tidal-navy',
+              )}
+            >
+              <span
+                className={clsx(
+                  'flex h-8 w-8 flex-none items-center justify-center rounded-full transition',
+                  invert ? 'group-hover:bg-white/10' : 'group-hover:bg-tidal-navy/5',
+                )}
+              >
+                <contactProfile.icon className="h-4 w-4 fill-current" />
+              </span>
+              <span>{contactProfile.label}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <ul role="list" className="mt-3 flex flex-wrap items-center gap-x-1">
+        {socialMediaProfiles.map((socialMediaProfile) => (
+          <li key={socialMediaProfile.title}>
+            <Link
+              href={socialMediaProfile.href}
+              aria-label={socialMediaProfile.title}
+              className={clsx(
+                'flex h-10 w-10 items-center justify-center rounded-full transition',
+                invert
+                  ? 'text-white/75 hover:bg-white/10 hover:text-white'
+                  : 'text-tidal-body hover:bg-tidal-navy/5 hover:text-tidal-navy',
+              )}
+            >
+              <socialMediaProfile.icon className="h-4.5 w-4.5 fill-current" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
