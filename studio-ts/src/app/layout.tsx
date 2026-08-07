@@ -60,8 +60,24 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: [
+      {
+        url: '/favicon-512.png',
+        type: 'image/png',
+        sizes: '512x512',
+      },
+      {
+        url: '/favicon.ico',
+        type: 'image/x-icon',
+        sizes: '48x48',
+      },
+    ],
+    shortcut: '/favicon.ico',
+    apple: {
+      url: '/apple-touch-icon.png',
+      type: 'image/png',
+      sizes: '180x180',
+    },
   },
   manifest: '/manifest.webmanifest',
 }

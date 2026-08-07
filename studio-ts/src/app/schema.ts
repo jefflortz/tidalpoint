@@ -119,9 +119,7 @@ export function getPersonSchema() {
     jobTitle: 'Founder & Operating Partner',
     url: 'https://tidalpointpartners.com/team/jeff-lortz',
     worksFor: {
-      '@type': 'ProfessionalService',
-      name: 'Tidal Point Partners',
-      url: 'https://tidalpointpartners.com',
+      '@id': 'https://tidalpointpartners.com/#organization',
     },
     email: 'info@tidalpointpartners.com',
     image: 'https://tidalpointpartners.com/images/people/jeff-lortz-home.jpg',

@@ -43,10 +43,7 @@ function LocationSchema({page}: {page: LocationPageDocument}) {
     name: page.seoTitle ?? page.heroTitle,
     description: page.metaDescription ?? page.heroIntroduction,
     about: {
-      '@type': 'ProfessionalService',
       '@id': 'https://tidalpointpartners.com/#organization',
-      name: 'Tidal Point Partners',
-      areaServed: {'@type': 'AdministrativeArea', name: page.regionName},
     },
     inLanguage: 'en-US',
   }
