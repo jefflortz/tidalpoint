@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/tidal-point-home-featured.jpg',
+        url: '/tidal-point-home-og-v2.jpg',
         width: 1200,
-        height: 675,
-        alt: 'Navigation lines converging on a pivotal point',
+        height: 630,
+        alt: 'Tidal Point Partners — experienced partnership for pivotal points in the life of a business',
       },
     ],
   },
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: 'Experienced Operating Partners for Privately Held Businesses',
     description:
       'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
-    images: ['/tidal-point-home-featured.jpg'],
+    images: ['/tidal-point-home-og-v2.jpg'],
   },
 }
 
