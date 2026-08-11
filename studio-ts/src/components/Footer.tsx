@@ -50,7 +50,7 @@ function FooterLinkList({
 
 export function Footer() {
   return (
-    <footer className="mt-24 w-full bg-tidal-navy sm:mt-32 lg:mt-40">
+    <footer className="mt-12 w-full bg-tidal-navy sm:mt-16 lg:mt-20">
       <FadeIn>
         <Container className="py-12 sm:py-14">
           <div className="flex flex-col gap-y-10 lg:flex-row lg:items-start lg:gap-x-16">
