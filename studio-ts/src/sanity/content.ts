@@ -186,7 +186,13 @@ const summaryProjection = `{
 
 export async function getArticles(): Promise<ArticleSummary[]> {
   const articles = await sanityClient.fetch<Array<ArticleSummary & {featuredImageSource: SanityImage}>>(
-    `*[_type == "article" && defined(slug.current)] | order(publishedAt desc) ${summaryProjection}`,
+    `*[
+      _type == "article" &&
+      defined(slug.current) &&
+      defined(publishedAt) &&
+      publishedAt <= now() &&
+      noIndex != true
+    ] | order(publishedAt desc) ${summaryProjection}`,
     {},
     {next: {revalidate: 60}},
   )
@@ -253,7 +259,13 @@ export async function getArticle(slug: string): Promise<ArticleDocument | null> 
 
 export async function getArticleSlugs(): Promise<string[]> {
   return sanityClient.fetch(
-    `*[_type == "article" && defined(slug.current)].slug.current`,
+    `*[
+      _type == "article" &&
+      defined(slug.current) &&
+      defined(publishedAt) &&
+      publishedAt <= now() &&
+      noIndex != true
+    ].slug.current`,
     {},
     {next: {revalidate: 60}},
   )

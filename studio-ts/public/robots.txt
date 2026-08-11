@@ -1,4 +1,18 @@
 User-agent: *
 Allow: /
 
+# AI search and user-requested retrieval. The wildcard rule above already
+# allows these agents; the explicit entries make that policy unambiguous.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://tidalpointpartners.com/sitemap.xml
