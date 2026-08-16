@@ -12,6 +12,7 @@
 The processor never publishes an article or social campaign. Existing Sanity draft/publish controls remain the approval boundary.
 
 Generated social copy is reviewed only under **Social Campaigns — Review & Schedule** in Studio Structure. The article's **Search & sharing** fields control link-preview metadata and hashtags; they are not post copy.
+Each published article also has a **Social campaign** tab that summarizes its generated assets and links directly to the full campaign document.
 
 ## Previewing a draft
 

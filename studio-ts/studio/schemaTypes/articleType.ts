@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {SocialCampaignPanel} from '../components/SocialCampaignPanel'
 
 export const articleType = defineType({
   name: 'article',
@@ -8,6 +9,7 @@ export const articleType = defineType({
     {name: 'content', title: 'Content', default: true},
     {name: 'workflow', title: 'Workflow'},
     {name: 'seo', title: 'Search & sharing'},
+    {name: 'socialCampaign', title: 'Social campaign'},
     {name: 'relationships', title: 'Relationships'},
   ],
   fields: [
@@ -52,6 +54,15 @@ export const articleType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({name: 'body', title: 'Article body', type: 'blockContent', group: 'content', validation: (rule) => rule.required()}),
+    defineField({
+      name: 'socialCampaignPanel',
+      title: 'Generated social content',
+      description: 'Review generated post drafts, timing, and approval status for this article.',
+      type: 'string',
+      group: 'socialCampaign',
+      readOnly: true,
+      components: {input: SocialCampaignPanel},
+    }),
     defineField({
       name: 'pillarArticle',
       title: 'Supporting pillar article',
