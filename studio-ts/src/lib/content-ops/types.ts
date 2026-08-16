@@ -60,7 +60,7 @@ export type UploadedSourceImage = SourceImage & {assetId: string}
 
 export type SocialOutput = {
   assets: Array<{
-    channel: 'linkedinPersonal' | 'linkedinCompany' | 'shortForm' | 'newsletter' | 'carousel'
+    channel: 'linkedinPersonal' | 'linkedinCompany' | 'facebook' | 'instagram' | 'shortForm' | 'newsletter' | 'carousel'
     angle: string
     copy: string
   }>

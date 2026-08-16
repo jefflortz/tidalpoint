@@ -13,6 +13,7 @@ The processor never publishes an article or social campaign. Existing Sanity dra
 
 Generated social copy is reviewed only under **Social Campaigns — Review & Schedule** in Studio Structure. The article's **Search & sharing** fields control link-preview metadata and hashtags; they are not post copy.
 Each published article also has a **Social campaign** tab that summarizes its generated assets and links directly to the full campaign document.
+Every new campaign includes separate drafts for Jeff LinkedIn, Tidal Point LinkedIn, Facebook, Instagram, short-form social, newsletter, and carousel content.
 
 ## Previewing a draft
 

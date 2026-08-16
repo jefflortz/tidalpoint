@@ -17,6 +17,8 @@ type Campaign = {
 const channelLabels: Record<string, string> = {
   linkedinPersonal: 'Jeff LinkedIn',
   linkedinCompany: 'Tidal Point LinkedIn',
+  facebook: 'Facebook',
+  instagram: 'Instagram',
   shortForm: 'Short-form social post',
   newsletter: 'Newsletter copy',
   carousel: 'Carousel post',

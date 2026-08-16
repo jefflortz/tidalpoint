@@ -38,6 +38,8 @@ export const socialCampaignType = defineType({
           defineField({name: 'channel', title: 'Channel', type: 'string', options: {list: [
             {title: 'Jeff LinkedIn', value: 'linkedinPersonal'},
             {title: 'Tidal Point LinkedIn', value: 'linkedinCompany'},
+            {title: 'Facebook', value: 'facebook'},
+            {title: 'Instagram', value: 'instagram'},
             {title: 'Short form', value: 'shortForm'},
             {title: 'Newsletter', value: 'newsletter'},
             {title: 'Carousel', value: 'carousel'},
@@ -53,6 +55,8 @@ export const socialCampaignType = defineType({
             title: ({
               linkedinPersonal: 'Jeff LinkedIn',
               linkedinCompany: 'Tidal Point LinkedIn',
+              facebook: 'Facebook',
+              instagram: 'Instagram',
               shortForm: 'Short-form social post',
               newsletter: 'Newsletter copy',
               carousel: 'Carousel post',

@@ -30,9 +30,9 @@ const socialSchema = {
   type: 'object', additionalProperties: false,
   properties: {
     assets: {type: 'array', items: {type: 'object', additionalProperties: false, properties: {
-      channel: {type: 'string', enum: ['linkedinPersonal', 'linkedinCompany', 'shortForm', 'newsletter', 'carousel']},
+      channel: {type: 'string', enum: ['linkedinPersonal', 'linkedinCompany', 'facebook', 'instagram', 'shortForm', 'newsletter', 'carousel']},
       angle: {type: 'string'}, copy: {type: 'string'},
-    }, required: ['channel', 'angle', 'copy']}},
+    }, required: ['channel', 'angle', 'copy']}, minItems: 7, maxItems: 7},
     carouselBrief: {type: 'array', items: {type: 'string'}, minItems: 5, maxItems: 7},
     pullQuote: {type: 'string'},
   }, required: ['assets', 'carouselBrief', 'pullQuote'],
