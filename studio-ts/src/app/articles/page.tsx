@@ -1,4 +1,5 @@
 import { type Metadata } from 'next'
+import {draftMode} from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -50,7 +51,8 @@ function ArticlesCTA() {
 }
 
 export default async function Articles() {
-  const articles = await getArticles()
+  const {isEnabled: previewing} = await draftMode()
+  const articles = await getArticles({previewing})
   const featuredArticle = articles.find((article) => article.featured) ?? articles[0]
   const remainingArticles = articles.filter((article) => article._id !== featuredArticle?._id)
 
@@ -152,6 +154,11 @@ export default async function Articles() {
                     <div className="flex flex-wrap items-center gap-3 text-xs font-semibold tracking-[0.16em] uppercase">
                       {article.category && (
                         <span className="text-tidal-teal">{article.category}</span>
+                      )}
+                      {article.draft && (
+                        <span className="rounded-full bg-tidal-navy px-2 py-1 text-[0.65rem] text-white">
+                          Draft
+                        </span>
                       )}
                       <span className="text-tidal-light">{formatDate(article.date)}</span>
                     </div>

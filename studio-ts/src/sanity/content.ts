@@ -26,6 +26,7 @@ export interface ArticleSummary {
   featuredImage: string
   featuredImageAlt: string
   featured: boolean
+  draft?: boolean
 }
 
 export interface ArticleDocument extends ArticleSummary {
@@ -181,30 +182,51 @@ const summaryProjection = `{
   "href": "/articles/" + slug.current,
   "featuredImageSource": featuredImage,
   "featuredImageAlt": featuredImage.alt,
-  "featured": coalesce(featured, false)
+  "featured": coalesce(featured, false),
+  "draft": _id in path("drafts.**")
 }`
 
-export async function getArticles(): Promise<ArticleSummary[]> {
-  const articles = await sanityClient.fetch<Array<ArticleSummary & {featuredImageSource: SanityImage}>>(
+export async function getArticles(
+  {previewing = false}: {previewing?: boolean} = {},
+): Promise<ArticleSummary[]> {
+  const listClient = previewing
+    ? sanityClient.withConfig({
+        token: process.env.SANITY_API_TOKEN,
+        perspective: 'drafts',
+        useCdn: false,
+      })
+    : sanityClient
+  const publicationFilter = previewing
+    ? ''
+    : `&& defined(publishedAt) && publishedAt <= now() && noIndex != true`
+  const articles = await listClient.fetch<Array<ArticleSummary & {featuredImageSource: SanityImage}>>(
     `*[
       _type == "article" &&
-      defined(slug.current) &&
-      defined(publishedAt) &&
-      publishedAt <= now() &&
-      noIndex != true
+      defined(slug.current)
+      ${publicationFilter}
     ] | order(publishedAt desc) ${summaryProjection}`,
     {},
-    {next: {revalidate: 60}},
+    previewing ? {cache: 'no-store'} : {next: {revalidate: 60}},
   )
   return articles.map(({featuredImageSource, ...article}) => ({
     ...article,
-    date: article.date.slice(0, 10),
+    date: article.date ? article.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
     featuredImage: imageUrl(featuredImageSource, 1200, 675),
   }))
 }
 
-export async function getArticle(slug: string): Promise<ArticleDocument | null> {
-  const article = await sanityClient.fetch<
+export async function getArticle(
+  slug: string,
+  {previewing = false}: {previewing?: boolean} = {},
+): Promise<ArticleDocument | null> {
+  const articleClient = previewing
+    ? sanityClient.withConfig({
+        token: process.env.SANITY_API_TOKEN,
+        perspective: 'drafts',
+        useCdn: false,
+      })
+    : sanityClient
+  const article = await articleClient.fetch<
     (Omit<ArticleDocument, 'featuredImage' | 'socialImage'> & {
       featuredImageSource: SanityImage
       socialImageSource?: SanityImage
@@ -240,14 +262,14 @@ export async function getArticle(slug: string): Promise<ArticleDocument | null> 
       }
     }`,
     {slug},
-    {next: {revalidate: 60}},
+    previewing ? {cache: 'no-store'} : {next: {revalidate: 60}},
   )
   if (!article) return null
   const {featuredImageSource, socialImageSource, ...rest} = article
   const {portraitSource, ...author} = rest.author
   return {
     ...rest,
-    date: rest.date.slice(0, 10),
+    date: rest.date ? rest.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
     featuredImage: imageUrl(featuredImageSource, 1600, 900),
     socialImage: socialImageSource ? imageUrl(socialImageSource, 1200, 630) : undefined,
     author: {

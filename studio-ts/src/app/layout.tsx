@@ -1,9 +1,12 @@
 import { type Metadata } from 'next'
+import {draftMode} from 'next/headers'
+import {VisualEditing} from 'next-sanity/visual-editing'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
 import clsx from 'clsx'
 
 import '@/styles/tailwind.css'
 import { Analytics } from './Analytics'
+import {DraftModeBanner} from '@/components/DraftModeBanner'
 import { getOrganizationSchema } from './schema'
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -82,8 +85,9 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
 }
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
   const schema = getOrganizationSchema()
+  const {isEnabled: previewing} = await draftMode()
 
   return (
     <html
@@ -102,6 +106,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex min-h-full flex-col">
         {children}
+        {previewing && <VisualEditing />}
+        {previewing && <DraftModeBanner />}
         <Analytics />
       </body>
     </html>
