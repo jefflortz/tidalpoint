@@ -11,6 +11,8 @@
 
 The processor never publishes an article or social campaign. Existing Sanity draft/publish controls remain the approval boundary.
 
+Generated social copy is reviewed only under **Social Campaigns — Review & Schedule** in Studio Structure. The article's **Search & sharing** fields control link-preview metadata and hashtags; they are not post copy.
+
 ## Previewing a draft
 
 Run the Next.js site and Sanity Studio locally, then open **Presentation** in the Studio. Select an article or use its **Used on** link to load `/articles/<slug>` in the real website template. The Presentation Tool securely enables Next.js Draft Mode through `/api/draft-mode/enable`; the site then reads the unpublished Sanity revision with a server-only token. A visible Draft preview badge confirms that the public version is not being shown.

@@ -3,6 +3,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 export const socialCampaignType = defineType({
   name: 'socialCampaign',
   title: 'Social campaign',
+  description: 'Generated social posts for human review, approval, and scheduling after an article is published.',
   type: 'document',
   groups: [
     {name: 'content', title: 'Content', default: true},
@@ -46,11 +47,29 @@ export const socialCampaignType = defineType({
           defineField({name: 'status', title: 'Status', type: 'string', initialValue: 'draft', options: {list: ['draft', 'approved', 'scheduled', 'published']}}),
           defineField({name: 'scheduledAt', title: 'Scheduled for', type: 'datetime'}),
         ],
-        preview: {select: {title: 'channel', subtitle: 'angle'}},
+        preview: {
+          select: {channel: 'channel', angle: 'angle'},
+          prepare: ({channel, angle}) => ({
+            title: ({
+              linkedinPersonal: 'Jeff LinkedIn',
+              linkedinCompany: 'Tidal Point LinkedIn',
+              shortForm: 'Short-form social post',
+              newsletter: 'Newsletter copy',
+              carousel: 'Carousel post',
+            } as Record<string, string>)[channel] ?? channel,
+            subtitle: angle,
+          }),
+        },
       })],
     }),
     defineField({name: 'carouselBrief', title: 'Carousel brief', type: 'array', group: 'content', of: [{type: 'string'}]}),
     defineField({name: 'pullQuote', title: 'Pull quote', type: 'text', rows: 3, group: 'content'}),
   ],
-  preview: {select: {title: 'title', subtitle: 'reviewStatus'}},
+  preview: {
+    select: {title: 'title', reviewStatus: 'reviewStatus'},
+    prepare: ({title, reviewStatus}) => ({
+      title,
+      subtitle: reviewStatus === 'needsReview' ? 'Needs review' : reviewStatus,
+    }),
+  },
 })

@@ -7,8 +7,7 @@ export const articleType = defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'workflow', title: 'Workflow'},
-    {name: 'seo', title: 'SEO'},
-    {name: 'social', title: 'Social'},
+    {name: 'seo', title: 'Search & sharing'},
     {name: 'relationships', title: 'Relationships'},
   ],
   fields: [
@@ -128,13 +127,10 @@ export const articleType = defineType({
     defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3, group: 'seo', description: 'Defaults to the article description.', validation: (rule) => rule.max(170)}),
     defineField({name: 'canonicalUrl', title: 'Canonical URL override', type: 'url', group: 'seo'}),
     defineField({name: 'noIndex', title: 'Exclude from search engines', type: 'boolean', group: 'seo', initialValue: false}),
-    defineField({name: 'socialTitle', title: 'Social title', type: 'string', group: 'social'}),
-    defineField({name: 'socialDescription', title: 'Social description', type: 'text', rows: 3, group: 'social'}),
-    defineField({name: 'socialImage', title: 'Social image override', type: 'image', options: {hotspot: true}, group: 'social'}),
-    defineField({name: 'linkedInCopy', title: 'LinkedIn post copy', type: 'text', rows: 8, group: 'social'}),
-    defineField({name: 'facebookInstagramCopy', title: 'Facebook / Instagram caption', type: 'text', rows: 8, group: 'social'}),
-    defineField({name: 'xCopy', title: 'X post copy', type: 'text', rows: 5, group: 'social', validation: (rule) => rule.max(280)}),
-    defineField({name: 'hashtags', title: 'Suggested hashtags', type: 'array', of: [{type: 'string'}], group: 'social'}),
+    defineField({name: 'socialTitle', title: 'Social sharing title', description: 'Optional title used when this article is shared. This is not social post copy.', type: 'string', group: 'seo'}),
+    defineField({name: 'socialDescription', title: 'Social sharing description', description: 'Optional link-preview description. Generated posts are reviewed under Social Campaigns.', type: 'text', rows: 3, group: 'seo'}),
+    defineField({name: 'socialImage', title: 'Social sharing image override', description: 'Optional link-preview image. Defaults to the featured image.', type: 'image', options: {hotspot: true}, group: 'seo'}),
+    defineField({name: 'hashtags', title: 'Suggested hashtags', type: 'array', of: [{type: 'string'}], group: 'seo'}),
     defineField({name: 'featured', title: 'Feature on Insights page', type: 'boolean', group: 'relationships', initialValue: false}),
     defineField({name: 'relatedArticles', title: 'Related articles', type: 'array', of: [{type: 'reference', to: [{type: 'article'}]}], group: 'relationships', validation: (rule) => rule.max(3)}),
     defineField({
