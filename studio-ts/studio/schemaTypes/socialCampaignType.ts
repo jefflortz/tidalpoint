@@ -48,6 +48,9 @@ export const socialCampaignType = defineType({
           defineField({name: 'copy', title: 'Post copy', type: 'text', rows: 10, validation: (rule) => rule.required()}),
           defineField({name: 'status', title: 'Status', type: 'string', initialValue: 'draft', options: {list: ['draft', 'approved', 'scheduled', 'published']}}),
           defineField({name: 'scheduledAt', title: 'Scheduled for', type: 'datetime'}),
+          defineField({name: 'bufferPostId', title: 'Buffer post ID', type: 'string', readOnly: true}),
+          defineField({name: 'bufferSyncedAt', title: 'Last synced with Buffer', type: 'datetime', readOnly: true}),
+          defineField({name: 'bufferError', title: 'Buffer delivery error', type: 'text', readOnly: true}),
         ],
         preview: {
           select: {channel: 'channel', angle: 'angle'},

@@ -143,6 +143,45 @@ export type PublishedArticle = {
   body: Array<{_type: string; children?: Array<{text?: string}>; body?: string; questions?: string[]}>
 }
 
+export type SchedulableSocialCampaign = {
+  _id: string
+  reviewStatus?: string
+  articleTitle: string
+  articleUrl: string
+  imageUrl: string
+  imageAlt?: string
+  assets: Array<{
+    _key: string
+    channel: 'linkedinPersonal' | 'linkedinCompany' | 'facebook' | 'instagram' | 'shortForm'
+    copy: string
+    status?: string
+    scheduledAt?: string
+    bufferPostId?: string
+  }>
+}
+
+export async function getSocialCampaignForScheduling(campaignId: string) {
+  const id = campaignId.replace(/^drafts\./, '')
+  return writeClient().fetch<SchedulableSocialCampaign | null>(`*[_type == "socialCampaign" && _id == $id][0]{
+    _id, reviewStatus,
+    "articleTitle": article->title,
+    "articleUrl": $siteUrl + "/articles/" + article->slug.current,
+    "imageUrl": article->featuredImage.asset->url,
+    "imageAlt": article->featuredImage.alt,
+    assets[]{_key, channel, copy, status, scheduledAt, bufferPostId}
+  }`, {id, siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tidalpointpartners.com'})
+}
+
+export async function updateSocialAssetDelivery(
+  campaignId: string,
+  assetKey: string,
+  delivery: {bufferPostId?: string; bufferError?: string; status?: string},
+) {
+  const path = `assets[_key==${JSON.stringify(assetKey)}]`
+  const values = Object.fromEntries(Object.entries({...delivery, bufferSyncedAt: new Date().toISOString()}).map(([key, value]) => [`${path}.${key}`, value]))
+  await writeClient().patch(campaignId.replace(/^drafts\./, '')).set(values).commit()
+}
+
 export async function getPublishedArticle(articleId: string) {
   return writeClient().fetch<PublishedArticle | null>(
     `*[_type == "article" && _id == $id][0]{_id, _rev, title, description, "slug": slug.current, body}`,

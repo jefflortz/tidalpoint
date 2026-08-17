@@ -8,12 +8,21 @@
 4. A person reviews the article and imagery in Sanity, resolves verification flags, and publishes it.
 5. A Sanity document webhook calls `POST /api/content/published` with `{ "_id": "<article-id>" }`.
 6. The final published revision is used to create a separate Social Campaign draft for human approval and scheduling.
+7. Publishing an approved Social Campaign triggers `/api/content/social/schedule`; individually approved, future-dated posts are scheduled through Buffer.
 
 The processor never publishes an article or social campaign. Existing Sanity draft/publish controls remain the approval boundary.
 
 Generated social copy is reviewed only under **Social Campaigns — Review & Schedule** in Studio Structure. The article's **Search & sharing** fields control link-preview metadata and hashtags; they are not post copy.
 Each published article also has a **Social campaign** tab that summarizes its generated assets and links directly to the full campaign document.
 Every new campaign includes separate drafts for Jeff LinkedIn, Tidal Point LinkedIn, Facebook, Instagram, short-form social, newsletter, and carousel content.
+
+## Buffer scheduling
+
+Connect Jeff LinkedIn, Tidal Point LinkedIn, the Tidal Point Facebook Page, Instagram professional account, and X profile in Buffer. Each channel must use `America/New_York`. Store the Buffer personal API key as the server-only `BUFFER_API_KEY` environment variable.
+
+Create a Sanity document webhook for Social Campaign documents and publishing events. Set the URL to `/api/content/social/schedule`, add `Authorization: Bearer <SANITY_PUBLISH_WEBHOOK_SECRET>`, use the projection `{"_id": _id}`, and filter on `_type == "socialCampaign" && reviewStatus == "approved"`.
+
+Only assets with status **approved**, a future **Scheduled for** value, and no existing Buffer post ID are sent. LinkedIn, Facebook, Instagram, and short-form/X are supported in V1. Newsletter and carousel briefs remain manual. Successful items are marked **scheduled** and retain their Buffer post ID, making webhook retries idempotent. Errors remain visible on the individual asset.
 
 ## Previewing a draft
 
