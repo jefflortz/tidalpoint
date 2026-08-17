@@ -1,8 +1,7 @@
 import {NextResponse} from 'next/server'
 import {adaptIntake, adaptRankScoreMarkdown} from '@/lib/content-ops/adapters'
 import {isAuthorized} from '@/lib/content-ops/auth'
-import {generateFeaturedImage, transformArticle} from '@/lib/content-ops/openai'
-import {createArticleDraft, getIntakeContext, inputFingerprint, uploadFeaturedImage, uploadSourceImages} from '@/lib/content-ops/sanity'
+import {processIntake} from '@/lib/content-ops/process-intake'
 import type {IntakePayload} from '@/lib/content-ops/types'
 
 export const runtime = 'nodejs'
@@ -39,50 +38,8 @@ export async function POST(request: Request) {
       }
       article = adaptIntake(payload)
     }
-    const fingerprint = inputFingerprint(article)
-    const context = await getIntakeContext(article)
-
-    if (!context.pillar) {
-      return NextResponse.json({error: 'pillarArticleId must identify a published Sanity article'}, {status: 422})
-    }
-    if (!context.authorId || !context.categoryId) {
-      return NextResponse.json({error: 'Default Jeff Lortz author or Operations category is missing in Sanity'}, {status: 422})
-    }
-    if (context.existing?.fingerprint === fingerprint) {
-      return NextResponse.json({draftId: context.existing._id, title: context.existing.title, status: 'unchanged'})
-    }
-    if (context.existing && !payload.force) {
-      return NextResponse.json({
-        error: 'A draft already exists for this source article. Send force=true only if overwriting editorial changes is intentional.',
-        draftId: context.existing._id,
-      }, {status: 409})
-    }
-
-    const output = await transformArticle(article, context.pillar)
-    let featuredImageAssetId: string | undefined
-    let inlineImages
-    const mediaFlags: string[] = []
-    try {
-      const featuredBuffer = await generateFeaturedImage(output)
-      featuredImageAssetId = await uploadFeaturedImage(featuredBuffer, output.slug)
-    } catch (error) {
-      console.error('Featured image generation failed', error)
-      mediaFlags.push(`Featured image generation failed: ${error instanceof Error ? error.message : 'unknown error'}`)
-    }
-    try {
-      inlineImages = await uploadSourceImages(article.images)
-    } catch (error) {
-      console.error('Inline image import failed', error)
-      mediaFlags.push(`Inline image import failed: ${error instanceof Error ? error.message : 'unknown error'}`)
-    }
-    output.assessment.flags.push(...mediaFlags)
-    const draft = await createArticleDraft(
-      article,
-      output,
-      {authorId: context.authorId, categoryId: context.categoryId},
-      {featuredImageAssetId, inlineImages},
-    )
-    return NextResponse.json({draftId: draft._id, title: draft.title, editorialScore: output.assessment.score, status: 'needsReview'}, {status: 201})
+    const result = await processIntake(article, payload.force)
+    return NextResponse.json(result.body, {status: result.status})
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unexpected content intake error'
     const clientError = /required|must be|exceeds|Unsupported adapter|ISO-8601/.test(message)

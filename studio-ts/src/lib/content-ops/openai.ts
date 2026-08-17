@@ -1,5 +1,5 @@
-import {TIDAL_POINT_EDITORIAL_RULES, TIDAL_POINT_SOCIAL_RULES} from './brand-rules'
-import type {EditorialOutput, SocialOutput, SourceArticle} from './types'
+import {TIDAL_POINT_EDITORIAL_RULES, TIDAL_POINT_RESEARCH_RULES, TIDAL_POINT_SOCIAL_RULES} from './brand-rules'
+import type {EditorialOutput, ResearchOutput, SocialOutput, SourceArticle} from './types'
 
 const editorialSchema = {
   type: 'object', additionalProperties: false,
@@ -14,6 +14,9 @@ const editorialSchema = {
     sources: {type: 'array', items: {type: 'object', additionalProperties: false, properties: {
       title: {type: 'string'}, publisher: {type: 'string'}, url: {type: 'string'}, publishedAt: {type: 'string'},
     }, required: ['title', 'publisher', 'url', 'publishedAt']}},
+    imageBriefs: {type: 'array', minItems: 2, maxItems: 2, items: {type: 'object', additionalProperties: false, properties: {
+      prompt: {type: 'string'}, alt: {type: 'string'}, caption: {type: 'string'},
+    }, required: ['prompt', 'alt', 'caption']}},
     cta: {type: 'object', additionalProperties: false, properties: {
       eyebrow: {type: 'string'}, title: {type: 'string'}, body: {type: 'string'},
       buttonLabel: {type: 'string'}, buttonHref: {type: 'string'},
@@ -23,7 +26,19 @@ const editorialSchema = {
       flags: {type: 'array', items: {type: 'string'}},
     }, required: ['score', 'summary', 'flags']},
   },
-  required: ['title', 'slug', 'description', 'seoTitle', 'metaDescription', 'primaryKeyword', 'secondaryKeywords', 'sections', 'sources', 'cta', 'assessment'],
+  required: ['title', 'slug', 'description', 'seoTitle', 'metaDescription', 'primaryKeyword', 'secondaryKeywords', 'sections', 'sources', 'imageBriefs', 'cta', 'assessment'],
+} as const
+
+const researchSchema = {
+  type: 'object', additionalProperties: false,
+  properties: {
+    findings: {type: 'array', maxItems: 8, items: {type: 'object', additionalProperties: false, properties: {
+      claim: {type: 'string'}, context: {type: 'string'}, sourceUrl: {type: 'string'},
+    }, required: ['claim', 'context', 'sourceUrl']}},
+    sources: {type: 'array', minItems: 2, maxItems: 4, items: {type: 'object', additionalProperties: false, properties: {
+      title: {type: 'string'}, publisher: {type: 'string'}, url: {type: 'string'}, publishedAt: {type: 'string'},
+    }, required: ['title', 'publisher', 'url', 'publishedAt']}},
+  }, required: ['findings', 'sources'],
 } as const
 
 const socialSchema = {
@@ -51,7 +66,7 @@ function outputText(response: OpenAIResponse): string {
   throw new Error(response.error?.message ?? 'Model returned no structured output')
 }
 
-async function structuredResponse<T>(name: string, schema: object, instructions: string, input: unknown): Promise<T> {
+async function structuredResponse<T>(name: string, schema: object, instructions: string, input: unknown, webSearch = false): Promise<T> {
   const apiKey = process.env.OPENAI_API_KEY ?? process.env.openai_api_key
   const model = process.env.CONTENT_PROCESSOR_MODEL
   if (!apiKey) throw new Error('OPENAI_API_KEY (or openai_api_key) is not configured')
@@ -63,6 +78,7 @@ async function structuredResponse<T>(name: string, schema: object, instructions:
     body: JSON.stringify({
       model,
       input: [{role: 'system', content: instructions}, {role: 'user', content: JSON.stringify(input)}],
+      ...(webSearch ? {tools: [{type: 'web_search'}]} : {}),
       text: {format: {type: 'json_schema', name, strict: true, schema}},
     }),
     signal: AbortSignal.timeout(120_000),
@@ -72,11 +88,47 @@ async function structuredResponse<T>(name: string, schema: object, instructions:
   return JSON.parse(outputText(result)) as T
 }
 
-export function transformArticle(article: SourceArticle, pillar: {title: string; description?: string; slug?: string}) {
-  return structuredResponse<EditorialOutput>('tidal_point_article', editorialSchema, TIDAL_POINT_EDITORIAL_RULES, {
+export function researchArticle(article: SourceArticle, pillar: {title: string; description?: string; slug?: string}) {
+  return structuredResponse<ResearchOutput>('tidal_point_research', researchSchema, TIDAL_POINT_RESEARCH_RULES, {
+    articleTitle: article.title,
+    primaryKeyword: article.primaryKeyword,
+    sourceBody: article.body,
+    supportingPillar: pillar,
+    targetAudience: '$5M–$50M privately held companies, especially in Southeastern New England',
+    currentDate: new Date().toISOString().slice(0, 10),
+  }, true).then((research) => {
+    if (research.sources.some((source) => !/^\d{4}-\d{2}-\d{2}$/.test(source.publishedAt) || Number.isNaN(Date.parse(source.publishedAt)))) {
+      throw new Error('Research returned an incomplete or invalid publication date')
+    }
+    const cutoff = new Date()
+    cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 5)
+    const recent = research.sources.filter((source) => {
+      const date = new Date(source.publishedAt)
+      return !Number.isNaN(date.getTime()) && date >= cutoff
+    })
+    if (recent.length < 1) throw new Error('Research did not return a credible source from the last five years')
+    if (research.sources.some((source) => !/^https:\/\//.test(source.url))) {
+      throw new Error('Research returned a non-HTTPS source URL')
+    }
+    return research
+  })
+}
+
+export async function transformArticle(article: SourceArticle, pillar: {title: string; description?: string; slug?: string}, research: ResearchOutput) {
+  const output = await structuredResponse<EditorialOutput>('tidal_point_article', editorialSchema, TIDAL_POINT_EDITORIAL_RULES, {
     sourceArticle: article,
     supportingPillar: pillar,
+    supportingPillarPath: pillar.slug ? `/articles/${pillar.slug}` : undefined,
+    verifiedResearch: research,
+    currentDate: new Date().toISOString().slice(0, 10),
   })
+  output.primaryKeyword = article.primaryKeyword
+  output.sources = research.sources
+  const articleText = output.sections.map((section) => `${section.text} ${section.items.join(' ')}`).join(' ')
+  if (!/jeff lortz/i.test(article.body) && /jeff lortz/i.test(articleText)) {
+    throw new Error('Editorial output introduced an unsupported attribution to Jeff Lortz')
+  }
+  return output
 }
 
 export function generateSocialAssets(article: unknown) {
@@ -104,5 +156,29 @@ export async function generateFeaturedImage(article: Pick<EditorialOutput, 'titl
   if (!response.ok) throw new Error(result.error?.message ?? `Featured image generation failed (${response.status})`)
   const encoded = result.data?.[0]?.b64_json
   if (!encoded) throw new Error('Featured image generation returned no image')
+  return Buffer.from(encoded, 'base64')
+}
+
+const INLINE_IMAGE_STYLE = `Create contemporary, photorealistic editorial photography for Tidal Point Partners. Show a successful, well-run established privately held business in New England that feels attractive, energetic and human. Clean contemporary environment, abundant natural light, warm wood with restrained navy and sea-glass accents, capable people with visible purpose and momentum, thoughtful documentary composition. The workplace should feel like somewhere talented people would choose to work. Avoid gritty machinery, dated offices, dim back rooms, paper piles, clutter, lonely or stressed workers and staged corporate-stock poses. No text, labels, logos, watermarks, recognizable brands or exaggerated emotion. Wide 3:2 composition.`
+
+export async function generateInlineImage(prompt: string) {
+  const apiKey = process.env.OPENAI_API_KEY ?? process.env.openai_api_key
+  if (!apiKey) throw new Error('OPENAI_API_KEY (or openai_api_key) is not configured')
+  const response = await fetch('https://api.openai.com/v1/images/generations', {
+    method: 'POST',
+    headers: {'authorization': `Bearer ${apiKey}`, 'content-type': 'application/json'},
+    body: JSON.stringify({
+      model: process.env.FEATURED_IMAGE_MODEL ?? 'gpt-image-2',
+      prompt: `${INLINE_IMAGE_STYLE}\n\nScene brief: ${prompt}`,
+      size: process.env.INLINE_IMAGE_SIZE ?? '1536x1024',
+      quality: process.env.INLINE_IMAGE_QUALITY ?? 'medium',
+      output_format: 'png',
+    }),
+    signal: AbortSignal.timeout(180_000),
+  })
+  const result = await response.json() as {data?: Array<{b64_json?: string}>; error?: {message?: string}}
+  if (!response.ok) throw new Error(result.error?.message ?? `Inline image generation failed (${response.status})`)
+  const encoded = result.data?.[0]?.b64_json
+  if (!encoded) throw new Error('Inline image generation returned no image')
   return Buffer.from(encoded, 'base64')
 }

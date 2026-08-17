@@ -29,14 +29,24 @@ const components: PortableTextComponents = {
         <p className="mt-3 font-display text-2xl leading-snug text-tidal-navy">{value.body}</p>
       </aside>
     ),
-    diagnostic: ({value}) => (
-      <aside className="my-10 bg-tidal-navy px-7 py-8 text-white">
-        <p className="font-display text-2xl">{value.title}</p>
-        <ul className="mt-5 space-y-3 text-base text-white/75">
-          {(value.questions ?? []).map((question: string) => <li key={question}>{question}</li>)}
-        </ul>
-      </aside>
-    ),
+    diagnostic: ({value}) => {
+      const questions = Array.isArray(value.questions) ? value.questions.filter(Boolean) : []
+      return (
+        <aside className="my-10 bg-tidal-navy px-7 py-8 text-white">
+          <p className="font-display text-2xl text-white">{value.title || 'Questions to consider'}</p>
+          {questions.length > 0 && (
+            <ul className="mt-5 space-y-3 text-base text-white/80">
+              {questions.map((question: string) => (
+                <li key={question} className="flex gap-3">
+                  <span aria-hidden="true" className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-tidal-teal" />
+                  <span>{question}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+      )
+    },
   },
 }
 

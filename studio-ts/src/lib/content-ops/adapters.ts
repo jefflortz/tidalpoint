@@ -77,20 +77,87 @@ export function adaptIntake(payload: IntakePayload): SourceArticle {
 // into SourceArticle here once its documentation and a sample payload are available.
 export type ContentSourceAdapter = (payload: unknown) => SourceArticle
 
+type RankScoreArticle = {
+  id?: unknown
+  title?: unknown
+  content_markdown?: unknown
+  content_html?: unknown
+  keyword?: unknown
+  keywords?: unknown
+  meta_description?: unknown
+  hero_image_url?: unknown
+  slug?: unknown
+  project_url?: unknown
+  created_at?: unknown
+  language_code?: unknown
+  excerpt?: unknown
+}
+
+function markdownImages(markdown: string): SourceImage[] {
+  const imagePattern = /^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)[ \t]*(?:\n[ \t]*\n?[ \t]*_([^_\n]+)_)?/gm
+  return Array.from(markdown.matchAll(imagePattern), (match) => {
+    const caption = match[3]?.trim()
+    return {
+      url: match[2],
+      alt: match[1].trim() || 'Article illustration',
+      ...(caption ? {caption, attribution: caption.startsWith('Photo by ') ? caption : undefined} : {}),
+    }
+  })
+}
+
+export function adaptRankScoreArticle(payload: unknown, pillarArticleId: string): SourceArticle {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Rank Score returned an invalid article')
+  const input = payload as RankScoreArticle
+  const body = typeof input.content_markdown === 'string' && input.content_markdown.trim()
+    ? input.content_markdown
+    : requiredString(input.content_html, 'Rank Score content', MAX_BODY_LENGTH)
+  const primaryKeyword = requiredString(input.keyword, 'Rank Score keyword', 200)
+  const secondaryKeywords = strings(input.keywords, 'Rank Score keywords').filter((keyword) => keyword.toLowerCase() !== primaryKeyword.toLowerCase())
+  const generatedAt = optionalString(input.created_at, 'Rank Score created_at', 50)
+  if (generatedAt && Number.isNaN(Date.parse(generatedAt))) throw new Error('Rank Score created_at must be ISO-8601')
+
+  return {
+    source: 'rank-score',
+    sourceId: requiredString(input.id, 'Rank Score article id', 300),
+    title: requiredString(input.title, 'Rank Score title', 300),
+    body: requiredString(body, 'Rank Score content', MAX_BODY_LENGTH),
+    primaryKeyword,
+    secondaryKeywords,
+    pillarArticleId: requiredString(pillarArticleId, 'pillarArticleId', 300),
+    suggestedMetaDescription: optionalString(input.meta_description, 'Rank Score meta_description', 500),
+    generatedAt,
+    metadata: {
+      format: typeof input.content_markdown === 'string' ? 'markdown' : 'html',
+      slug: input.slug,
+      projectUrl: input.project_url,
+      languageCode: input.language_code,
+      excerpt: input.excerpt,
+      heroImageUrl: input.hero_image_url,
+    },
+    images: markdownImages(body),
+  }
+}
+
+export async function fetchRankScoreArticle(articleId: string): Promise<unknown> {
+  const apiKey = process.env.RANKSCORE_API_KEY
+  if (!apiKey) throw new Error('RANKSCORE_API_KEY is not configured')
+  const id = requiredString(articleId, 'articleId', 300)
+  if (!/^[a-zA-Z0-9-]+$/.test(id)) throw new Error('articleId is invalid')
+  const baseUrl = process.env.RANKSCORE_API_BASE_URL ?? 'https://dashboard.rankscore.co/api/integrations/v1'
+  const response = await fetch(`${baseUrl.replace(/\/$/, '')}/articles/${encodeURIComponent(id)}`, {
+    headers: {'X-API-Key': apiKey, accept: 'application/json'},
+    signal: AbortSignal.timeout(30_000),
+    cache: 'no-store',
+  })
+  if (response.status === 404) throw new Error('Rank Score article was not found')
+  if (!response.ok) throw new Error(`Rank Score request failed (${response.status})`)
+  return response.json()
+}
+
 export function adaptRankScoreMarkdown(markdown: string, metadata: MarkdownAdapterMetadata): SourceArticle {
   const body = requiredString(markdown, 'Markdown body', MAX_BODY_LENGTH)
   const heading = body.match(/^#\s+(.+)$/m)
   if (!heading) throw new Error('Rank Score Markdown must contain an H1 title')
-
-  const imagePattern = /^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)[ \t]*(?:\n[ \t]*\n?[ \t]*_([^_\n]+)_)?/gm
-  const images = Array.from(body.matchAll(imagePattern), (match) => {
-    const caption = match[3]?.trim()
-    return {
-      url: match[2],
-      alt: match[1].trim(),
-      ...(caption ? {caption, attribution: caption.startsWith('Photo by ') ? caption : undefined} : {}),
-    }
-  })
 
   return {
     source: 'rank-score',
@@ -104,6 +171,6 @@ export function adaptRankScoreMarkdown(markdown: string, metadata: MarkdownAdapt
     sourceScore: metadata.sourceScore,
     generatedAt: metadata.generatedAt,
     metadata: {format: 'markdown'},
-    images,
+    images: markdownImages(body),
   }
 }

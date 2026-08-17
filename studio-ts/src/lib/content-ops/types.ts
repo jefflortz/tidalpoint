@@ -27,6 +27,12 @@ export type IntakePayload = {
   article: Record<string, unknown>
 }
 
+export type RankScoreIntakePayload = {
+  articleId: string
+  pillarArticleId: string
+  force?: boolean
+}
+
 export type MarkdownAdapterMetadata = {
   sourceId: string
   primaryKeyword: string
@@ -52,8 +58,14 @@ export type EditorialOutput = {
     imageIndex: number
   }>
   sources: Array<{title: string; publisher: string; url: string; publishedAt: string}>
+  imageBriefs: Array<{prompt: string; alt: string; caption: string}>
   cta: {eyebrow: string; title: string; body: string; buttonLabel: string; buttonHref: string}
   assessment: {score: number; summary: string; flags: string[]}
+}
+
+export type ResearchOutput = {
+  findings: Array<{claim: string; context: string; sourceUrl: string}>
+  sources: Array<{title: string; publisher: string; url: string; publishedAt: string}>
 }
 
 export type UploadedSourceImage = SourceImage & {assetId: string}

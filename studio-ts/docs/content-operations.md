@@ -4,7 +4,7 @@
 
 1. Any source adapter normalizes an article into the generic intake format.
 2. `POST /api/content/intake` applies Tidal Point editorial rules and creates a deterministic Sanity draft.
-3. The processor generates a featured image in the established Tidal Point visual system and imports supported source images into Sanity.
+3. The processor researches credible supporting sources, generates a featured image in the established Tidal Point visual system, and creates two context-sensitive inline editorial images.
 4. A person reviews the article and imagery in Sanity, resolves verification flags, and publishes it.
 5. A Sanity document webhook calls `POST /api/content/published` with `{ "_id": "<article-id>" }`.
 6. The final published revision is used to create a separate Social Campaign draft for human approval and scheduling.
@@ -87,9 +87,24 @@ Social generation is revision-idempotent. Re-publishing a changed article refres
 
 ## Environment
 
-Copy `.env.example` to the deployment's encrypted environment configuration. The Sanity token needs document read/write access to the production dataset. All variables are server-only. Image behavior can be configured with `FEATURED_IMAGE_MODEL`, `FEATURED_IMAGE_SIZE`, `FEATURED_IMAGE_QUALITY`, and `SOURCE_IMAGE_HOSTS`.
+Copy `.env.example` to the deployment's encrypted environment configuration. The Sanity token needs document read/write access to the production dataset. All variables are server-only. Image behavior can be configured with `FEATURED_IMAGE_MODEL`, `FEATURED_IMAGE_SIZE`, `FEATURED_IMAGE_QUALITY`, `INLINE_IMAGE_SIZE`, and `INLINE_IMAGE_QUALITY`.
 
 ## Rank Score adapter contract
+
+### Direct Rank Score API intake
+
+Rank Score completed articles can be fetched without copying their content into the request. The API key remains server-side:
+
+```bash
+curl http://localhost:3000/api/content/intake/rank-score \
+  -H "Authorization: Bearer $CONTENT_INTAKE_SECRET" \
+  -H "Content-Type: application/json" \
+  --data '{"articleId":"<rank-score-uuid>","pillarArticleId":"<published-sanity-article-id>"}'
+```
+
+The adapter uses Rank Score's stable article ID for idempotency and prefers Markdown while retaining the supplied metadata. Rank Score imagery is retained as provenance only. The Tidal Point processor adds 2–5 researched sources, generates the featured image, and creates two context-sensitive inline images. Re-importing identical source content returns the existing draft. Changed source content requires an explicit `force: true` to protect editorial work.
+
+The current Rank Score integration is pull-based because its published API documentation does not expose a webhook.
 
 Before implementing a direct adapter, obtain:
 

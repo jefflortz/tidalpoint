@@ -11,7 +11,7 @@ const apiVersion = '2026-08-05'
 function writeClient() {
   const token = process.env.SANITY_API_WRITE_TOKEN ?? process.env.SANITY_API_TOKEN
   if (!token) throw new Error('SANITY_API_WRITE_TOKEN or SANITY_API_TOKEN is not configured')
-  return createClient({projectId, dataset, apiVersion, token, useCdn: false})
+  return createClient({projectId, dataset, apiVersion, token, useCdn: false, perspective: 'raw'})
 }
 
 function allowedImageHosts() {
@@ -65,6 +65,20 @@ export async function uploadFeaturedImage(buffer: Buffer, slug: string) {
   return asset._id
 }
 
+export async function uploadGeneratedInlineImages(
+  images: Array<{buffer: Buffer; alt: string; caption: string}>,
+  slug: string,
+): Promise<UploadedSourceImage[]> {
+  const uploaded: UploadedSourceImage[] = []
+  for (const [index, image] of images.entries()) {
+    const asset = await writeClient().assets.upload('image', image.buffer, {
+      filename: `${slug}-inline-${index + 1}.png`, contentType: 'image/png',
+    })
+    uploaded.push({assetId: asset._id, url: '', alt: image.alt, caption: image.caption})
+  }
+  return uploaded
+}
+
 export function inputFingerprint(article: SourceArticle) {
   return createHash('sha256').update(JSON.stringify(article)).digest('hex')
 }
@@ -78,15 +92,35 @@ export async function getIntakeContext(article: SourceArticle) {
   const client = writeClient()
   return client.fetch<{
     existing: {_id: string; fingerprint?: string; title?: string} | null
+    published: {
+      _id: string
+      slug?: string
+      publishedAt?: string
+      canonicalUrl?: string
+      noIndex?: boolean
+      featured?: boolean
+      socialTitle?: string
+      socialDescription?: string
+      hashtags?: string[]
+      relatedArticles?: Array<{_type: 'reference'; _ref: string; _key?: string}>
+    } | null
     pillar: {_id: string; title: string; description?: string; slug?: string} | null
     authorId: string | null
     categoryId: string | null
   }>(`{
     "existing": *[_id == $draftId][0]{_id, title, "fingerprint": contentProvenance.inputFingerprint},
+    "published": *[_id == $publishedId][0]{
+      _id, "slug": slug.current, publishedAt, canonicalUrl, noIndex, featured,
+      socialTitle, socialDescription, hashtags, relatedArticles
+    },
     "pillar": *[_type == "article" && _id == $pillarId][0]{_id, title, description, "slug": slug.current},
     "authorId": *[_type == "author" && slug.current == "jeff-lortz"][0]._id,
     "categoryId": *[_type == "category" && slug.current == "operations"][0]._id
-  }`, {draftId: draftId(article), pillarId: article.pillarArticleId})
+  }`, {
+    draftId: draftId(article),
+    publishedId: draftId(article).replace(/^drafts\./, ''),
+    pillarId: article.pillarArticleId,
+  })
 }
 
 function sourceObjects(sources: EditorialOutput['sources']) {
@@ -107,13 +141,27 @@ function safeSlug(value: string) {
 export async function createArticleDraft(
   article: SourceArticle,
   output: EditorialOutput,
-  context: {authorId: string; categoryId: string},
+  context: {
+    authorId: string
+    categoryId: string
+    published?: {
+      slug?: string
+      publishedAt?: string
+      canonicalUrl?: string
+      noIndex?: boolean
+      featured?: boolean
+      socialTitle?: string
+      socialDescription?: string
+      hashtags?: string[]
+      relatedArticles?: Array<{_type: 'reference'; _ref: string; _key?: string}>
+    } | null
+  },
   media: {featuredImageAssetId?: string; inlineImages?: UploadedSourceImage[]} = {},
 ) {
   const fingerprint = inputFingerprint(article)
   const document = {
     _id: draftId(article), _type: 'article', title: output.title,
-    slug: {_type: 'slug', current: safeSlug(output.slug)}, description: output.description,
+    slug: {_type: 'slug', current: context.published?.slug ?? safeSlug(output.slug)}, description: output.description,
     author: {_type: 'reference', _ref: context.authorId},
     category: {_type: 'reference', _ref: context.categoryId},
     pillarArticle: {_type: 'reference', _ref: article.pillarArticleId},
@@ -123,6 +171,14 @@ export async function createArticleDraft(
       alt: `Abstract engineered system representing ${output.title}`,
     }} : {}),
     seoTitle: output.seoTitle, metaDescription: output.metaDescription,
+    ...(context.published?.publishedAt ? {publishedAt: context.published.publishedAt} : {}),
+    ...(context.published?.canonicalUrl ? {canonicalUrl: context.published.canonicalUrl} : {}),
+    ...(context.published?.noIndex != null ? {noIndex: context.published.noIndex} : {}),
+    ...(context.published?.featured != null ? {featured: context.published.featured} : {}),
+    ...(context.published?.socialTitle ? {socialTitle: context.published.socialTitle} : {}),
+    ...(context.published?.socialDescription ? {socialDescription: context.published.socialDescription} : {}),
+    ...(context.published?.hashtags?.length ? {hashtags: context.published.hashtags} : {}),
+    ...(context.published?.relatedArticles?.length ? {relatedArticles: context.published.relatedArticles} : {}),
     primaryKeyword: output.primaryKeyword, secondaryKeywords: output.secondaryKeywords,
     cta: output.cta, reviewStatus: 'needsReview',
     editorialAssessment: output.assessment,
