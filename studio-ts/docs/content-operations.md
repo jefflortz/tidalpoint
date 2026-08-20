@@ -1,16 +1,26 @@
 # Tidal Point Content Operations V1
 
+## Weekly automated rhythm
+
+- Thursday morning: Vercel checks RankScore's article list and processes the oldest unprocessed article. The engine selects the closest existing pillar, creates an article draft and social campaign, and records the rationale in Sanity.
+- Friday 3:00 p.m. Eastern: approved packages are locked for publication. Unapproved articles and their social dates move forward one week automatically.
+- Monday 7:30 a.m. Eastern: approved, scheduled article drafts are published.
+- Social targets are prefilled for Tidal Point LinkedIn Wednesday at 4:00 p.m., Instagram Wednesday at 6:00 p.m., and Facebook Thursday at 9:00 a.m. Eastern. Only individually approved posts are sent to Buffer.
+- Production cron endpoints require Vercel's `CRON_SECRET`. Source IDs and fingerprints keep discovery idempotent.
+
+Recurring calendar reminders are the V1 notification layer: Thursday noon review, Friday 10:00 a.m. approval check, and Friday 3:05 p.m. cutoff confirmation.
+
 ## Workflow
 
 1. Any source adapter normalizes an article into the generic intake format.
 2. `POST /api/content/intake` applies Tidal Point editorial rules and creates a deterministic Sanity draft.
 3. The processor researches credible supporting sources, generates a featured image in the established Tidal Point visual system, and creates two context-sensitive inline editorial images.
-4. A person reviews the article and imagery in Sanity, resolves verification flags, and publishes it.
+4. A person reviews the article, imagery, pillar selection, and social package in Sanity and approves it.
 5. A Sanity document webhook calls `POST /api/content/published` with `{ "_id": "<article-id>" }`.
-6. The final published revision is used to create a separate Social Campaign draft for human approval and scheduling.
+6. Scheduled weekly intake creates the Social Campaign alongside the article draft; manual publishing still creates it after publication.
 7. Publishing an approved Social Campaign triggers `/api/content/social/schedule`; individually approved, future-dated posts are scheduled through Buffer.
 
-The processor never publishes an article or social campaign. Existing Sanity draft/publish controls remain the approval boundary.
+The scheduler publishes only article drafts approved before the weekly cutoff. Social Campaign publishing and individual post approval remain explicit human controls.
 
 Generated social copy is reviewed only under **Social Campaigns — Review & Schedule** in Studio Structure. The article's **Search & sharing** fields control link-preview metadata and hashtags; they are not post copy.
 Each published article also has a **Social campaign** tab that summarizes its generated assets and links directly to the full campaign document.

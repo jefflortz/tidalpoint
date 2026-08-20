@@ -77,7 +77,7 @@ export function adaptIntake(payload: IntakePayload): SourceArticle {
 // into SourceArticle here once its documentation and a sample payload are available.
 export type ContentSourceAdapter = (payload: unknown) => SourceArticle
 
-type RankScoreArticle = {
+export type RankScoreArticle = {
   id?: unknown
   title?: unknown
   content_markdown?: unknown
@@ -91,6 +91,20 @@ type RankScoreArticle = {
   created_at?: unknown
   language_code?: unknown
   excerpt?: unknown
+}
+
+export async function fetchRankScoreArticles(): Promise<RankScoreArticle[]> {
+  const apiKey = process.env.RANKSCORE_API_KEY
+  if (!apiKey) throw new Error('RANKSCORE_API_KEY is not configured')
+  const baseUrl = process.env.RANKSCORE_API_BASE_URL ?? 'https://dashboard.rankscore.co/api/integrations/v1'
+  const response = await fetch(`${baseUrl.replace(/\/$/, '')}/articles`, {
+    headers: {'X-API-Key': apiKey, accept: 'application/json'},
+    signal: AbortSignal.timeout(30_000), cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`Rank Score article list failed (${response.status})`)
+  const result = await response.json()
+  if (!Array.isArray(result)) throw new Error('Rank Score returned an invalid article list')
+  return result as RankScoreArticle[]
 }
 
 function markdownImages(markdown: string): SourceImage[] {

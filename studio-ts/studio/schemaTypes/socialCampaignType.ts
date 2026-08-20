@@ -12,6 +12,10 @@ export const socialCampaignType = defineType({
   fields: [
     defineField({name: 'title', title: 'Campaign title', type: 'string', group: 'content', validation: (rule) => rule.required()}),
     defineField({name: 'article', title: 'Published article', type: 'reference', to: [{type: 'article'}], group: 'content', validation: (rule) => rule.required()}),
+    defineField({name: 'articleTitle', title: 'Article title snapshot', type: 'string', hidden: true}),
+    defineField({name: 'articleSlug', title: 'Article slug snapshot', type: 'string', hidden: true}),
+    defineField({name: 'imageUrl', title: 'Image URL snapshot', type: 'url', hidden: true}),
+    defineField({name: 'imageAlt', title: 'Image alt snapshot', type: 'string', hidden: true}),
     defineField({name: 'articleRevision', title: 'Generated from revision', type: 'string', group: 'workflow', readOnly: true}),
     defineField({name: 'generatedAt', title: 'Generated at', type: 'datetime', group: 'workflow', readOnly: true}),
     defineField({

@@ -8,7 +8,7 @@ export type ProcessIntakeResult =
   | {status: 409; body: {error: string; draftId: string}}
   | {status: 422; body: {error: string}}
 
-export async function processIntake(article: SourceArticle, force = false): Promise<ProcessIntakeResult> {
+export async function processIntake(article: SourceArticle, force = false, workflow?: {scheduledPublishAt: string; approvalDeadline: string; pillarRationale?: string}): Promise<ProcessIntakeResult> {
   const fingerprint = inputFingerprint(article)
   const context = await getIntakeContext(article)
 
@@ -52,6 +52,7 @@ export async function processIntake(article: SourceArticle, force = false): Prom
     output,
     {authorId: context.authorId, categoryId: context.categoryId, published: context.published},
     {featuredImageAssetId, inlineImages},
+    workflow,
   )
   return {status: 201, body: {draftId: draft._id, title: draft.title, editorialScore: output.assessment.score, status: 'needsReview'}}
 }

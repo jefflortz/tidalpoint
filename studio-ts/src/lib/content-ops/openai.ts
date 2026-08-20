@@ -53,6 +53,12 @@ const socialSchema = {
   }, required: ['assets', 'carouselBrief', 'pullQuote'],
 } as const
 
+const pillarSchema = {
+  type: 'object', additionalProperties: false,
+  properties: {pillarId: {type: 'string'}, rationale: {type: 'string'}},
+  required: ['pillarId', 'rationale'],
+} as const
+
 type OpenAIResponse = {output_text?: string; output?: Array<{content?: Array<{type?: string; text?: string; refusal?: string}>}>; error?: {message?: string}}
 
 function outputText(response: OpenAIResponse): string {
@@ -133,6 +139,16 @@ export async function transformArticle(article: SourceArticle, pillar: {title: s
 
 export function generateSocialAssets(article: unknown) {
   return structuredResponse<SocialOutput>('tidal_point_social_campaign', socialSchema, TIDAL_POINT_SOCIAL_RULES, article)
+}
+
+export function selectPillar(article: Pick<SourceArticle, 'title' | 'primaryKeyword' | 'body'>, pillars: Array<{_id: string; title: string; description?: string}>) {
+  return structuredResponse<{pillarId: string; rationale: string}>('tidal_point_pillar', pillarSchema,
+    'Choose exactly one supplied pillar article that best matches the source article search intent. Return its exact _id. Do not invent an id.',
+    {article: {...article, body: article.body.slice(0, 6000)}, pillars},
+  ).then((choice) => {
+    if (!pillars.some((pillar) => pillar._id === choice.pillarId)) throw new Error('Processor selected an invalid pillar')
+    return choice
+  })
 }
 
 const FEATURED_IMAGE_STYLE = `Create a quietly premium, photorealistic abstract studio still life for a Tidal Point Partners editorial article. Deep matte midnight-navy seamless surface and background. Express the article's central business idea through one elegant engineered visual metaphor made from warm ivory ceramic, pale sandstone, muted translucent sea-glass teal, and pale natural wood. Wide 16:9 composition, primary object right of center, generous dark negative space on the left, low three-quarter camera angle, soft directional side light, controlled highlights and deep natural shadows. Sophisticated, practical and tactile. No text, labels, letters, numbers, logos, people, office scene, charts, screens, gears, puzzle-piece clichés, nautical imagery, watermark or border.`

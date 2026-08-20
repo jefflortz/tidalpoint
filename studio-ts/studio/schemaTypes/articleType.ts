@@ -24,6 +24,10 @@ export const articleType = defineType({
     }),
     defineField({name: 'description', title: 'Description / deck', type: 'text', rows: 3, group: 'content', validation: (rule) => rule.required().max(240)}),
     defineField({name: 'publishedAt', title: 'Publication date', type: 'datetime', group: 'content', validation: (rule) => rule.required()}),
+    defineField({name: 'scheduledPublishAt', title: 'Scheduled publication', type: 'datetime', group: 'workflow', description: 'Approved drafts publish automatically at this time.'}),
+    defineField({name: 'approvalDeadline', title: 'Approval deadline', type: 'datetime', group: 'workflow', readOnly: true}),
+    defineField({name: 'workflowStatus', title: 'Automation status', type: 'string', group: 'workflow', readOnly: true, options: {list: ['needsReview', 'scheduled', 'published', 'deferred', 'failed']}}),
+    defineField({name: 'pillarRationale', title: 'Why this pillar was selected', type: 'text', rows: 3, group: 'workflow', readOnly: true}),
     defineField({name: 'updatedAt', title: 'Substantive update date', type: 'datetime', group: 'content'}),
     defineField({
       name: 'author',
@@ -113,6 +117,7 @@ export const articleType = defineType({
         defineField({name: 'receivedAt', title: 'Received at', type: 'datetime'}),
         defineField({name: 'inputFingerprint', title: 'Input fingerprint', type: 'string'}),
         defineField({name: 'processorModel', title: 'Processor model', type: 'string'}),
+        defineField({name: 'rankScoreArticleId', title: 'RankScore article ID', type: 'string'}),
       ],
     }),
     defineField({

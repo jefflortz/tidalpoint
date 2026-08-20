@@ -157,6 +157,7 @@ export async function createArticleDraft(
     } | null
   },
   media: {featuredImageAssetId?: string; inlineImages?: UploadedSourceImage[]} = {},
+  workflow?: {scheduledPublishAt: string; approvalDeadline: string; pillarRationale?: string},
 ) {
   const fingerprint = inputFingerprint(article)
   const document = {
@@ -171,7 +172,7 @@ export async function createArticleDraft(
       alt: `Abstract engineered system representing ${output.title}`,
     }} : {}),
     seoTitle: output.seoTitle, metaDescription: output.metaDescription,
-    ...(context.published?.publishedAt ? {publishedAt: context.published.publishedAt} : {}),
+    ...(context.published?.publishedAt ? {publishedAt: context.published.publishedAt} : workflow ? {publishedAt: workflow.scheduledPublishAt} : {}),
     ...(context.published?.canonicalUrl ? {canonicalUrl: context.published.canonicalUrl} : {}),
     ...(context.published?.noIndex != null ? {noIndex: context.published.noIndex} : {}),
     ...(context.published?.featured != null ? {featured: context.published.featured} : {}),
@@ -188,7 +189,9 @@ export async function createArticleDraft(
       ...(article.sourceScore != null ? {sourceScore: article.sourceScore} : {}),
       receivedAt: new Date().toISOString(), inputFingerprint: fingerprint,
       processorModel: process.env.CONTENT_PROCESSOR_MODEL,
+      ...((article.metadata.rankScoreArticleId ?? article.sourceId) ? {rankScoreArticleId: String(article.metadata.rankScoreArticleId ?? article.sourceId)} : {}),
     },
+    ...(workflow ? {scheduledPublishAt: workflow.scheduledPublishAt, approvalDeadline: workflow.approvalDeadline, workflowStatus: 'needsReview', pillarRationale: workflow.pillarRationale} : {}),
   }
   await writeClient().createOrReplace(document)
   return {_id: document._id, title: document.title, fingerprint}
@@ -196,12 +199,29 @@ export async function createArticleDraft(
 
 export type PublishedArticle = {
   _id: string; _rev: string; title: string; description: string; slug: string;
+  fingerprint?: string;
   body: Array<{_type: string; children?: Array<{text?: string}>; body?: string; questions?: string[]}>
+}
+
+export async function getPillarCandidates() {
+  return writeClient().fetch<Array<{_id: string; title: string; description?: string}>>(`*[_type == "article" && !(_id in path("drafts.**")) && !defined(pillarArticle)] | order(title asc){_id,title,description}`)
+}
+
+export async function getProcessedRankScoreIds() {
+  return writeClient().fetch<string[]>(`array::unique(*[_type == "article" && defined(contentProvenance.rankScoreArticleId)].contentProvenance.rankScoreArticleId)`)
+}
+
+export async function getArticleDraftForSocial(id: string) {
+  return writeClient().fetch<(PublishedArticle & {featuredImageUrl?: string; featuredImageAlt?: string; fingerprint?: string}) | null>(
+    `*[_id == $id][0]{_id,_rev,title,description,"slug":slug.current,body,"featuredImageUrl":featuredImage.asset->url,"featuredImageAlt":featuredImage.alt,"fingerprint":contentProvenance.inputFingerprint}`,
+    {id},
+  )
 }
 
 export type SchedulableSocialCampaign = {
   _id: string
   reviewStatus?: string
+  articleReviewStatus?: string
   articleTitle: string
   articleUrl: string
   imageUrl: string
@@ -220,10 +240,11 @@ export async function getSocialCampaignForScheduling(campaignId: string) {
   const id = campaignId.replace(/^drafts\./, '')
   return writeClient().fetch<SchedulableSocialCampaign | null>(`*[_type == "socialCampaign" && _id == $id][0]{
     _id, reviewStatus,
-    "articleTitle": article->title,
-    "articleUrl": $siteUrl + "/articles/" + article->slug.current,
-    "imageUrl": article->featuredImage.asset->url,
-    "imageAlt": article->featuredImage.alt,
+    "articleReviewStatus": coalesce(article->reviewStatus, *[_id == "drafts." + ^.article._ref][0].reviewStatus),
+    "articleTitle": coalesce(article->title, articleTitle),
+    "articleUrl": $siteUrl + "/articles/" + coalesce(article->slug.current, articleSlug),
+    "imageUrl": coalesce(article->featuredImage.asset->url, imageUrl),
+    "imageAlt": coalesce(article->featuredImage.alt, imageAlt),
     assets[]{_key, channel, copy, status, scheduledAt, bufferPostId}
   }`, {id, siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tidalpointpartners.com'})
 }
@@ -240,7 +261,7 @@ export async function updateSocialAssetDelivery(
 
 export async function getPublishedArticle(articleId: string) {
   return writeClient().fetch<PublishedArticle | null>(
-    `*[_type == "article" && _id == $id][0]{_id, _rev, title, description, "slug": slug.current, body}`,
+    `*[_type == "article" && _id == $id][0]{_id, _rev, title, description, "slug": slug.current, body, "fingerprint": contentProvenance.inputFingerprint}`,
     {id: articleId.replace(/^drafts\./, '')},
   )
 }
@@ -255,17 +276,55 @@ export function articleForSocial(article: PublishedArticle) {
 export async function socialCampaignMatchesRevision(article: PublishedArticle) {
   const id = `drafts.social-campaign-${article._id.replace(/[^a-zA-Z0-9_-]/g, '-')}`
   const existing = await writeClient().fetch<{articleRevision?: string} | null>(`*[_id == $id][0]{articleRevision}`, {id})
-  return existing?.articleRevision === article._rev ? id : null
+  return existing?.articleRevision === (article.fingerprint ?? article._rev) ? id : null
 }
 
-export async function createSocialCampaignDraft(article: PublishedArticle, social: SocialOutput) {
-  const id = `drafts.social-campaign-${article._id.replace(/[^a-zA-Z0-9_-]/g, '-')}`
+export async function createSocialCampaignDraft(article: PublishedArticle & {featuredImageUrl?: string; featuredImageAlt?: string; fingerprint?: string}, social: SocialOutput, scheduled?: Partial<Record<string, Date>>) {
+  const baseArticleId = article._id.replace(/^drafts\./, '')
+  const id = `drafts.social-campaign-${baseArticleId.replace(/[^a-zA-Z0-9_-]/g, '-')}`
   await writeClient().createOrReplace({
     _id: id, _type: 'socialCampaign', title: `${article.title} — social campaign`,
-    article: {_type: 'reference', _ref: article._id}, articleRevision: article._rev,
+    article: {_type: 'reference', _ref: baseArticleId, _weak: true}, articleRevision: article.fingerprint ?? article._rev,
+    articleTitle: article.title, articleSlug: article.slug, imageUrl: article.featuredImageUrl, imageAlt: article.featuredImageAlt,
     generatedAt: new Date().toISOString(), reviewStatus: 'needsReview',
-    assets: social.assets.map((asset) => ({...asset, _type: 'socialAsset', _key: randomUUID().slice(0, 12), status: 'draft'})),
+    assets: social.assets.map((asset) => ({...asset, _type: 'socialAsset', _key: randomUUID().slice(0, 12), status: 'draft', ...(scheduled?.[asset.channel] ? {scheduledAt: scheduled[asset.channel]!.toISOString()} : {})})),
     carouselBrief: social.carouselBrief, pullQuote: social.pullQuote,
   })
   return {_id: id}
+}
+
+
+export async function publishDueArticles(now = new Date()) {
+  const drafts = await writeClient().fetch<Array<Record<string, unknown> & {_id: string; _type: string; scheduledPublishAt: string}>>(`*[_type == "article" && _id in path("drafts.**") && reviewStatus == "approved" && workflowStatus == "scheduled" && scheduledPublishAt <= $now]`, {now: now.toISOString()})
+  const published: string[] = []
+  for (const draft of drafts) {
+    const draftId = String(draft._id)
+    const publishedId = draftId.replace(/^drafts\./, '')
+    const {_rev, _createdAt, _updatedAt, ...content} = draft
+    await writeClient().transaction().createOrReplace({...content, _id: publishedId, publishedAt: draft.scheduledPublishAt, workflowStatus: 'published'}).delete(draftId).commit()
+    published.push(publishedId)
+  }
+  return published
+}
+
+export async function finalizeWeeklyApprovals(now = new Date()) {
+  const drafts = await writeClient().fetch<Array<{_id: string; reviewStatus?: string; scheduledPublishAt: string; approvalDeadline: string}>>(`*[_type == "article" && _id in path("drafts.**") && workflowStatus in ["needsReview", "deferred"] && approvalDeadline <= $now]{_id,reviewStatus,scheduledPublishAt,approvalDeadline}`, {now: now.toISOString()})
+  const scheduled: string[] = []
+  const deferred: string[] = []
+  for (const draft of drafts) {
+    if (draft.reviewStatus === 'approved') {
+      await writeClient().patch(draft._id).set({workflowStatus: 'scheduled'}).commit()
+      scheduled.push(draft._id)
+      continue
+    }
+    const shift = (value: string) => new Date(Date.parse(value) + 7 * 86_400_000).toISOString()
+    await writeClient().patch(draft._id).set({workflowStatus: 'deferred', scheduledPublishAt: shift(draft.scheduledPublishAt), publishedAt: shift(draft.scheduledPublishAt), approvalDeadline: shift(draft.approvalDeadline)}).commit()
+    const campaignId = `drafts.social-campaign-${draft._id.replace(/^drafts\./, '')}`
+    const campaign = await writeClient().fetch<{assets?: Array<{scheduledAt?: string}>} | null>(`*[_id == $id][0]{assets}`, {id: campaignId})
+    if (campaign?.assets?.length) {
+      await writeClient().patch(campaignId).set({assets: campaign.assets.map((asset) => asset.scheduledAt ? {...asset, scheduledAt: shift(asset.scheduledAt)} : asset)}).commit()
+    }
+    deferred.push(draft._id)
+  }
+  return {scheduled, deferred}
 }

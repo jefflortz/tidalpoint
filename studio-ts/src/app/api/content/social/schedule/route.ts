@@ -40,6 +40,9 @@ export async function POST(request: Request) {
         { status: 409 },
       )
     }
+    if (campaign.articleReviewStatus !== 'approved') {
+      return NextResponse.json({error: 'The article must be approved before social posts can be scheduled'}, {status: 409})
+    }
     const candidates = campaign.assets.filter(
       (asset) =>
         publishableSocialChannels.has(asset.channel) &&

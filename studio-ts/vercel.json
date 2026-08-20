@@ -1,0 +1,7 @@
+{
+  "crons": [
+    {"path": "/api/content/workflow/discover", "schedule": "0 13 * * 4"},
+    {"path": "/api/content/workflow/finalize", "schedule": "0 19 * * 5"},
+    {"path": "/api/content/workflow/publish", "schedule": "*/15 11-14 * * 1"}
+  ]
+}

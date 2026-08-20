@@ -75,7 +75,7 @@ export function SocialCampaignPanel() {
       <Card padding={4} border radius={2} tone="caution">
         <Stack space={4}>
           <Text weight="semibold">No social campaign has been generated yet.</Text>
-          <Text size={1}>A campaign is created after the article is published.</Text>
+          <Text size={1}>The weekly automation creates this campaign alongside the article draft.</Text>
           <Button as="a" href="/structure/socialCampaign" mode="ghost" text="View all social campaigns" />
         </Stack>
       </Card>
