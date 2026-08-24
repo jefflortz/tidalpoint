@@ -53,7 +53,9 @@ function ArticlesCTA() {
 export default async function Articles() {
   const {isEnabled: previewing} = await draftMode()
   const articles = await getArticles({previewing})
-  const featuredArticle = articles.find((article) => article.featured) ?? articles[0]
+  // getArticles returns published articles ordered by publishedAt descending,
+  // so the newest article should always lead the Insights page.
+  const featuredArticle = articles[0]
   const remainingArticles = articles.filter((article) => article._id !== featuredArticle?._id)
 
   return (

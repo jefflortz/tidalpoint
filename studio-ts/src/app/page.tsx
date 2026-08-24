@@ -444,7 +444,9 @@ function WhyTidalPoint() {
 
 async function Perspective() {
   const articles = await getArticles()
-  const article = articles.find((item) => item.featured) ?? articles[0]
+  // getArticles returns published articles ordered by publishedAt descending,
+  // so the newest article should always lead the homepage.
+  const article = articles[0]
 
   if (!article) return null
 
