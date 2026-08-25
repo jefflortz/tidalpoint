@@ -46,7 +46,8 @@ export async function POST(request: Request) {
     const candidates = campaign.assets.filter(
       (asset) =>
         publishableSocialChannels.has(asset.channel) &&
-        asset.status === 'approved' &&
+        asset.status !== 'scheduled' &&
+        asset.status !== 'published' &&
         asset.scheduledAt &&
         !asset.bufferPostId,
     )

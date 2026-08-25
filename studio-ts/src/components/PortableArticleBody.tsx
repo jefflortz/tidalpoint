@@ -35,14 +35,23 @@ const components: PortableTextComponents = {
         <aside className="my-10 bg-tidal-navy px-7 py-8 text-white">
           <p className="font-display text-2xl text-white">{value.title || 'Questions to consider'}</p>
           {questions.length > 0 && (
-            <ul className="mt-5 space-y-3 text-base text-white/80">
-              {questions.map((question: string) => (
-                <li key={question} className="flex gap-3">
-                  <span aria-hidden="true" className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-tidal-teal" />
-                  <span>{question}</span>
-                </li>
+            <div
+              role="list"
+              className="mt-6 border-t border-white/15 text-base text-white/80"
+            >
+              {questions.map((question: string, index: number) => (
+                <div
+                  role="listitem"
+                  key={question}
+                  className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-4 border-b border-white/15 py-4"
+                >
+                  <span aria-hidden="true" className="pt-0.5 text-xs font-semibold tracking-[0.12em] text-tidal-teal">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="leading-7">{question}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </aside>
       )
