@@ -103,9 +103,23 @@ export function researchArticle(article: SourceArticle, pillar: {title: string; 
     targetAudience: '$5M–$50M privately held companies, especially in Southeastern New England',
     currentDate: new Date().toISOString().slice(0, 10),
   }, true).then((research) => {
-    if (research.sources.some((source) => !/^\d{4}-\d{2}-\d{2}$/.test(source.publishedAt) || Number.isNaN(Date.parse(source.publishedAt)))) {
-      throw new Error('Research returned an incomplete or invalid publication date')
+    const validSources = research.sources.filter((source) =>
+      /^\d{4}-\d{2}-\d{2}$/.test(source.publishedAt) &&
+      !Number.isNaN(Date.parse(source.publishedAt)) &&
+      /^https:\/\//.test(source.url),
+    )
+    if (validSources.length < 2) {
+      throw new Error('Research did not return at least two fully dated HTTPS sources')
     }
+    if (validSources.length !== research.sources.length) {
+      console.warn('Research discarded incomplete source citations', {
+        returned: research.sources.length,
+        retained: validSources.length,
+      })
+    }
+    research.sources = validSources
+    const validUrls = new Set(validSources.map((source) => source.url))
+    research.findings = research.findings.filter((finding) => validUrls.has(finding.sourceUrl))
     const cutoff = new Date()
     cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 5)
     const recent = research.sources.filter((source) => {
@@ -113,9 +127,6 @@ export function researchArticle(article: SourceArticle, pillar: {title: string; 
       return !Number.isNaN(date.getTime()) && date >= cutoff
     })
     if (recent.length < 1) throw new Error('Research did not return a credible source from the last five years')
-    if (research.sources.some((source) => !/^https:\/\//.test(source.url))) {
-      throw new Error('Research returned a non-HTTPS source URL')
-    }
     return research
   })
 }
