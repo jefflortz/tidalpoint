@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { FadeIn, FadeInStagger } from '@/components/FadeIn'
+import { HubSpotAboutForm } from '@/components/HubSpotAboutForm'
 import { RootLayout } from '@/components/RootLayout'
 import { PageSchema } from '@/components/PageSchema'
 
@@ -337,26 +338,26 @@ function RegionAndCTA() {
         </Container>
       </section>
 
-      <section className="bg-tidal-navy py-20 sm:py-24">
+      <section className="bg-tidal-navy py-20 sm:py-28">
         <Container>
-          <FadeIn className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-7">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <FadeIn className="lg:col-span-5">
               <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
                 Begin a Conversation
               </p>
               <h2 className="mt-5 max-w-3xl font-display text-4xl leading-tight font-medium text-white sm:text-5xl">
                 Start with the business. Decide together what comes next.
               </h2>
-            </div>
-            <div className="lg:col-span-4 lg:col-start-9 lg:text-right">
-              <Link
-                href="/contact"
-                className="inline-flex bg-white px-7 py-3.5 text-sm font-semibold tracking-[0.1em] text-tidal-navy uppercase transition hover:bg-tidal-sand"
-              >
-                Begin a Conversation
-              </Link>
-            </div>
-          </FadeIn>
+              <p className="mt-6 max-w-xl text-base leading-7 text-white/70">
+                Bring the opportunity, challenge or decision carrying the most
+                consequence. We&rsquo;ll listen carefully, offer a point of view
+                and decide together whether there is a meaningful path forward.
+              </p>
+            </FadeIn>
+            <FadeIn className="bg-white p-6 sm:p-8 lg:col-span-6 lg:col-start-7 lg:p-10">
+              <HubSpotAboutForm />
+            </FadeIn>
+          </div>
         </Container>
       </section>
     </>

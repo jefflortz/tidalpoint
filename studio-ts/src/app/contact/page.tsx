@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Border } from '@/components/Border'
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
+import { HubSpotAboutForm } from '@/components/HubSpotAboutForm'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
 import { PageSchema } from '@/components/PageSchema'
@@ -14,18 +15,12 @@ function ContactForm() {
       <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
         Schedule a Conversation
       </p>
-      {/* Temporary CTA — swap for the Tidal Point Partners HubSpot form once available */}
-      <div className="mt-6">
-        <Link
-          href="mailto:info@tidalpointpartners.com"
-          className="inline-flex items-center rounded-full bg-tidal-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-tidal-navy/90"
-        >
-          Email info@tidalpointpartners.com
-        </Link>
+      <div className="mt-6 rounded-2xl border border-tidal-navy/10 bg-white p-6 shadow-sm sm:p-8">
+        <HubSpotAboutForm />
       </div>
-      <p className="mt-4 text-sm text-tidal-light">
-        No commitment. No pitch deck. Just a conversation with someone
-        who&rsquo;s been in the seat.
+      <p className="mt-5 max-w-lg text-sm leading-relaxed text-tidal-light">
+        We&rsquo;ll begin with a thoughtful conversation about the business,
+        the context and the questions carrying the most consequence.
       </p>
     </FadeIn>
   )
