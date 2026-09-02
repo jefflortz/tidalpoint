@@ -37,6 +37,7 @@ export function weeklySchedule(now = new Date()) {
     linkedinCompany: upcomingWeekday(publishAt, 'Wed', 16),
     instagram: upcomingWeekday(publishAt, 'Wed', 18),
     facebook: upcomingWeekday(publishAt, 'Thu', 9),
+    shortForm: upcomingWeekday(publishAt, 'Fri', 9),
   }
   return {publishAt, approvalDeadline, social}
 }
