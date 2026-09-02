@@ -4,6 +4,7 @@ import {
   createScheduledBufferPost,
   getBufferChannelMap,
   publishableSocialChannels,
+  requireAvailableBufferChannel,
 } from '@/lib/content-ops/buffer'
 import {
   getSocialCampaignForScheduling,
@@ -84,9 +85,13 @@ export async function POST(request: Request) {
     }> = []
     for (const asset of candidates) {
       try {
+        const channel = requireAvailableBufferChannel(
+          asset.channel,
+          channels[asset.channel],
+        )
         const post = await createScheduledBufferPost({
           channel: asset.channel,
-          channelId: channels[asset.channel].id,
+          channelId: channel.id,
           copy: asset.copy,
           scheduledAt: asset.scheduledAt!,
           articleUrl: campaign.articleUrl,

@@ -61,7 +61,7 @@ async function bufferRequest<T>(
 }
 
 export async function getBufferChannelMap(): Promise<
-  Record<SocialChannel, BufferChannel>
+  Partial<Record<SocialChannel, BufferChannel>>
 > {
   const accountData = await bufferRequest<{
     account: { organizations: Array<{ id: string }> }
@@ -85,14 +85,22 @@ export async function getBufferChannelMap(): Promise<
     instagram: find('instagram', 'business'),
     shortForm: find('twitter', 'profile'),
   }
-  for (const [name, channel] of Object.entries(mapped)) {
-    if (!channel) throw new Error(`Buffer channel is not connected for ${name}`)
-    if (channel.isDisconnected || channel.isLocked)
-      throw new Error(`Buffer channel is unavailable for ${name}`)
-    if (channel.timezone !== 'America/New_York')
-      throw new Error(`Buffer channel ${name} must use America/New_York`)
-  }
-  return mapped as Record<SocialChannel, BufferChannel>
+  return mapped
+}
+
+export function requireAvailableBufferChannel(
+  channelName: SocialChannel,
+  channel: BufferChannel | undefined,
+) {
+  if (!channel)
+    throw new Error(`Buffer channel is not connected for ${channelName}`)
+  if (channel.isDisconnected || channel.isLocked)
+    throw new Error(`Buffer channel is unavailable for ${channelName}`)
+  if (channel.timezone !== 'America/New_York')
+    throw new Error(
+      `Buffer channel ${channelName} must use America/New_York`,
+    )
+  return channel
 }
 
 function metadata(channel: SocialChannel) {
