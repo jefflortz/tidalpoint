@@ -100,6 +100,7 @@ export async function POST(request: Request) {
         })
         await updateSocialAssetDelivery(campaign._id, asset._key, {
           bufferPostId: post.id,
+          bufferError: null,
           status: 'scheduled',
         })
         results.push({ channel: asset.channel, bufferPostId: post.id })

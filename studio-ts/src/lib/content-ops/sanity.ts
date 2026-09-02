@@ -252,7 +252,7 @@ export async function getSocialCampaignForScheduling(campaignId: string) {
 export async function updateSocialAssetDelivery(
   campaignId: string,
   assetKey: string,
-  delivery: {bufferPostId?: string; bufferError?: string; status?: string},
+  delivery: {bufferPostId?: string; bufferError?: string | null; status?: string},
 ) {
   const path = `assets[_key==${JSON.stringify(assetKey)}]`
   const values = Object.fromEntries(Object.entries({...delivery, bufferSyncedAt: new Date().toISOString()}).map(([key, value]) => [`${path}.${key}`, value]))
