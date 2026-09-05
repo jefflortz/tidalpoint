@@ -7,7 +7,7 @@ import { RootLayout } from '@/components/RootLayout'
 import { getIndexableLocationSummaries } from '@/sanity/content'
 
 export const metadata: Metadata = {
-  title: 'Operating Partner Support Across Southeastern New England',
+  title: 'Operating Partner Locations',
   description:
     'Explore Tidal Point Partners’ regional Operating Partner support for established privately held businesses across Southeastern New England.',
   alternates: { canonical: '/locations' },
