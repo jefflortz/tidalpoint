@@ -1,17 +1,26 @@
-import {createClient} from 'next-sanity'
-import {createImageUrlBuilder} from '@sanity/image-url'
+import { createClient } from 'next-sanity'
+import { createImageUrlBuilder } from '@sanity/image-url'
 
 const projectId = '5w70fpy3'
 const dataset = 'production'
 const apiVersion = '2026-08-05'
 
-export const sanityClient = createClient({projectId, dataset, apiVersion, useCdn: false})
+export const sanityClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+})
 const imageBuilder = createImageUrlBuilder(sanityClient)
 
 type SanityImage = Parameters<typeof imageBuilder.image>[0]
 
 export function imageUrl(source: SanityImage, width = 1600, height?: number) {
-  let builder = imageBuilder.image(source).width(width).auto('format').quality(88)
+  let builder = imageBuilder
+    .image(source)
+    .width(width)
+    .auto('format')
+    .quality(88)
   if (height) builder = builder.height(height).fit('crop')
   return builder.url()
 }
@@ -67,6 +76,9 @@ export interface LocationPageDocument {
   title: string
   slug: string
   regionName: string
+  primarySearchPhrase?: string
+  areasServed?: string[]
+  regionalIndustries?: string[]
   heroEyebrow?: string
   heroTitle: string
   heroIntroduction: string
@@ -74,19 +86,19 @@ export interface LocationPageDocument {
     eyebrow?: string
     title: string
     body: string
-    details?: Array<{_key: string; label: string; value: string}>
+    details?: Array<{ _key: string; label: string; value: string }>
   }
   situations: {
     eyebrow?: string
     title: string
     introduction?: string
-    items: Array<{_key: string; title: string; body: string}>
+    items: Array<{ _key: string; title: string; body: string }>
   }
   supportAreas: {
     eyebrow?: string
     title: string
     introduction?: string
-    items: Array<{_key: string; label: string; title: string; body: string}>
+    items: Array<{ _key: string; label: string; title: string; body: string }>
   }
   businessProfile: {
     eyebrow?: string
@@ -94,6 +106,13 @@ export interface LocationPageDocument {
     body: string
     industries?: string[]
   }
+  localProofPoints?: Array<{ _key: string; title: string; body: string }>
+  regionalResources?: Array<{
+    _key: string
+    title: string
+    description?: string
+    url: string
+  }>
   relatedArticles?: ArticleSummary[]
   cta?: {
     eyebrow?: string
@@ -109,36 +128,94 @@ export interface LocationPageDocument {
   noIndex?: boolean
 }
 
-const southeasternNewEnglandSeed: Omit<LocationPageDocument, 'relatedArticles'> = {
+export interface LocationPageSummary {
+  _id: string
+  title: string
+  slug: string
+  regionName: string
+  heroIntroduction: string
+  primarySearchPhrase?: string
+}
+
+const southeasternNewEnglandSeed: Omit<
+  LocationPageDocument,
+  'relatedArticles'
+> = {
   _id: 'location-southeastern-new-england-preview',
   title: 'Southeastern New England',
   slug: 'southeastern-new-england',
   regionName: 'Southeastern New England',
+  primarySearchPhrase:
+    'operating partner for privately held businesses in Southeastern New England',
+  areasServed: [
+    'Plymouth',
+    'South Shore',
+    'South Coast',
+    'Cape Cod',
+    'Massachusetts',
+    'Rhode Island',
+  ],
+  regionalIndustries: [
+    'Manufacturing',
+    'Distribution & logistics',
+    'Business services',
+    'Healthcare services',
+    'Engineering & construction',
+    'Specialty consumer products',
+  ],
   heroEyebrow: 'Operating Partner Support in Southeastern New England',
   heroTitle: 'Experienced operating partnership, close to the business.',
   heroIntroduction:
     'Tidal Point works alongside owners and leadership teams across Massachusetts, Rhode Island and Southeastern New England when growth, change or transition has raised the consequence of every decision.',
   regionalContext: {
     eyebrow: 'A Regional Operating Perspective',
-    title: 'Close enough to understand the context. Independent enough to challenge it.',
-    body:
-      'Privately held businesses across Southeastern New England often combine substantial operating complexity with deeply personal ownership. Customers, employees and communities may have depended on the company for decades.\n\nAt a pivotal moment, leaders need more than generic advice. They need an experienced operator who can understand the business quickly, test the decisions that matter and remain alongside the team as those decisions become operating progress.',
+    title:
+      'Close enough to understand the context. Independent enough to challenge it.',
+    body: 'Privately held businesses across Southeastern New England often combine substantial operating complexity with deeply personal ownership. Customers, employees and communities may have depended on the company for decades.\n\nAt a pivotal moment, leaders need more than generic advice. They need an experienced operator who can understand the business quickly, test the decisions that matter and remain alongside the team as those decisions become operating progress.',
     details: [
-      {_key: 'base', label: 'Based in', value: 'Plymouth, Massachusetts'},
-      {_key: 'region', label: 'Serving', value: 'Massachusetts, Rhode Island and adjacent New England markets'},
-      {_key: 'businesses', label: 'Business fit', value: 'Established privately held and owner-led companies'},
+      { _key: 'base', label: 'Based in', value: 'Plymouth, Massachusetts' },
+      {
+        _key: 'region',
+        label: 'Serving',
+        value: 'Massachusetts, Rhode Island and adjacent New England markets',
+      },
+      {
+        _key: 'businesses',
+        label: 'Business fit',
+        value: 'Established privately held and owner-led companies',
+      },
     ],
   },
   situations: {
     eyebrow: 'When Leaders Call Us',
-    title: 'The business is established. The next decision still carries real weight.',
+    title:
+      'The business is established. The next decision still carries real weight.',
     introduction:
       'The need rarely presents itself as a request for an Operating Partner. It begins with a consequential business situation that needs experienced judgment and sustained follow-through.',
     items: [
-      {_key: 'growth', title: 'Growth has increased complexity faster than the business has adapted.', body: 'Decision-making, accountability and operating rhythm have not kept pace with a larger and more demanding company.'},
-      {_key: 'dependency', title: 'Too much of the business still runs through one person.', body: 'The owner or CEO remains the center of gravity, constraining leadership capacity and the company’s next chapter.'},
-      {_key: 'leadership', title: 'A capable management group is not yet operating as one leadership team.', body: 'Strong individual managers need clearer priorities, shared accountability and a better way to make decisions together.'},
-      {_key: 'investment', title: 'A major investment or strategic move requires greater confidence.', body: 'A new service line, facility, system, acquisition or market move demands choices that must hold up through execution.'},
+      {
+        _key: 'growth',
+        title:
+          'Growth has increased complexity faster than the business has adapted.',
+        body: 'Decision-making, accountability and operating rhythm have not kept pace with a larger and more demanding company.',
+      },
+      {
+        _key: 'dependency',
+        title: 'Too much of the business still runs through one person.',
+        body: 'The owner or CEO remains the center of gravity, constraining leadership capacity and the company’s next chapter.',
+      },
+      {
+        _key: 'leadership',
+        title:
+          'A capable management group is not yet operating as one leadership team.',
+        body: 'Strong individual managers need clearer priorities, shared accountability and a better way to make decisions together.',
+      },
+      {
+        _key: 'investment',
+        title:
+          'A major investment or strategic move requires greater confidence.',
+        body: 'A new service line, facility, system, acquisition or market move demands choices that must hold up through execution.',
+      },
     ],
   },
   supportAreas: {
@@ -147,18 +224,51 @@ const southeasternNewEnglandSeed: Omit<LocationPageDocument, 'relatedArticles'> 
     introduction:
       'The relationship stays personal and senior-led. Specialist resources are added only when a defined deliverable will help the leadership team move forward.',
     items: [
-      {_key: 'direction', label: 'Direction', title: 'Clarify the decision and what it requires.', body: 'Frame the real question, pressure-test assumptions and establish a course the ownership and leadership team can carry forward with confidence.'},
-      {_key: 'leadership', label: 'Leadership', title: 'Build capability around the owner and CEO.', body: 'Strengthen roles, decision rights and accountability so the management team becomes a source of leverage rather than another point of escalation.'},
-      {_key: 'performance', label: 'Performance', title: 'Translate judgment into operating progress.', body: 'Connect strategic choices to priorities, measures and a practical operating cadence—without burdening the business with a consulting program.'},
+      {
+        _key: 'direction',
+        label: 'Direction',
+        title: 'Clarify the decision and what it requires.',
+        body: 'Frame the real question, pressure-test assumptions and establish a course the ownership and leadership team can carry forward with confidence.',
+      },
+      {
+        _key: 'leadership',
+        label: 'Leadership',
+        title: 'Build capability around the owner and CEO.',
+        body: 'Strengthen roles, decision rights and accountability so the management team becomes a source of leverage rather than another point of escalation.',
+      },
+      {
+        _key: 'performance',
+        label: 'Performance',
+        title: 'Translate judgment into operating progress.',
+        body: 'Connect strategic choices to priorities, measures and a practical operating cadence—without burdening the business with a consulting program.',
+      },
     ],
   },
   businessProfile: {
     eyebrow: 'Built for the Region’s Established Businesses',
     title: 'Different industries. Familiar operating realities.',
-    body:
-      'Southeastern New England is home to substantial businesses built over years, often across generations. Their industries differ, but many share the same challenge: preserving the judgment and commitment that made the company successful while building the leadership and operating capacity required for what comes next.',
-    industries: ['Manufacturing', 'Distribution & logistics', 'Business services', 'Healthcare services', 'Engineering & construction', 'Specialty consumer products'],
+    body: 'Southeastern New England is home to substantial businesses built over years, often across generations. Their industries differ, but many share the same challenge: preserving the judgment and commitment that made the company successful while building the leadership and operating capacity required for what comes next.',
+    industries: [
+      'Manufacturing',
+      'Distribution & logistics',
+      'Business services',
+      'Healthcare services',
+      'Engineering & construction',
+      'Specialty consumer products',
+    ],
   },
+  localProofPoints: [
+    {
+      _key: 'regional-base',
+      title: 'Based in Plymouth, Massachusetts',
+      body: 'Tidal Point is based in the region and works with leadership teams in person when proximity improves the conversation and the work.',
+    },
+    {
+      _key: 'regional-reach',
+      title: 'Built to serve Southeastern New England',
+      body: 'The practice serves established privately held businesses across the South Shore, South Coast, Cape Cod, Massachusetts and Rhode Island.',
+    },
+  ],
   cta: {
     eyebrow: 'A Useful First Conversation',
     title: 'Start with the situation—not a predefined engagement.',
@@ -169,7 +279,8 @@ const southeasternNewEnglandSeed: Omit<LocationPageDocument, 'relatedArticles'> 
   seoTitle: 'Operating Partner in Southeastern New England',
   metaDescription:
     'Experienced Operating Partner support for privately held businesses across Massachusetts, Rhode Island and Southeastern New England navigating growth and change.',
-  canonicalUrl: 'https://tidalpointpartners.com/locations/southeastern-new-england',
+  canonicalUrl:
+    'https://tidalpointpartners.com/locations/southeastern-new-england',
   noIndex: false,
 }
 
@@ -186,9 +297,9 @@ const summaryProjection = `{
   "draft": _id in path("drafts.**")
 }`
 
-export async function getArticles(
-  {previewing = false}: {previewing?: boolean} = {},
-): Promise<ArticleSummary[]> {
+export async function getArticles({
+  previewing = false,
+}: { previewing?: boolean } = {}): Promise<ArticleSummary[]> {
   const listClient = previewing
     ? sanityClient.withConfig({
         token: process.env.SANITY_API_TOKEN,
@@ -199,25 +310,29 @@ export async function getArticles(
   const publicationFilter = previewing
     ? ''
     : `&& defined(publishedAt) && publishedAt <= now() && noIndex != true`
-  const articles = await listClient.fetch<Array<ArticleSummary & {featuredImageSource: SanityImage}>>(
+  const articles = await listClient.fetch<
+    Array<ArticleSummary & { featuredImageSource: SanityImage }>
+  >(
     `*[
       _type == "article" &&
       defined(slug.current)
       ${publicationFilter}
     ] | order(publishedAt desc) ${summaryProjection}`,
     {},
-    previewing ? {cache: 'no-store'} : {next: {revalidate: 60}},
+    previewing ? { cache: 'no-store' } : { next: { revalidate: 60 } },
   )
-  return articles.map(({featuredImageSource, ...article}) => ({
+  return articles.map(({ featuredImageSource, ...article }) => ({
     ...article,
-    date: article.date ? article.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+    date: article.date
+      ? article.date.slice(0, 10)
+      : new Date().toISOString().slice(0, 10),
     featuredImage: imageUrl(featuredImageSource, 1200, 675),
   }))
 }
 
 export async function getArticle(
   slug: string,
-  {previewing = false}: {previewing?: boolean} = {},
+  { previewing = false }: { previewing?: boolean } = {},
 ): Promise<ArticleDocument | null> {
   const articleClient = previewing
     ? sanityClient.withConfig({
@@ -227,11 +342,12 @@ export async function getArticle(
       })
     : sanityClient
   const article = await articleClient.fetch<
-    (Omit<ArticleDocument, 'featuredImage' | 'socialImage'> & {
-      featuredImageSource: SanityImage
-      socialImageSource?: SanityImage
-      author: ArticleDocument['author'] & {portraitSource?: SanityImage}
-    }) | null
+    | (Omit<ArticleDocument, 'featuredImage' | 'socialImage'> & {
+        featuredImageSource: SanityImage
+        socialImageSource?: SanityImage
+        author: ArticleDocument['author'] & { portraitSource?: SanityImage }
+      })
+    | null
   >(
     `*[_type == "article" && slug.current == $slug][0]{
       _id,
@@ -261,17 +377,21 @@ export async function getArticle(
         "portraitSource": portrait
       }
     }`,
-    {slug},
-    previewing ? {cache: 'no-store'} : {next: {revalidate: 60}},
+    { slug },
+    previewing ? { cache: 'no-store' } : { next: { revalidate: 60 } },
   )
   if (!article) return null
-  const {featuredImageSource, socialImageSource, ...rest} = article
-  const {portraitSource, ...author} = rest.author
+  const { featuredImageSource, socialImageSource, ...rest } = article
+  const { portraitSource, ...author } = rest.author
   return {
     ...rest,
-    date: rest.date ? rest.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+    date: rest.date
+      ? rest.date.slice(0, 10)
+      : new Date().toISOString().slice(0, 10),
     featuredImage: imageUrl(featuredImageSource, 1600, 900),
-    socialImage: socialImageSource ? imageUrl(socialImageSource, 1200, 630) : undefined,
+    socialImage: socialImageSource
+      ? imageUrl(socialImageSource, 1200, 630)
+      : undefined,
     author: {
       ...author,
       portrait: portraitSource ? imageUrl(portraitSource, 320, 400) : undefined,
@@ -289,19 +409,27 @@ export async function getArticleSlugs(): Promise<string[]> {
       noIndex != true
     ].slug.current`,
     {},
-    {next: {revalidate: 60}},
+    { next: { revalidate: 60 } },
   )
 }
 
-export async function getLocationPage(slug: string): Promise<LocationPageDocument | null> {
+export async function getLocationPage(
+  slug: string,
+): Promise<LocationPageDocument | null> {
   const page = await sanityClient.fetch<
-    (Omit<LocationPageDocument, 'socialImage'> & {socialImageSource?: SanityImage}) | null
+    | (Omit<LocationPageDocument, 'socialImage'> & {
+        socialImageSource?: SanityImage
+      })
+    | null
   >(
     `*[_type == "locationPage" && slug.current == $slug][0]{
       _id,
       title,
       "slug": slug.current,
       regionName,
+      primarySearchPhrase,
+      areasServed,
+      regionalIndustries,
       heroEyebrow,
       heroTitle,
       heroIntroduction,
@@ -309,6 +437,8 @@ export async function getLocationPage(slug: string): Promise<LocationPageDocumen
       situations,
       supportAreas,
       businessProfile,
+      localProofPoints,
+      regionalResources,
       "relatedArticles": relatedArticles[]->{
         _id,
         title,
@@ -327,8 +457,8 @@ export async function getLocationPage(slug: string): Promise<LocationPageDocumen
       "socialImageSource": socialImage,
       noIndex
     }`,
-    {slug},
-    {next: {revalidate: 60}},
+    { slug },
+    { next: { revalidate: 60 } },
   )
   if (!page) {
     if (slug !== southeasternNewEnglandSeed.slug) return null
@@ -341,17 +471,20 @@ export async function getLocationPage(slug: string): Promise<LocationPageDocumen
     return {
       ...southeasternNewEnglandSeed,
       relatedArticles: relatedSlugs
-        .map((articleSlug) => articles.find((article) => article.href.endsWith(`/${articleSlug}`)))
+        .map((articleSlug) =>
+          articles.find((article) => article.href.endsWith(`/${articleSlug}`)),
+        )
         .filter((article): article is ArticleSummary => Boolean(article)),
     }
   }
 
-  const {socialImageSource, ...rest} = page
+  const { socialImageSource, ...rest } = page
   const relatedArticles = rest.relatedArticles?.map((article) => ({
     ...article,
     date: article.date.slice(0, 10),
     featuredImage: imageUrl(
-      (article as ArticleSummary & {featuredImageSource: SanityImage}).featuredImageSource,
+      (article as ArticleSummary & { featuredImageSource: SanityImage })
+        .featuredImageSource,
       900,
       506,
     ),
@@ -360,31 +493,70 @@ export async function getLocationPage(slug: string): Promise<LocationPageDocumen
   return {
     ...rest,
     relatedArticles,
-    socialImage: socialImageSource ? imageUrl(socialImageSource, 1200, 630) : undefined,
+    socialImage: socialImageSource
+      ? imageUrl(socialImageSource, 1200, 630)
+      : undefined,
   }
+}
+
+export async function getIndexableLocationSummaries(): Promise<
+  LocationPageSummary[]
+> {
+  const pages = await sanityClient.fetch<LocationPageSummary[]>(
+    `*[_type == "locationPage" && defined(slug.current) && noIndex != true] | order(regionName asc){
+      _id,
+      title,
+      "slug": slug.current,
+      regionName,
+      heroIntroduction,
+      primarySearchPhrase
+    }`,
+    {},
+    { next: { revalidate: 60 } },
+  )
+
+  if (!pages.some((page) => page.slug === southeasternNewEnglandSeed.slug)) {
+    pages.push({
+      _id: southeasternNewEnglandSeed._id,
+      title: southeasternNewEnglandSeed.title,
+      slug: southeasternNewEnglandSeed.slug,
+      regionName: southeasternNewEnglandSeed.regionName,
+      heroIntroduction: southeasternNewEnglandSeed.heroIntroduction,
+      primarySearchPhrase: southeasternNewEnglandSeed.primarySearchPhrase,
+    })
+  }
+
+  return pages
 }
 
 export async function getLocationSlugs(): Promise<string[]> {
   const slugs = await sanityClient.fetch<string[]>(
     `*[_type == "locationPage" && defined(slug.current)].slug.current`,
     {},
-    {next: {revalidate: 60}},
+    { next: { revalidate: 60 } },
   )
   return Array.from(new Set([...slugs, southeasternNewEnglandSeed.slug]))
 }
 
-export async function getIndexableLocationPages(): Promise<Array<{slug: string; updatedAt: string}>> {
-  const pages = await sanityClient.fetch<Array<{slug: string; updatedAt: string}>>(
+export async function getIndexableLocationPages(): Promise<
+  Array<{ slug: string; updatedAt: string }>
+> {
+  const pages = await sanityClient.fetch<
+    Array<{ slug: string; updatedAt: string }>
+  >(
     `*[_type == "locationPage" && defined(slug.current) && noIndex != true]{
       "slug": slug.current,
       "updatedAt": _updatedAt
     }`,
     {},
-    {next: {revalidate: 60}},
+    { next: { revalidate: 60 } },
   )
 
   if (!pages.some((page) => page.slug === southeasternNewEnglandSeed.slug)) {
-    pages.push({slug: southeasternNewEnglandSeed.slug, updatedAt: new Date().toISOString()})
+    pages.push({
+      slug: southeasternNewEnglandSeed.slug,
+      updatedAt: new Date().toISOString(),
+    })
   }
 
   return pages

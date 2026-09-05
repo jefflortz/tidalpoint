@@ -25,6 +25,10 @@ async function seed() {
     title: 'Southeastern New England',
     slug: {_type: 'slug', current: 'southeastern-new-england'},
     regionName: 'Southeastern New England',
+    primarySearchPhrase:
+      'operating partner for privately held businesses in Southeastern New England',
+    areasServed: ['Plymouth', 'South Shore', 'South Coast', 'Cape Cod', 'Massachusetts', 'Rhode Island'],
+    regionalIndustries: ['Manufacturing', 'Distribution & logistics', 'Business services', 'Healthcare services', 'Engineering & construction', 'Specialty consumer products'],
     heroEyebrow: 'Operating Partner Support in Southeastern New England',
     heroTitle: 'Experienced operating partnership, close to the business.',
     heroIntroduction:
@@ -70,6 +74,22 @@ async function seed() {
         'Southeastern New England is home to substantial businesses built over years, often across generations. Their industries differ, but many share the same challenge: preserving the judgment and commitment that made the company successful while building the leadership and operating capacity required for what comes next.',
       industries: ['Manufacturing', 'Distribution & logistics', 'Business services', 'Healthcare services', 'Engineering & construction', 'Specialty consumer products'],
     },
+    localProofPoints: [
+      {
+        _type: 'localProofPoint',
+        _key: 'regional-base',
+        title: 'Based in Plymouth, Massachusetts',
+        body:
+          'Tidal Point is based in the region and works with leadership teams in person when proximity improves the conversation and the work.',
+      },
+      {
+        _type: 'localProofPoint',
+        _key: 'regional-reach',
+        title: 'Built to serve Southeastern New England',
+        body:
+          'The practice serves established privately held businesses across the South Shore, South Coast, Cape Cod, Massachusetts and Rhode Island.',
+      },
+    ],
     relatedArticles,
     cta: {
       eyebrow: 'A Useful First Conversation',

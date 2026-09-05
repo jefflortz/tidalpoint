@@ -1,19 +1,29 @@
-import {type Metadata} from 'next'
+import { type Metadata } from 'next'
 import Link from 'next/link'
-import {notFound} from 'next/navigation'
+import { notFound } from 'next/navigation'
 
-import {Container} from '@/components/Container'
-import {FadeIn, FadeInStagger} from '@/components/FadeIn'
-import {RootLayout} from '@/components/RootLayout'
-import {formatDate} from '@/lib/formatDate'
-import {getLocationPage, getLocationSlugs, type LocationPageDocument} from '@/sanity/content'
+import { Container } from '@/components/Container'
+import { FadeIn, FadeInStagger } from '@/components/FadeIn'
+import { RootLayout } from '@/components/RootLayout'
+import { formatDate } from '@/lib/formatDate'
+import {
+  getIndexableLocationSummaries,
+  getLocationPage,
+  getLocationSlugs,
+  type LocationPageDocument,
+  type LocationPageSummary,
+} from '@/sanity/content'
 
 export async function generateStaticParams() {
-  return (await getLocationSlugs()).map((slug) => ({slug}))
+  return (await getLocationSlugs()).map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({params}: {params: Promise<{slug: string}>}): Promise<Metadata> {
-  const {slug} = await params
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
   const page = await getLocationPage(slug)
   if (!page) return {}
   const canonical = page.canonicalUrl ?? `/locations/${slug}`
@@ -21,8 +31,8 @@ export async function generateMetadata({params}: {params: Promise<{slug: string}
   return {
     title: page.seoTitle ?? page.heroTitle,
     description: page.metaDescription ?? page.heroIntroduction,
-    alternates: {canonical},
-    robots: page.noIndex ? {index: false, follow: false} : undefined,
+    alternates: { canonical },
+    robots: page.noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       title: page.seoTitle ?? page.heroTitle,
       description: page.metaDescription ?? page.heroIntroduction,
@@ -33,25 +43,70 @@ export async function generateMetadata({params}: {params: Promise<{slug: string}
   }
 }
 
-function LocationSchema({page}: {page: LocationPageDocument}) {
+function LocationSchema({ page }: { page: LocationPageDocument }) {
   const url = `https://tidalpointpartners.com/locations/${page.slug}`
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${url}#webpage`,
-    url,
-    name: page.seoTitle ?? page.heroTitle,
-    description: page.metaDescription ?? page.heroIntroduction,
-    about: {
-      '@id': 'https://tidalpointpartners.com/#organization',
+  const schema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${url}#webpage`,
+      url,
+      name: page.seoTitle ?? page.heroTitle,
+      description: page.metaDescription ?? page.heroIntroduction,
+      about: {
+        '@id': 'https://tidalpointpartners.com/#organization',
+      },
+      spatialCoverage: page.areasServed?.map((name) => ({
+        '@type': 'Place',
+        name,
+      })),
+      mainEntity: {
+        '@type': 'Service',
+        name: page.primarySearchPhrase ?? page.heroTitle,
+        serviceType: 'Operating Partner support',
+        provider: { '@id': 'https://tidalpointpartners.com/#organization' },
+        areaServed: page.areasServed?.map((name) => ({
+          '@type': 'Place',
+          name,
+        })),
+        audience: {
+          '@type': 'BusinessAudience',
+          audienceType:
+            'Owners and leadership teams of established privately held businesses',
+        },
+      },
+      inLanguage: 'en-US',
     },
-    inLanguage: 'en-US',
-  }
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://tidalpointpartners.com/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Locations',
+          item: 'https://tidalpointpartners.com/locations',
+        },
+        { '@type': 'ListItem', position: 3, name: page.regionName, item: url },
+      ],
+    },
+  ]
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(schema)}} />
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
 }
 
-function Hero({page}: {page: LocationPageDocument}) {
+function Hero({ page }: { page: LocationPageDocument }) {
   return (
     <section className="relative isolate overflow-hidden bg-tidal-navy py-20 sm:py-28 lg:py-36">
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-70">
@@ -61,6 +116,25 @@ function Hero({page}: {page: LocationPageDocument}) {
         <div className="absolute top-[58%] right-[9rem] h-2 w-2 rounded-full bg-tidal-teal shadow-[0_0_28px_8px_rgba(127,174,159,.3)] sm:right-[21%]" />
       </div>
       <Container>
+        <nav aria-label="Breadcrumb" className="mb-10 sm:mb-14">
+          <ol className="flex flex-wrap items-center gap-2 text-[0.68rem] font-semibold tracking-[0.14em] text-white/55 uppercase">
+            <li>
+              <Link href="/" className="transition hover:text-white">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <Link href="/locations" className="transition hover:text-white">
+                Locations
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-tidal-teal">
+              {page.regionName}
+            </li>
+          </ol>
+        </nav>
         <FadeIn className="grid gap-12 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
@@ -72,9 +146,17 @@ function Hero({page}: {page: LocationPageDocument}) {
           </div>
           <div className="lg:col-span-4">
             <div className="border-l border-white/20 pl-6 sm:pl-8">
-              <p className="text-lg leading-8 text-white/72">{page.heroIntroduction}</p>
-              <Link href="/contact" className="mt-8 inline-flex border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-tidal-navy">
-                Start a conversation <span className="ml-3" aria-hidden="true">&rarr;</span>
+              <p className="text-lg leading-8 text-white/72">
+                {page.heroIntroduction}
+              </p>
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-tidal-navy"
+              >
+                Start a conversation{' '}
+                <span className="ml-3" aria-hidden="true">
+                  &rarr;
+                </span>
               </Link>
             </div>
           </div>
@@ -84,26 +166,184 @@ function Hero({page}: {page: LocationPageDocument}) {
   )
 }
 
-function RegionalContext({page}: {page: LocationPageDocument}) {
+function RegionalResources({ page }: { page: LocationPageDocument }) {
+  if (!page.regionalResources?.length) return null
+
+  return (
+    <section className="bg-white py-20 sm:py-24 lg:py-28">
+      <Container>
+        <FadeIn className="grid gap-8 border-b border-tidal-navy/15 pb-9 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Regional resources
+            </p>
+            <h2 className="mt-5 font-display text-4xl leading-tight font-medium tracking-tight text-tidal-navy sm:text-5xl">
+              Useful context for leaders in {page.regionName}.
+            </h2>
+          </div>
+        </FadeIn>
+        <FadeInStagger className="grid lg:grid-cols-2">
+          {page.regionalResources.map((resource, index) => (
+            <FadeIn
+              key={resource._key}
+              className={`border-b border-tidal-navy/12 py-8 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}
+            >
+              <h3 className="font-display text-2xl font-medium text-tidal-navy">
+                <a
+                  href={resource.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="transition hover:text-tidal-teal"
+                >
+                  {resource.title}
+                </a>
+              </h3>
+              {resource.description ? (
+                <p className="mt-3 text-sm leading-6 text-tidal-body">
+                  {resource.description}
+                </p>
+              ) : null}
+              <a
+                href={resource.url}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="mt-5 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+              >
+                Visit resource{' '}
+                <span className="ml-2" aria-hidden="true">
+                  &rarr;
+                </span>
+              </a>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </Container>
+    </section>
+  )
+}
+
+function OtherRegions({
+  page,
+  locations,
+}: {
+  page: LocationPageDocument
+  locations: LocationPageSummary[]
+}) {
+  const otherLocations = locations
+    .filter((location) => location.slug !== page.slug)
+    .slice(0, 3)
+  if (!otherLocations.length) return null
+
+  return (
+    <section className="bg-[#e9efee] py-20 sm:py-24 lg:py-28">
+      <Container>
+        <FadeIn className="flex flex-col gap-5 border-b border-tidal-navy/15 pb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Regional reach
+            </p>
+            <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
+              Other regions we serve.
+            </h2>
+          </div>
+          <Link
+            href="/locations"
+            className="text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+          >
+            Explore all locations{' '}
+            <span className="ml-2" aria-hidden="true">
+              &rarr;
+            </span>
+          </Link>
+        </FadeIn>
+        <FadeInStagger className="grid lg:grid-cols-3">
+          {otherLocations.map((location, index) => (
+            <FadeIn
+              key={location._id}
+              className={`border-b border-tidal-navy/12 py-9 ${index > 0 ? 'lg:border-l lg:pl-9' : ''} ${index < otherLocations.length - 1 ? 'lg:pr-9' : ''}`}
+            >
+              <h3 className="font-display text-3xl leading-tight font-medium text-tidal-navy">
+                <Link
+                  href={`/locations/${location.slug}`}
+                  className="transition hover:text-tidal-teal"
+                >
+                  {location.regionName}
+                </Link>
+              </h3>
+              <p className="mt-4 line-clamp-3 text-sm leading-6 text-tidal-body">
+                {location.heroIntroduction}
+              </p>
+              <Link
+                href={`/locations/${location.slug}`}
+                className="mt-6 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+              >
+                View regional page{' '}
+                <span className="ml-2" aria-hidden="true">
+                  &rarr;
+                </span>
+              </Link>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </Container>
+    </section>
+  )
+}
+
+function RegionalContext({ page }: { page: LocationPageDocument }) {
   return (
     <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-36">
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <FadeIn className="lg:col-span-6">
-            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{page.regionalContext.eyebrow ?? 'A Regional Operating Perspective'}</p>
-            <h2 className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">{page.regionalContext.title}</h2>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              {page.regionalContext.eyebrow ??
+                'A Regional Operating Perspective'}
+            </p>
+            <h2 className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              {page.regionalContext.title}
+            </h2>
           </FadeIn>
           <FadeIn className="lg:col-span-5 lg:col-start-8">
-            <p className="whitespace-pre-line text-lg leading-8 text-tidal-body">{page.regionalContext.body}</p>
+            <p className="text-lg leading-8 whitespace-pre-line text-tidal-body">
+              {page.regionalContext.body}
+            </p>
             {page.regionalContext.details?.length ? (
               <dl className="mt-9 divide-y divide-tidal-navy/12 border-y border-tidal-navy/12">
                 {page.regionalContext.details.map((detail) => (
-                  <div key={detail._key} className="grid gap-2 py-5 sm:grid-cols-[8rem_1fr] sm:gap-6">
-                    <dt className="text-[11px] font-semibold tracking-[0.15em] text-tidal-teal uppercase">{detail.label}</dt>
-                    <dd className="font-display text-xl font-medium text-tidal-navy">{detail.value}</dd>
+                  <div
+                    key={detail._key}
+                    className="grid gap-2 py-5 sm:grid-cols-[8rem_1fr] sm:gap-6"
+                  >
+                    <dt className="text-[11px] font-semibold tracking-[0.15em] text-tidal-teal uppercase">
+                      {detail.label}
+                    </dt>
+                    <dd className="font-display text-xl font-medium text-tidal-navy">
+                      {detail.value}
+                    </dd>
                   </div>
                 ))}
               </dl>
+            ) : null}
+            {page.areasServed?.length ? (
+              <div className="mt-9">
+                <p className="text-[11px] font-semibold tracking-[0.15em] text-tidal-teal uppercase">
+                  Areas served
+                </p>
+                <ul
+                  className="mt-4 flex flex-wrap gap-2"
+                  aria-label="Areas served"
+                >
+                  {page.areasServed.map((area) => (
+                    <li
+                      key={area}
+                      className="border border-tidal-navy/15 bg-white px-3 py-2 text-sm text-tidal-body"
+                    >
+                      {area}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
           </FadeIn>
         </div>
@@ -112,24 +352,41 @@ function RegionalContext({page}: {page: LocationPageDocument}) {
   )
 }
 
-function Situations({page}: {page: LocationPageDocument}) {
+function Situations({ page }: { page: LocationPageDocument }) {
   return (
     <section className="bg-white py-20 sm:py-28 lg:py-36">
       <Container>
         <FadeIn className="grid gap-7 border-b border-tidal-navy/15 pb-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{page.situations.eyebrow ?? 'When Leaders Call Us'}</p>
-            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">{page.situations.title}</h2>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              {page.situations.eyebrow ?? 'When Leaders Call Us'}
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              {page.situations.title}
+            </h2>
           </div>
-          {page.situations.introduction ? <p className="max-w-lg text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">{page.situations.introduction}</p> : null}
+          {page.situations.introduction ? (
+            <p className="max-w-lg text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">
+              {page.situations.introduction}
+            </p>
+          ) : null}
         </FadeIn>
         <FadeInStagger className="grid lg:grid-cols-2">
           {page.situations.items.map((item, index) => (
-            <FadeIn key={item._key} className={`grid grid-cols-[2.75rem_1fr] gap-5 border-b border-tidal-navy/12 py-9 sm:grid-cols-[3.5rem_1fr] sm:py-11 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}>
-              <span className="pt-1 text-xs font-semibold tracking-[0.16em] text-tidal-teal">{String(index + 1).padStart(2, '0')}</span>
+            <FadeIn
+              key={item._key}
+              className={`grid grid-cols-[2.75rem_1fr] gap-5 border-b border-tidal-navy/12 py-9 sm:grid-cols-[3.5rem_1fr] sm:py-11 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}
+            >
+              <span className="pt-1 text-xs font-semibold tracking-[0.16em] text-tidal-teal">
+                {String(index + 1).padStart(2, '0')}
+              </span>
               <div>
-                <h3 className="font-display text-2xl leading-tight font-medium text-tidal-navy sm:text-3xl">{item.title}</h3>
-                <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">{item.body}</p>
+                <h3 className="font-display text-2xl leading-tight font-medium text-tidal-navy sm:text-3xl">
+                  {item.title}
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">
+                  {item.body}
+                </p>
               </div>
             </FadeIn>
           ))}
@@ -139,21 +396,38 @@ function Situations({page}: {page: LocationPageDocument}) {
   )
 }
 
-function SupportAreas({page}: {page: LocationPageDocument}) {
+function SupportAreas({ page }: { page: LocationPageDocument }) {
   return (
     <section className="bg-[#e9efee] py-20 sm:py-28 lg:py-36">
       <Container>
         <FadeIn className="max-w-4xl">
-          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{page.supportAreas.eyebrow ?? 'How We Help'}</p>
-          <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">{page.supportAreas.title}</h2>
-          {page.supportAreas.introduction ? <p className="mt-7 max-w-2xl text-lg leading-8 text-tidal-body">{page.supportAreas.introduction}</p> : null}
+          <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+            {page.supportAreas.eyebrow ?? 'How We Help'}
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+            {page.supportAreas.title}
+          </h2>
+          {page.supportAreas.introduction ? (
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-tidal-body">
+              {page.supportAreas.introduction}
+            </p>
+          ) : null}
         </FadeIn>
         <FadeInStagger className="mt-14 grid gap-px bg-tidal-navy/15 ring-1 ring-tidal-navy/15 lg:grid-cols-3">
           {page.supportAreas.items.map((item) => (
-            <FadeIn key={item._key} className="bg-tidal-warm-white p-8 sm:p-10 lg:min-h-[24rem] lg:p-12">
-              <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{item.label}</p>
-              <h3 className="mt-8 font-display text-3xl leading-tight font-medium text-tidal-navy sm:text-4xl">{item.title}</h3>
-              <p className="mt-5 text-base leading-7 text-tidal-body">{item.body}</p>
+            <FadeIn
+              key={item._key}
+              className="bg-tidal-warm-white p-8 sm:p-10 lg:min-h-[24rem] lg:p-12"
+            >
+              <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+                {item.label}
+              </p>
+              <h3 className="mt-8 font-display text-3xl leading-tight font-medium text-tidal-navy sm:text-4xl">
+                {item.title}
+              </h3>
+              <p className="mt-5 text-base leading-7 text-tidal-body">
+                {item.body}
+              </p>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -162,21 +436,34 @@ function SupportAreas({page}: {page: LocationPageDocument}) {
   )
 }
 
-function BusinessProfile({page}: {page: LocationPageDocument}) {
+function BusinessProfile({ page }: { page: LocationPageDocument }) {
   return (
     <section className="bg-tidal-navy py-20 sm:py-28 lg:py-36">
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
           <FadeIn className="lg:col-span-6">
-            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{page.businessProfile.eyebrow ?? 'The Regional Business Profile'}</p>
-            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl">{page.businessProfile.title}</h2>
-            <p className="mt-7 max-w-2xl whitespace-pre-line text-lg leading-8 text-white/68">{page.businessProfile.body}</p>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              {page.businessProfile.eyebrow ?? 'The Regional Business Profile'}
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-white sm:text-6xl">
+              {page.businessProfile.title}
+            </h2>
+            <p className="mt-7 max-w-2xl text-lg leading-8 whitespace-pre-line text-white/68">
+              {page.businessProfile.body}
+            </p>
           </FadeIn>
           <FadeIn className="lg:col-span-5 lg:col-start-8">
             <div className="grid grid-cols-2 gap-px bg-white/15 ring-1 ring-white/15">
-              {page.businessProfile.industries?.map((industry) => (
-                <div key={industry} className="flex min-h-28 items-end bg-tidal-navy p-5 sm:min-h-32 sm:p-6">
-                  <p className="font-display text-xl leading-tight font-medium text-white sm:text-2xl">{industry}</p>
+              {(
+                page.regionalIndustries ?? page.businessProfile.industries
+              )?.map((industry) => (
+                <div
+                  key={industry}
+                  className="flex min-h-28 items-end bg-tidal-navy p-5 sm:min-h-32 sm:p-6"
+                >
+                  <p className="font-display text-xl leading-tight font-medium text-white sm:text-2xl">
+                    {industry}
+                  </p>
                 </div>
               ))}
             </div>
@@ -187,25 +474,38 @@ function BusinessProfile({page}: {page: LocationPageDocument}) {
   )
 }
 
-function RelatedPerspectives({page}: {page: LocationPageDocument}) {
-  if (!page.relatedArticles?.length) return null
+function LocalProof({ page }: { page: LocationPageDocument }) {
+  if (!page.localProofPoints?.length) return null
+
   return (
     <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-32">
       <Container>
-        <FadeIn className="flex flex-col gap-5 border-b border-tidal-navy/15 pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">Perspectives</p>
-            <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">Useful thinking for the moment ahead.</h2>
+        <FadeIn className="grid gap-8 border-b border-tidal-navy/15 pb-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Local presence
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              Connected to the region. Close to the work.
+            </h2>
           </div>
-          <Link href="/articles" className="text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal">View all insights <span className="ml-2" aria-hidden="true">&rarr;</span></Link>
+          <p className="max-w-lg text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">
+            Geographic relevance should be grounded in how and where the
+            partnership actually works.
+          </p>
         </FadeIn>
-        <FadeInStagger className="grid lg:grid-cols-3">
-          {page.relatedArticles.map((article, index) => (
-            <FadeIn key={article._id} className={`border-b border-tidal-navy/12 py-9 lg:py-11 ${index > 0 ? 'lg:border-l lg:pl-9' : ''} ${index < 2 ? 'lg:pr-9' : ''}`}>
-              <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-tidal-teal uppercase">{article.category} <span className="px-2 text-tidal-navy/25">/</span> {formatDate(article.date)}</p>
-              <h3 className="mt-4 font-display text-3xl leading-[1.08] font-medium text-tidal-navy"><Link href={article.href} className="transition hover:text-tidal-teal">{article.title}</Link></h3>
-              <p className="mt-4 line-clamp-3 text-sm leading-6 text-tidal-body">{article.description}</p>
-              <Link href={article.href} className="mt-6 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal">Read article <span className="ml-2" aria-hidden="true">&rarr;</span></Link>
+        <FadeInStagger className="grid lg:grid-cols-2">
+          {page.localProofPoints.map((point, index) => (
+            <FadeIn
+              key={point._key}
+              className={`border-b border-tidal-navy/12 py-9 sm:py-11 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}
+            >
+              <h3 className="font-display text-3xl leading-tight font-medium text-tidal-navy">
+                {point.title}
+              </h3>
+              <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">
+                {point.body}
+              </p>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -214,19 +514,95 @@ function RelatedPerspectives({page}: {page: LocationPageDocument}) {
   )
 }
 
-function ClosingCTA({page}: {page: LocationPageDocument}) {
+function RelatedPerspectives({ page }: { page: LocationPageDocument }) {
+  if (!page.relatedArticles?.length) return null
+  return (
+    <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-32">
+      <Container>
+        <FadeIn className="flex flex-col gap-5 border-b border-tidal-navy/15 pb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Perspectives
+            </p>
+            <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
+              Useful thinking for the moment ahead.
+            </h2>
+          </div>
+          <Link
+            href="/articles"
+            className="text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+          >
+            View all insights{' '}
+            <span className="ml-2" aria-hidden="true">
+              &rarr;
+            </span>
+          </Link>
+        </FadeIn>
+        <FadeInStagger className="grid lg:grid-cols-3">
+          {page.relatedArticles.map((article, index) => (
+            <FadeIn
+              key={article._id}
+              className={`border-b border-tidal-navy/12 py-9 lg:py-11 ${index > 0 ? 'lg:border-l lg:pl-9' : ''} ${index < 2 ? 'lg:pr-9' : ''}`}
+            >
+              <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+                {article.category}{' '}
+                <span className="px-2 text-tidal-navy/25">/</span>{' '}
+                {formatDate(article.date)}
+              </p>
+              <h3 className="mt-4 font-display text-3xl leading-[1.08] font-medium text-tidal-navy">
+                <Link
+                  href={article.href}
+                  className="transition hover:text-tidal-teal"
+                >
+                  {article.title}
+                </Link>
+              </h3>
+              <p className="mt-4 line-clamp-3 text-sm leading-6 text-tidal-body">
+                {article.description}
+              </p>
+              <Link
+                href={article.href}
+                className="mt-6 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+              >
+                Read article{' '}
+                <span className="ml-2" aria-hidden="true">
+                  &rarr;
+                </span>
+              </Link>
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </Container>
+    </section>
+  )
+}
+
+function ClosingCTA({ page }: { page: LocationPageDocument }) {
   if (!page.cta) return null
   return (
     <section className="bg-white py-20 sm:py-28 lg:py-32">
       <Container>
         <FadeIn className="grid gap-8 border-t border-tidal-navy/15 pt-12 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">{page.cta.eyebrow ?? 'A Useful First Conversation'}</p>
-            <h2 className="mt-5 max-w-4xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">{page.cta.title}</h2>
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              {page.cta.eyebrow ?? 'A Useful First Conversation'}
+            </p>
+            <h2 className="mt-5 max-w-4xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              {page.cta.title}
+            </h2>
           </div>
           <div className="lg:col-span-3 lg:col-start-10">
-            {page.cta.body ? <p className="text-base leading-7 text-tidal-body">{page.cta.body}</p> : null}
-            <Link href={page.cta.buttonHref ?? '/contact'} className="mt-7 inline-flex bg-tidal-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-tidal-teal">{page.cta.buttonLabel ?? 'Start a conversation'}</Link>
+            {page.cta.body ? (
+              <p className="text-base leading-7 text-tidal-body">
+                {page.cta.body}
+              </p>
+            ) : null}
+            <Link
+              href={page.cta.buttonHref ?? '/contact'}
+              className="mt-7 inline-flex bg-tidal-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-tidal-teal"
+            >
+              {page.cta.buttonLabel ?? 'Start a conversation'}
+            </Link>
           </div>
         </FadeIn>
       </Container>
@@ -234,10 +610,15 @@ function ClosingCTA({page}: {page: LocationPageDocument}) {
   )
 }
 
-export default async function LocationPage({params}: {params: Promise<{slug: string}>}) {
-  const {slug} = await params
+export default async function LocationPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
   const page = await getLocationPage(slug)
   if (!page) notFound()
+  const locations = await getIndexableLocationSummaries()
 
   return (
     <RootLayout>
@@ -247,7 +628,10 @@ export default async function LocationPage({params}: {params: Promise<{slug: str
       <Situations page={page} />
       <SupportAreas page={page} />
       <BusinessProfile page={page} />
+      <LocalProof page={page} />
+      <RegionalResources page={page} />
       <RelatedPerspectives page={page} />
+      <OtherRegions page={page} locations={locations} />
       <ClosingCTA page={page} />
     </RootLayout>
   )

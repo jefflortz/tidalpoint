@@ -9,6 +9,7 @@ const companyLinks = [
   { title: 'About', href: '/about' },
   { title: 'How We Work', href: '/services' },
   { title: 'Who We Serve', href: '/clients' },
+  { title: 'Locations', href: '/locations' },
   { title: 'Insights', href: '/articles' },
   { title: 'Contact', href: '/contact' },
 ]
@@ -22,7 +23,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <div className="text-xs font-semibold uppercase tracking-widest text-tidal-warm-white">
+      <div className="text-xs font-semibold tracking-widest text-tidal-warm-white uppercase">
         {title}
       </div>
       <div className="mt-4">{children}</div>
@@ -64,7 +65,7 @@ export function Footer() {
                 className="h-8 w-auto"
                 unoptimized
               />
-              <p className="mt-4 text-sm text-white/70 leading-relaxed">
+              <p className="mt-4 text-sm leading-relaxed text-white/70">
                 Experienced partnership for pivotal points in the life of a
                 business.
               </p>
@@ -119,7 +120,8 @@ export function Footer() {
                 unoptimized
               />
               <p className="text-sm text-white/70">
-                &copy; {new Date().getFullYear()} Agile Operators, LLC. All rights reserved.
+                &copy; {new Date().getFullYear()} Agile Operators, LLC. All
+                rights reserved.
               </p>
             </div>
             <div className="flex items-center gap-x-6 text-sm text-white/70">
