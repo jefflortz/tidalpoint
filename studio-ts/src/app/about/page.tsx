@@ -110,6 +110,28 @@ function Purpose() {
             </p>
           </FadeIn>
         </div>
+
+        <FadeIn className="mt-14 border-t border-tidal-navy/15 pt-8 sm:mt-16 sm:pt-10">
+          <div className="grid gap-4 lg:grid-cols-12 lg:gap-16">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase lg:col-span-3">
+              Related Practice
+            </p>
+            <p className="max-w-3xl text-base leading-7 text-tidal-body lg:col-span-7">
+              Tidal Point Partners is a DBA of Agile Operators, LLC. Our
+              related practice,{' '}
+              <a
+                href="https://www.agile-operator.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-tidal-navy underline decoration-tidal-teal/50 underline-offset-4 transition hover:text-tidal-teal"
+              >
+                Agile Operator
+              </a>
+              , provides growth advisory, leadership support and interim
+              operating expertise for technology companies and their leaders.
+            </p>
+          </div>
+        </FadeIn>
       </Container>
     </section>
   )
