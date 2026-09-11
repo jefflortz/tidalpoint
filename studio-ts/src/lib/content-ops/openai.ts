@@ -14,7 +14,7 @@ const editorialSchema = {
     sources: {type: 'array', items: {type: 'object', additionalProperties: false, properties: {
       title: {type: 'string'}, publisher: {type: 'string'}, url: {type: 'string'}, publishedAt: {type: 'string'},
     }, required: ['title', 'publisher', 'url', 'publishedAt']}},
-    imageBriefs: {type: 'array', minItems: 2, maxItems: 2, items: {type: 'object', additionalProperties: false, properties: {
+    imageBriefs: {type: 'array', minItems: 0, maxItems: 2, items: {type: 'object', additionalProperties: false, properties: {
       prompt: {type: 'string'}, alt: {type: 'string'}, caption: {type: 'string'},
     }, required: ['prompt', 'alt', 'caption']}},
     cta: {type: 'object', additionalProperties: false, properties: {
@@ -186,7 +186,7 @@ export async function generateFeaturedImage(article: Pick<EditorialOutput, 'titl
   return Buffer.from(encoded, 'base64')
 }
 
-const INLINE_IMAGE_STYLE = `Create contemporary, photorealistic editorial photography for Tidal Point Partners. Show a successful, well-run established privately held business in New England that feels attractive, energetic and human. Clean contemporary environment, abundant natural light, warm wood with restrained navy and sea-glass accents, capable people with visible purpose and momentum, thoughtful documentary composition. The workplace should feel like somewhere talented people would choose to work. Avoid gritty machinery, dated offices, dim back rooms, paper piles, clutter, lonely or stressed workers and staged corporate-stock poses. No text, labels, logos, watermarks, recognizable brands or exaggerated emotion. Wide 3:2 composition.`
+const INLINE_IMAGE_STYLE = `Create an original Tidal Point Partners editorial diagram or conceptual business graphic that makes the supplied idea easier to understand. Use a quietly premium visual system: deep midnight navy, warm ivory, pale sandstone, restrained sea-glass teal, generous negative space, simple geometry and a clear visual hierarchy. Prefer a process, comparison, decision path, diagnostic map or restrained data graphic. Do not create workplace photography, people, decorative stock imagery or a generic scene. Do not invent data, statistics, quotations, brands or source material. Avoid dense labels, tiny type, logos, watermarks and ornamental complexity. Wide 3:2 composition.`
 
 export async function generateInlineImage(prompt: string) {
   const apiKey = process.env.OPENAI_API_KEY ?? process.env.openai_api_key
