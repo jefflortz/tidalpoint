@@ -75,6 +75,14 @@ export const articleType = defineType({
       to: [{type: 'article'}],
       group: 'relationships',
     }),
+    defineField({
+      name: 'contentRole',
+      title: 'Content role',
+      type: 'string',
+      group: 'relationships',
+      readOnly: true,
+      options: {list: [{title: 'Pillar article', value: 'pillar'}, {title: 'Supporting article', value: 'supporting'}]},
+    }),
     defineField({name: 'primaryKeyword', title: 'Primary keyword', type: 'string', group: 'workflow'}),
     defineField({name: 'secondaryKeywords', title: 'Secondary keywords', type: 'array', of: [{type: 'string'}], group: 'workflow'}),
     defineField({

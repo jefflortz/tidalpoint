@@ -19,8 +19,9 @@ function overlap(left: string, right: string) {
 export function assessSeo(
   source: SourceArticle,
   article: EditorialOutput,
-  pillar: {title: string; slug?: string},
+  pillar: {title: string; slug?: string} | null,
   peers: SeoPeer[] = [],
+  options: {contentRole?: 'pillar' | 'supporting'; keywordProvided?: boolean} = {},
 ): SeoAssessment {
   const checks: SeoAssessment['checks'] = []
   const add = (label: string, passed: boolean, weight: number, detail: string, critical = false) =>
@@ -37,11 +38,13 @@ export function assessSeo(
   const sourceYearCutoff = new Date().getUTCFullYear() - 3
   const recentSources = article.sources.filter((item) => Number(item.publishedAt.slice(0, 4)) >= sourceYearCutoff).length
   const articleWords = words(bodyText).length
+  const contentRole = options.contentRole ?? 'supporting'
+  const keywordProvided = options.keywordProvided ?? Boolean(source.primaryKeyword.trim())
 
-  add('Search intent alignment', keywordCoverage >= 0.6, 20, `${Math.round(keywordCoverage * 100)}% of the meaningful target-keyword terms appear naturally in the title, description, or opening.`, true)
-  add('Unique keyword target', !exactDuplicate, 15, exactDuplicate ? `The same primary keyword is already assigned to “${exactDuplicate.title ?? exactDuplicate.slug}”.` : 'No published article uses the same primary keyword.', true)
+  add('Search intent alignment', keywordProvided && keywordCoverage >= 0.6, 20, keywordProvided ? `${Math.round(keywordCoverage * 100)}% of the meaningful target-keyword terms appear naturally in the title, description, or opening.` : 'Assign a deliberate primary keyword before the next substantive update.', contentRole === 'supporting')
+  add('Unique keyword target', keywordProvided && !exactDuplicate, 15, !keywordProvided ? 'A primary keyword is not yet assigned.' : exactDuplicate ? `The same primary keyword is already assigned to “${exactDuplicate.title ?? exactDuplicate.slug}”.` : 'No published article uses the same primary keyword.', contentRole === 'supporting')
   add('Distinct article angle', !closestPeer || closestPeer.similarity < 0.65, 10, closestPeer ? `Closest published-title overlap is ${Math.round(closestPeer.similarity * 100)}% with “${closestPeer.peer.title}”.` : 'No competing published article was found.', true)
-  add('Pillar relationship', Boolean(source.pillarArticleId && pillar.title && pillar.slug), 10, pillar.slug ? `Supports “${pillar.title}” at /articles/${pillar.slug}.` : 'A published pillar article and URL are required.', true)
+  add('Pillar relationship', contentRole === 'pillar' || Boolean(source.pillarArticleId && pillar?.title && pillar.slug), 10, contentRole === 'pillar' ? 'This is a pillar article and does not require a parent pillar.' : pillar?.slug ? `Supports “${pillar.title}” at /articles/${pillar.slug}.` : 'A supporting article requires a published pillar article and URL.', contentRole === 'supporting')
   add('SEO title', article.seoTitle.length >= 30 && article.seoTitle.length <= 65, 10, `${article.seoTitle.length} characters; target 30–65.`)
   add('Meta description', article.metaDescription.length >= 120 && article.metaDescription.length <= 170, 10, `${article.metaDescription.length} characters; target 120–170.`)
   const slug = article.slug.replace(/^\/+|\/+$/g, '')

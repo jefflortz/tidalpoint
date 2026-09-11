@@ -170,6 +170,7 @@ export async function createArticleDraft(
     author: {_type: 'reference', _ref: context.authorId},
     category: {_type: 'reference', _ref: context.categoryId},
     pillarArticle: {_type: 'reference', _ref: article.pillarArticleId},
+    contentRole: 'supporting',
     body: sectionsToPortableText(output.sections, media.inlineImages), sources: sourceObjects(output.sources),
     ...(media.featuredImageAssetId ? {featuredImage: {
       _type: 'image', asset: {_type: 'reference', _ref: media.featuredImageAssetId},
@@ -302,14 +303,15 @@ export async function refreshSeoAssessment(id: string) {
   const client = writeClient()
   const article = await client.fetch<{
     _id: string; title: string; slug?: string; description?: string; seoTitle?: string; metaDescription?: string;
-    primaryKeyword?: string; secondaryKeywords?: string[]; pillarArticle?: {_id: string; title: string; slug?: string};
+    primaryKeyword?: string; secondaryKeywords?: string[]; contentRole?: 'pillar' | 'supporting'; pillarArticle?: {_id: string; title: string; slug?: string};
     body?: Array<{_type: string; style?: string; body?: string; questions?: string[]; children?: Array<{text?: string}>}>;
     sources?: Array<{title?: string; publisher?: string; url?: string; publishedAt?: string}>;
-  } | null>(`*[_id == $id][0]{_id,title,"slug":slug.current,description,seoTitle,metaDescription,primaryKeyword,secondaryKeywords,
+  } | null>(`*[_id == $id][0]{_id,title,"slug":slug.current,description,seoTitle,metaDescription,primaryKeyword,secondaryKeywords,contentRole,
     "pillarArticle": pillarArticle->{_id,title,"slug":slug.current},body,sources}`, {id})
   if (!article) throw new Error(`Article ${id} was not found`)
-  if (!article.primaryKeyword) throw new Error('SEO gate requires a primary keyword')
-  if (!article.pillarArticle) throw new Error('SEO gate requires a supporting pillar article')
+  const contentRole = article.contentRole ?? (article.pillarArticle ? 'supporting' : 'pillar')
+  if (contentRole === 'supporting' && !article.pillarArticle) throw new Error('SEO gate requires a supporting pillar article')
+  const primaryKeyword = article.primaryKeyword?.trim() ?? ''
   const publishedId = id.replace(/^drafts\./, '')
   const peers = await client.fetch<Array<{title?: string; seoTitle?: string; slug?: string; primaryKeyword?: string}>>(
     `*[_type == "article" && !(_id in path("drafts.**")) && _id != $publishedId]{title,seoTitle,"slug":slug.current,primaryKeyword}`,
@@ -322,20 +324,20 @@ export async function refreshSeoAssessment(id: string) {
     return {type, text, items: block.questions ?? [], imageIndex: -1}
   })
   const source: SourceArticle = {
-    source: 'sanity', sourceId: publishedId, title: article.title, body: '', primaryKeyword: article.primaryKeyword,
-    secondaryKeywords: article.secondaryKeywords ?? [], pillarArticleId: article.pillarArticle._id, metadata: {}, images: [],
+    source: 'sanity', sourceId: publishedId, title: article.title, body: '', primaryKeyword,
+    secondaryKeywords: article.secondaryKeywords ?? [], pillarArticleId: article.pillarArticle?._id ?? '', metadata: {}, images: [],
   }
   const output: EditorialOutput = {
     title: article.title, slug: article.slug ?? '', description: article.description ?? '', seoTitle: article.seoTitle ?? article.title,
-    metaDescription: article.metaDescription ?? article.description ?? '', primaryKeyword: article.primaryKeyword,
+    metaDescription: article.metaDescription ?? article.description ?? '', primaryKeyword,
     secondaryKeywords: article.secondaryKeywords ?? [], sections,
     sources: (article.sources ?? []).filter((item): item is {title: string; publisher: string; url: string; publishedAt: string} =>
       Boolean(item.title && item.publisher && item.url && item.publishedAt)),
     imageBriefs: [], cta: {eyebrow: '', title: '', body: '', buttonLabel: '', buttonHref: ''},
     assessment: {score: 0, summary: '', flags: []},
   }
-  const assessment = assessSeo(source, output, article.pillarArticle, peers)
-  await client.patch(id).set({seoAssessment: assessment}).commit()
+  const assessment = assessSeo(source, output, article.pillarArticle ?? null, peers, {contentRole, keywordProvided: Boolean(primaryKeyword)})
+  await client.patch(id).set({contentRole, seoAssessment: assessment}).commit()
   return assessment
 }
 
