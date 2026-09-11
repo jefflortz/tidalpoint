@@ -206,6 +206,7 @@ export async function createArticleDraft(
 export type PublishedArticle = {
   _id: string; _rev: string; title: string; description: string; slug: string;
   fingerprint?: string;
+  primaryKeyword?: string; secondaryKeywords?: string[];
   body: Array<{_type: string; children?: Array<{text?: string}>; body?: string; questions?: string[]}>
 }
 
@@ -219,7 +220,7 @@ export async function getProcessedRankScoreIds() {
 
 export async function getArticleDraftForSocial(id: string) {
   return writeClient().fetch<(PublishedArticle & {featuredImageUrl?: string; featuredImageAlt?: string; fingerprint?: string}) | null>(
-    `*[_id == $id][0]{_id,_rev,title,description,"slug":slug.current,body,"featuredImageUrl":featuredImage.asset->url,"featuredImageAlt":featuredImage.alt,"fingerprint":contentProvenance.inputFingerprint}`,
+    `*[_id == $id][0]{_id,_rev,title,description,"slug":slug.current,primaryKeyword,secondaryKeywords,body,"featuredImageUrl":featuredImage.asset->url,"featuredImageAlt":featuredImage.alt,"fingerprint":contentProvenance.inputFingerprint}`,
     {id},
   )
 }
@@ -267,7 +268,7 @@ export async function updateSocialAssetDelivery(
 
 export async function getPublishedArticle(articleId: string) {
   return writeClient().fetch<PublishedArticle | null>(
-    `*[_type == "article" && _id == $id][0]{_id, _rev, title, description, "slug": slug.current, body, "fingerprint": contentProvenance.inputFingerprint}`,
+    `*[_type == "article" && _id == $id][0]{_id, _rev, title, description, "slug": slug.current, primaryKeyword, secondaryKeywords, body, "fingerprint": contentProvenance.inputFingerprint}`,
     {id: articleId.replace(/^drafts\./, '')},
   )
 }
@@ -275,6 +276,7 @@ export async function getPublishedArticle(articleId: string) {
 export function articleForSocial(article: PublishedArticle) {
   return {
     title: article.title, description: article.description, path: `/articles/${article.slug}`,
+    keywordStrategy: {primary: article.primaryKeyword, secondary: article.secondaryKeywords ?? []},
     body: article.body.map((block) => block.children?.map((child) => child.text).join('') ?? block.body ?? block.questions?.join(' | ') ?? '').filter(Boolean),
   }
 }
