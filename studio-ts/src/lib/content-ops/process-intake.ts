@@ -1,9 +1,10 @@
 import {generateFeaturedImage, generateInlineImage, researchArticle, transformArticle} from './openai'
 import {createArticleDraft, getIntakeContext, inputFingerprint, uploadFeaturedImage, uploadGeneratedInlineImages} from './sanity'
+import {assessSeo} from './seo-gate'
 import type {SourceArticle} from './types'
 
 export type ProcessIntakeResult =
-  | {status: 201; body: {draftId: string; title: string; editorialScore: number; status: 'needsReview'}}
+  | {status: 201; body: {draftId: string; title: string; editorialScore: number; seoScore: number; seoStatus: 'pass' | 'warning' | 'fail'; status: 'needsReview'}}
   | {status: 200; body: {draftId: string; title?: string; status: 'unchanged'}}
   | {status: 409; body: {error: string; draftId: string}}
   | {status: 422; body: {error: string}}
@@ -28,6 +29,7 @@ export async function processIntake(article: SourceArticle, force = false, workf
 
   const research = await researchArticle(article, context.pillar)
   const output = await transformArticle(article, context.pillar, research)
+  const seoAssessment = assessSeo(article, output, context.pillar, context.seoPeers)
   let featuredImageAssetId: string | undefined
   let inlineImages
   const mediaFlags: string[] = []
@@ -52,7 +54,8 @@ export async function processIntake(article: SourceArticle, force = false, workf
     output,
     {authorId: context.authorId, categoryId: context.categoryId, published: context.published},
     {featuredImageAssetId, inlineImages},
+    seoAssessment,
     workflow,
   )
-  return {status: 201, body: {draftId: draft._id, title: draft.title, editorialScore: output.assessment.score, status: 'needsReview'}}
+  return {status: 201, body: {draftId: draft._id, title: draft.title, editorialScore: output.assessment.score, seoScore: seoAssessment.score, seoStatus: seoAssessment.status, status: 'needsReview'}}
 }

@@ -2,7 +2,8 @@ import {createHash, randomUUID} from 'node:crypto'
 import {lookup} from 'node:dns/promises'
 import {createClient} from 'next-sanity'
 import {sectionsToPortableText} from './portable-text'
-import type {EditorialOutput, SocialOutput, SourceArticle, SourceImage, UploadedSourceImage} from './types'
+import {assessSeo} from './seo-gate'
+import type {EditorialOutput, SeoAssessment, SocialOutput, SourceArticle, SourceImage, UploadedSourceImage} from './types'
 
 const projectId = '5w70fpy3'
 const dataset = 'production'
@@ -107,6 +108,7 @@ export async function getIntakeContext(article: SourceArticle) {
     pillar: {_id: string; title: string; description?: string; slug?: string} | null
     authorId: string | null
     categoryId: string | null
+    seoPeers: Array<{title?: string; seoTitle?: string; slug?: string; primaryKeyword?: string}>
   }>(`{
     "existing": *[_id == $draftId][0]{_id, title, "fingerprint": contentProvenance.inputFingerprint},
     "published": *[_id == $publishedId][0]{
@@ -116,6 +118,7 @@ export async function getIntakeContext(article: SourceArticle) {
     "pillar": *[_type == "article" && _id == $pillarId][0]{_id, title, description, "slug": slug.current},
     "authorId": *[_type == "author" && slug.current == "jeff-lortz"][0]._id,
     "categoryId": *[_type == "category" && slug.current == "operations"][0]._id
+    ,"seoPeers": *[_type == "article" && !(_id in path("drafts.**")) && _id != $publishedId]{title,seoTitle,"slug":slug.current,primaryKeyword}
   }`, {
     draftId: draftId(article),
     publishedId: draftId(article).replace(/^drafts\./, ''),
@@ -157,6 +160,7 @@ export async function createArticleDraft(
     } | null
   },
   media: {featuredImageAssetId?: string; inlineImages?: UploadedSourceImage[]} = {},
+  seoAssessment: SeoAssessment,
   workflow?: {scheduledPublishAt: string; approvalDeadline: string; pillarRationale?: string},
 ) {
   const fingerprint = inputFingerprint(article)
@@ -183,6 +187,7 @@ export async function createArticleDraft(
     primaryKeyword: output.primaryKeyword, secondaryKeywords: output.secondaryKeywords,
     cta: output.cta, reviewStatus: 'needsReview',
     editorialAssessment: output.assessment,
+    seoAssessment,
     contentProvenance: {
       source: article.source, sourceId: article.sourceId,
       ...(article.sourceUrl ? {sourceUrl: article.sourceUrl} : {}),
@@ -293,12 +298,58 @@ export async function createSocialCampaignDraft(article: PublishedArticle & {fea
   return {_id: id}
 }
 
+export async function refreshSeoAssessment(id: string) {
+  const client = writeClient()
+  const article = await client.fetch<{
+    _id: string; title: string; slug?: string; description?: string; seoTitle?: string; metaDescription?: string;
+    primaryKeyword?: string; secondaryKeywords?: string[]; pillarArticle?: {_id: string; title: string; slug?: string};
+    body?: Array<{_type: string; style?: string; body?: string; questions?: string[]; children?: Array<{text?: string}>}>;
+    sources?: Array<{title?: string; publisher?: string; url?: string; publishedAt?: string}>;
+  } | null>(`*[_id == $id][0]{_id,title,"slug":slug.current,description,seoTitle,metaDescription,primaryKeyword,secondaryKeywords,
+    "pillarArticle": pillarArticle->{_id,title,"slug":slug.current},body,sources}`, {id})
+  if (!article) throw new Error(`Article ${id} was not found`)
+  if (!article.primaryKeyword) throw new Error('SEO gate requires a primary keyword')
+  if (!article.pillarArticle) throw new Error('SEO gate requires a supporting pillar article')
+  const publishedId = id.replace(/^drafts\./, '')
+  const peers = await client.fetch<Array<{title?: string; seoTitle?: string; slug?: string; primaryKeyword?: string}>>(
+    `*[_type == "article" && !(_id in path("drafts.**")) && _id != $publishedId]{title,seoTitle,"slug":slug.current,primaryKeyword}`,
+    {publishedId},
+  )
+  const sections: EditorialOutput['sections'] = (article.body ?? []).map((block) => {
+    const text = block._type === 'callout' ? block.body ?? '' : (block.children ?? []).map((child) => child.text ?? '').join('')
+    const type = block._type === 'diagnostic' ? 'diagnostic' : block._type === 'figure' ? 'figure' : block._type === 'callout' ? 'callout'
+      : block.style === 'h2' ? 'h2' : block.style === 'h3' ? 'h3' : block.style === 'blockquote' ? 'quote' : 'paragraph'
+    return {type, text, items: block.questions ?? [], imageIndex: -1}
+  })
+  const source: SourceArticle = {
+    source: 'sanity', sourceId: publishedId, title: article.title, body: '', primaryKeyword: article.primaryKeyword,
+    secondaryKeywords: article.secondaryKeywords ?? [], pillarArticleId: article.pillarArticle._id, metadata: {}, images: [],
+  }
+  const output: EditorialOutput = {
+    title: article.title, slug: article.slug ?? '', description: article.description ?? '', seoTitle: article.seoTitle ?? article.title,
+    metaDescription: article.metaDescription ?? article.description ?? '', primaryKeyword: article.primaryKeyword,
+    secondaryKeywords: article.secondaryKeywords ?? [], sections,
+    sources: (article.sources ?? []).filter((item): item is {title: string; publisher: string; url: string; publishedAt: string} =>
+      Boolean(item.title && item.publisher && item.url && item.publishedAt)),
+    imageBriefs: [], cta: {eyebrow: '', title: '', body: '', buttonLabel: '', buttonHref: ''},
+    assessment: {score: 0, summary: '', flags: []},
+  }
+  const assessment = assessSeo(source, output, article.pillarArticle, peers)
+  await client.patch(id).set({seoAssessment: assessment}).commit()
+  return assessment
+}
+
 
 export async function publishDueArticles(now = new Date()) {
   const drafts = await writeClient().fetch<Array<Record<string, unknown> & {_id: string; _type: string; scheduledPublishAt: string}>>(`*[_type == "article" && _id in path("drafts.**") && reviewStatus == "approved" && workflowStatus == "scheduled" && scheduledPublishAt <= $now]`, {now: now.toISOString()})
   const published: string[] = []
   for (const draft of drafts) {
     const draftId = String(draft._id)
+    const seo = await refreshSeoAssessment(draftId)
+    if (seo.status === 'fail') {
+      await writeClient().patch(draftId).set({workflowStatus: 'failed'}).commit()
+      continue
+    }
     const publishedId = draftId.replace(/^drafts\./, '')
     const {_rev, _createdAt, _updatedAt, ...content} = draft
     await writeClient().transaction().createOrReplace({...content, _id: publishedId, publishedAt: draft.scheduledPublishAt, workflowStatus: 'published'}).delete(draftId).commit()
@@ -313,9 +364,12 @@ export async function finalizeWeeklyApprovals(now = new Date()) {
   const deferred: string[] = []
   for (const draft of drafts) {
     if (draft.reviewStatus === 'approved') {
-      await writeClient().patch(draft._id).set({workflowStatus: 'scheduled'}).commit()
-      scheduled.push(draft._id)
-      continue
+      const seo = await refreshSeoAssessment(draft._id)
+      if (seo.status !== 'fail') {
+        await writeClient().patch(draft._id).set({workflowStatus: 'scheduled'}).commit()
+        scheduled.push(draft._id)
+        continue
+      }
     }
     const shift = (value: string) => new Date(Date.parse(value) + 7 * 86_400_000).toISOString()
     await writeClient().patch(draft._id).set({workflowStatus: 'deferred', scheduledPublishAt: shift(draft.scheduledPublishAt), publishedAt: shift(draft.scheduledPublishAt), approvalDeadline: shift(draft.approvalDeadline)}).commit()

@@ -91,6 +91,40 @@ export const articleType = defineType({
           {title: 'Approved', value: 'approved'},
         ],
       },
+      validation: (rule) => rule.custom((value, context) => {
+        const parent = context.parent as {seoAssessment?: {status?: string}} | undefined
+        if (value === 'approved' && !['pass', 'warning'].includes(parent?.seoAssessment?.status ?? '')) {
+          return 'Resolve the blocking SEO gate issues before approving this article.'
+        }
+        return true
+      }),
+    }),
+    defineField({
+      name: 'seoAssessment',
+      title: 'SEO quality gate',
+      description: 'Transparent checks applied to the final edited article. Critical failures block scheduling and publication.',
+      type: 'object',
+      group: 'workflow',
+      readOnly: true,
+      fields: [
+        defineField({name: 'score', title: 'SEO score', type: 'number'}),
+        defineField({name: 'status', title: 'Gate status', type: 'string', options: {list: ['pass', 'warning', 'fail']}}),
+        defineField({name: 'targetKeyword', title: 'Target keyword', type: 'string'}),
+        defineField({name: 'evaluatedAt', title: 'Evaluated at', type: 'datetime'}),
+        defineField({name: 'summary', title: 'Summary', type: 'text', rows: 2}),
+        defineField({name: 'recommendations', title: 'Recommendations', type: 'array', of: [{type: 'string'}]}),
+        defineField({
+          name: 'checks', title: 'Checks', type: 'array', of: [defineArrayMember({
+            type: 'object', name: 'seoCheck', fields: [
+              defineField({name: 'label', title: 'Check', type: 'string'}),
+              defineField({name: 'status', title: 'Status', type: 'string', options: {list: ['pass', 'warning', 'fail']}}),
+              defineField({name: 'detail', title: 'Detail', type: 'text', rows: 2}),
+              defineField({name: 'weight', title: 'Weight', type: 'number'}),
+              defineField({name: 'critical', title: 'Blocking when failed', type: 'boolean'}),
+            ], preview: {select: {title: 'label', subtitle: 'detail'}},
+          })],
+        }),
+      ],
     }),
     defineField({
       name: 'editorialAssessment',

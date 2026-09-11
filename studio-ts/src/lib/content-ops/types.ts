@@ -63,6 +63,22 @@ export type EditorialOutput = {
   assessment: {score: number; summary: string; flags: string[]}
 }
 
+export type SeoAssessment = {
+  score: number
+  status: 'pass' | 'warning' | 'fail'
+  targetKeyword: string
+  evaluatedAt: string
+  summary: string
+  recommendations: string[]
+  checks: Array<{
+    label: string
+    status: 'pass' | 'warning' | 'fail'
+    detail: string
+    weight: number
+    critical: boolean
+  }>
+}
+
 export type ResearchOutput = {
   findings: Array<{claim: string; context: string; sourceUrl: string}>
   sources: Array<{title: string; publisher: string; url: string; publishedAt: string}>
