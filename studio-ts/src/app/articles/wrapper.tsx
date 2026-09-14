@@ -156,6 +156,12 @@ function ArticleClosing({
               {cta?.title ?? 'Would an experienced operating perspective help?'}
             </h2>
             {cta?.body && <p className="mt-4 max-w-xl text-sm leading-6 text-white/65">{cta.body}</p>}
+            <Link
+              href="/services"
+              className="mt-5 inline-flex text-sm font-semibold text-white/75 underline decoration-tidal-teal/70 underline-offset-4 transition hover:text-white"
+            >
+              See how an Operating Partner works
+            </Link>
           </div>
           <Link
             href={cta?.buttonHref ?? '/contact'}

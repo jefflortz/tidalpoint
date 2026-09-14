@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     absolute: 'Experienced Operating Partners for Privately Held Businesses',
   },
   description:
-    'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+    'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Experienced Operating Partners for Privately Held Businesses',
     description:
-      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
     url: '/',
     siteName: 'Tidal Point Partners',
     type: 'website',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Experienced Operating Partners for Privately Held Businesses',
     description:
-      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
     images: ['/tidal-point-home-og-v2.jpg'],
   },
 }
@@ -91,31 +91,43 @@ const situations = [
     number: '01',
     title: 'Growth is outpacing the organization.',
     body: 'New markets, acquisitions or expansion are moving faster than the leadership and systems supporting them.',
+    href: '/articles/market-problem-or-sales-problem',
+    linkLabel: 'Diagnose a growth slump',
   },
   {
     number: '02',
     title: 'Performance has stalled.',
     body: 'Growth has slowed or margins are compressing, and the underlying constraint is not obvious from inside the business.',
+    href: '/articles/stalled-revenue-growth-diagnosis',
+    linkLabel: 'Find the number that changed first',
   },
   {
     number: '03',
     title: 'An acquisition needs to become one business.',
     body: 'Incentives, leadership and operating decisions cannot wait for the transition or earn-out period to end.',
+    href: null,
+    linkLabel: null,
   },
   {
     number: '04',
     title: 'Succession is getting closer.',
     body: 'The owner is preparing to step back, transfer leadership or sell—but the company still depends on one person.',
+    href: '/articles/why-your-business-still-runs-through-you',
+    linkLabel: 'Recognize owner dependency',
   },
   {
     number: '05',
     title: 'Accountability now extends beyond the owner.',
     body: 'A board, investors or employee-owners expect a defensible plan and a leadership team capable of carrying it.',
+    href: '/articles/how-to-set-decision-rights-without-losing-control',
+    linkLabel: 'Clarify decision rights',
   },
   {
     number: '06',
     title: 'The leadership team must evolve.',
     body: 'Important seats need to be filled and capable people need to grow while the company continues operating.',
+    href: '/articles/5-leadership-team-dysfunctions-in-private-companies-and-how-to-fix-them',
+    linkLabel: 'Improve leadership-team effectiveness',
   },
 ]
 
@@ -154,6 +166,17 @@ function TheSituationsWeAreBroughtInto() {
                 <p className="mt-3 max-w-xl text-base leading-7 text-tidal-body">
                   {situation.body}
                 </p>
+                {situation.href && situation.linkLabel && (
+                  <Link
+                    href={situation.href}
+                    className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+                  >
+                    {situation.linkLabel}
+                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                      &rarr;
+                    </span>
+                  </Link>
+                )}
               </div>
             </FadeIn>
           ))}

@@ -59,7 +59,7 @@ export function getHomePageSchema() {
     url: 'https://tidalpointpartners.com/',
     name: 'Experienced Operating Partners for Privately Held Businesses',
     description:
-      'Experienced Operating Partners working alongside owners and leadership teams to navigate growth, succession, acquisitions and other pivotal moments.',
+      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
     isPartOf: {
       '@id': 'https://tidalpointpartners.com/#website',
     },

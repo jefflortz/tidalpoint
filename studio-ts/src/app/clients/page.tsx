@@ -7,14 +7,14 @@ import { RootLayout } from '@/components/RootLayout'
 import { PageSchema } from '@/components/PageSchema'
 
 export const metadata: Metadata = {
-  title: 'Who We Serve',
+  title: 'Privately Held Businesses We Serve',
   description:
-    'Tidal Point Partners works with established privately held businesses navigating growth, leadership change and consequential transitions.',
+    'We advise established, privately held businesses—often $5M–$50M in revenue—across Southeastern New England through growth, leadership change and pivotal decisions.',
   alternates: { canonical: '/clients' },
   openGraph: {
-    title: 'Who We Serve | Tidal Point Partners',
+    title: 'Privately Held Businesses We Serve | Tidal Point Partners',
     description:
-      'Experienced Operating Partners for established businesses at consequential moments.',
+      'We advise established, privately held businesses—often $5M–$50M in revenue—across Southeastern New England through growth, leadership change and pivotal decisions.',
     url: '/clients',
     type: 'website',
   },
@@ -32,31 +32,43 @@ const patterns = [
     number: '01',
     title: 'Growth has outpaced the operating model.',
     body: 'What worked at an earlier stage is creating friction as the business becomes larger, more complex or more demanding.',
+    href: '/articles/what-a-scaled-business-operating-system-really-needs-to-work',
+    linkLabel: 'Build an operating system that can scale',
   },
   {
     number: '02',
     title: 'Too many decisions still run through one person.',
     body: 'The owner or CEO remains the center of gravity, limiting the leadership team and constraining the company’s next chapter.',
+    href: '/articles/why-your-business-still-runs-through-you',
+    linkLabel: 'Understand owner dependency',
   },
   {
     number: '03',
     title: 'The leadership system needs to evolve.',
     body: 'Roles, accountability or operating rhythm have not kept pace with what the strategy now requires.',
+    href: '/articles/5-leadership-team-dysfunctions-in-private-companies-and-how-to-fix-them',
+    linkLabel: 'Strengthen leadership-team performance',
   },
   {
     number: '04',
     title: 'A consequential transition is approaching.',
     body: 'A succession, transaction, leadership change or ownership decision has raised the stakes for the whole business.',
+    href: null,
+    linkLabel: null,
   },
   {
     number: '05',
     title: 'A major investment requires greater confidence.',
     body: 'New capabilities, service lines, facilities or systems demand choices that must hold up beyond the initial decision.',
+    href: null,
+    linkLabel: null,
   },
   {
     number: '06',
     title: 'The business can perform at a higher level.',
     body: 'Performance may be acceptable, but the company is not converting its market position, people and assets into their full potential.',
+    href: '/articles/stalled-revenue-growth-diagnosis',
+    linkLabel: 'Diagnose stalled performance',
   },
 ]
 
@@ -185,6 +197,17 @@ function Recognition() {
                 <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">
                   {pattern.body}
                 </p>
+                {pattern.href && pattern.linkLabel && (
+                  <Link
+                    href={pattern.href}
+                    className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+                  >
+                    {pattern.linkLabel}
+                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                      &rarr;
+                    </span>
+                  </Link>
+                )}
               </div>
             </FadeIn>
           ))}
@@ -323,8 +346,8 @@ export default function WhoWeServe() {
     <RootLayout>
       <PageSchema
         path="/clients"
-        name="Who We Serve"
-        description="Tidal Point Partners works with established privately held businesses navigating growth, leadership change and consequential transitions."
+        name="Privately Held Businesses We Serve"
+        description="We advise established, privately held businesses—often $5M–$50M in revenue—across Southeastern New England through growth, leadership change and pivotal decisions."
       />
       <Hero />
       <Profile />

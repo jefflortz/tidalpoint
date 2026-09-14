@@ -9,14 +9,14 @@ import { RootLayout } from '@/components/RootLayout'
 import { PageSchema } from '@/components/PageSchema'
 
 export const metadata: Metadata = {
-  title: 'About Tidal Point Partners',
+  title: 'Experienced Operating Partners & Network',
   description:
-    'Meet the experienced Operating Partners and specialist network behind Tidal Point Partners, serving privately held businesses across Southeastern New England.',
+    'Meet the experienced operators and specialist network helping privately held businesses across Southeastern New England navigate growth and pivotal change.',
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About Tidal Point Partners',
+    title: 'Experienced Operating Partners & Network | Tidal Point Partners',
     description:
-      'Experienced Operating Partners bringing judgment, accountability and broader capability to privately held businesses at pivotal moments.',
+      'Meet the experienced operators and specialist network helping privately held businesses across Southeastern New England navigate growth and pivotal change.',
     url: '/about',
     type: 'website',
   },
@@ -108,6 +108,15 @@ function Purpose() {
               Experienced partnership for pivotal points in the life of a
               business.
             </p>
+            <Link
+              href="/clients"
+              className="group inline-flex items-center gap-3 text-sm font-semibold tracking-wide text-tidal-navy transition hover:text-tidal-teal"
+            >
+              See the situations that bring leaders to Tidal Point
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
           </FadeIn>
         </div>
 
@@ -391,8 +400,8 @@ export default function About() {
     <RootLayout>
       <PageSchema
         path="/about"
-        name="About Tidal Point Partners"
-        description="Meet the experienced Operating Partners and specialist network behind Tidal Point Partners, serving privately held businesses across Southeastern New England."
+        name="Experienced Operating Partners & Network"
+        description="Meet the experienced operators and specialist network helping privately held businesses across Southeastern New England navigate growth and pivotal change."
       />
       <Hero />
       <Purpose />
