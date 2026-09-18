@@ -158,6 +158,7 @@ export async function createArticleDraft(
       hashtags?: string[]
       relatedArticles?: Array<{_type: 'reference'; _ref: string; _key?: string}>
     } | null
+    pillar: {title: string; slug?: string}
   },
   media: {featuredImageAssetId?: string; inlineImages?: UploadedSourceImage[]} = {},
   seoAssessment: SeoAssessment,
@@ -171,7 +172,7 @@ export async function createArticleDraft(
     category: {_type: 'reference', _ref: context.categoryId},
     pillarArticle: {_type: 'reference', _ref: article.pillarArticleId},
     contentRole: 'supporting',
-    body: sectionsToPortableText(output.sections, media.inlineImages), sources: sourceObjects(output.sources),
+    body: sectionsToPortableText(output.sections, media.inlineImages, context.pillar.slug ? {title: context.pillar.title, href: `/articles/${context.pillar.slug}`} : undefined), sources: sourceObjects(output.sources),
     ...(media.featuredImageAssetId ? {featuredImage: {
       _type: 'image', asset: {_type: 'reference', _ref: media.featuredImageAssetId},
       alt: `Abstract engineered system representing ${output.title}`,
@@ -306,7 +307,7 @@ export async function refreshSeoAssessment(id: string) {
   const article = await client.fetch<{
     _id: string; title: string; slug?: string; description?: string; seoTitle?: string; metaDescription?: string;
     primaryKeyword?: string; secondaryKeywords?: string[]; contentRole?: 'pillar' | 'supporting'; pillarArticle?: {_id: string; title: string; slug?: string};
-    body?: Array<{_type: string; style?: string; body?: string; questions?: string[]; children?: Array<{text?: string}>}>;
+    body?: Array<{_type: string; style?: string; body?: string; questions?: string[]; children?: Array<{text?: string}>; markDefs?: Array<{_type?: string; href?: string}>}>;
     sources?: Array<{title?: string; publisher?: string; url?: string; publishedAt?: string}>;
   } | null>(`*[_id == $id][0]{_id,title,"slug":slug.current,description,seoTitle,metaDescription,primaryKeyword,secondaryKeywords,contentRole,
     "pillarArticle": pillarArticle->{_id,title,"slug":slug.current},body,sources}`, {id})
@@ -325,6 +326,7 @@ export async function refreshSeoAssessment(id: string) {
       : block.style === 'h2' ? 'h2' : block.style === 'h3' ? 'h3' : block.style === 'blockquote' ? 'quote' : 'paragraph'
     return {type, text, items: block.questions ?? [], imageIndex: -1}
   })
+  const internalLinks = (article.body ?? []).flatMap((block) => block.markDefs ?? []).filter((mark) => mark._type === 'link' && mark.href).map((mark) => mark.href as string)
   const source: SourceArticle = {
     source: 'sanity', sourceId: publishedId, title: article.title, body: '', primaryKeyword,
     secondaryKeywords: article.secondaryKeywords ?? [], pillarArticleId: article.pillarArticle?._id ?? '', metadata: {}, images: [],
@@ -338,7 +340,7 @@ export async function refreshSeoAssessment(id: string) {
     imageBriefs: [], cta: {eyebrow: '', title: '', body: '', buttonLabel: '', buttonHref: ''},
     assessment: {score: 0, summary: '', flags: []},
   }
-  const assessment = assessSeo(source, output, article.pillarArticle ?? null, peers, {contentRole, keywordProvided: Boolean(primaryKeyword)})
+  const assessment = assessSeo(source, output, article.pillarArticle ?? null, peers, {contentRole, keywordProvided: Boolean(primaryKeyword), internalLinks})
   await client.patch(id).set({contentRole, seoAssessment: assessment}).commit()
   return assessment
 }

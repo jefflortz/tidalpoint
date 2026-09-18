@@ -13,8 +13,27 @@ function textBlock(style: 'normal' | 'h2' | 'h3' | 'blockquote', text: string) {
   }
 }
 
-export function sectionsToPortableText(sections: EditorialOutput['sections'], images: UploadedSourceImage[] = []) {
+function internalLinkBlock(title: string, href: string) {
+  const markKey = key()
+  return {
+    _type: 'block', _key: key(), style: 'normal',
+    markDefs: [{_type: 'link', _key: markKey, href, blank: false}],
+    children: [
+      {_type: 'span', _key: key(), text: 'For the broader operating context, read ', marks: []},
+      {_type: 'span', _key: key(), text: title, marks: [markKey]},
+      {_type: 'span', _key: key(), text: '.', marks: []},
+    ],
+  }
+}
+
+export function sectionsToPortableText(
+  sections: EditorialOutput['sections'],
+  images: UploadedSourceImage[] = [],
+  pillarLink?: {title: string; href: string},
+) {
   const blocks: Array<Record<string, unknown>> = []
+  let introductoryParagraphs = 0
+  let pillarLinkAdded = false
   for (const section of sections) {
     if (section.type === 'callout') {
       blocks.push({_type: 'callout', _key: key(), eyebrow: 'Operating observation', body: section.text})
@@ -36,6 +55,12 @@ export function sectionsToPortableText(sections: EditorialOutput['sections'], im
     }
     const style = section.type === 'paragraph' ? 'normal' : section.type === 'quote' ? 'blockquote' : section.type
     blocks.push(textBlock(style, section.text))
+    if (section.type === 'paragraph') introductoryParagraphs += 1
+    if (pillarLink && !pillarLinkAdded && introductoryParagraphs === 2) {
+      blocks.push(internalLinkBlock(pillarLink.title, pillarLink.href))
+      pillarLinkAdded = true
+    }
   }
+  if (pillarLink && !pillarLinkAdded) blocks.push(internalLinkBlock(pillarLink.title, pillarLink.href))
   return blocks
 }

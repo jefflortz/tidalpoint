@@ -21,7 +21,7 @@ export function assessSeo(
   article: EditorialOutput,
   pillar: {title: string; slug?: string} | null,
   peers: SeoPeer[] = [],
-  options: {contentRole?: 'pillar' | 'supporting'; keywordProvided?: boolean} = {},
+  options: {contentRole?: 'pillar' | 'supporting'; keywordProvided?: boolean; internalLinks?: string[]} = {},
 ): SeoAssessment {
   const checks: SeoAssessment['checks'] = []
   const add = (label: string, passed: boolean, weight: number, detail: string, critical = false) =>
@@ -40,11 +40,14 @@ export function assessSeo(
   const articleWords = words(bodyText).length
   const contentRole = options.contentRole ?? 'supporting'
   const keywordProvided = options.keywordProvided ?? Boolean(source.primaryKeyword.trim())
+  const pillarPath = pillar?.slug ? `/articles/${pillar.slug}` : ''
+  const hasPillarLink = contentRole === 'pillar' || Boolean(pillarPath && options.internalLinks?.some((href) => href === pillarPath || href.endsWith(pillarPath)))
 
   add('Search intent alignment', keywordProvided && keywordCoverage >= 0.6, 20, keywordProvided ? `${Math.round(keywordCoverage * 100)}% of the meaningful target-keyword terms appear naturally in the title, description, or opening.` : 'Assign a deliberate primary keyword before the next substantive update.', contentRole === 'supporting')
   add('Unique keyword target', keywordProvided && !exactDuplicate, 15, !keywordProvided ? 'A primary keyword is not yet assigned.' : exactDuplicate ? `The same primary keyword is already assigned to “${exactDuplicate.title ?? exactDuplicate.slug}”.` : 'No published article uses the same primary keyword.', contentRole === 'supporting')
   add('Distinct article angle', !closestPeer || closestPeer.similarity < 0.65, 10, closestPeer ? `Closest published-title overlap is ${Math.round(closestPeer.similarity * 100)}% with “${closestPeer.peer.title}”.` : 'No competing published article was found.', true)
   add('Pillar relationship', contentRole === 'pillar' || Boolean(source.pillarArticleId && pillar?.title && pillar.slug), 10, contentRole === 'pillar' ? 'This is a pillar article and does not require a parent pillar.' : pillar?.slug ? `Supports “${pillar.title}” at /articles/${pillar.slug}.` : 'A supporting article requires a published pillar article and URL.', contentRole === 'supporting')
+  add('Clickable pillar link', hasPillarLink, 10, contentRole === 'pillar' ? 'Pillar articles do not require a parent link.' : hasPillarLink ? `The article body links to ${pillarPath}.` : `Add a clickable body link to ${pillarPath || 'the supporting pillar'}.`, contentRole === 'supporting')
   add('SEO title', article.seoTitle.length >= 30 && article.seoTitle.length <= 65, 10, `${article.seoTitle.length} characters; target 30–65.`)
   add('Meta description', article.metaDescription.length >= 120 && article.metaDescription.length <= 170, 10, `${article.metaDescription.length} characters; target 120–170.`)
   const slug = article.slug.replace(/^\/+|\/+$/g, '')

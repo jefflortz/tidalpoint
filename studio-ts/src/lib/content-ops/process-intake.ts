@@ -29,7 +29,8 @@ export async function processIntake(article: SourceArticle, force = false, workf
 
   const research = await researchArticle(article, context.pillar)
   const output = await transformArticle(article, context.pillar, research)
-  const seoAssessment = assessSeo(article, output, context.pillar, context.seoPeers)
+  const pillarPath = context.pillar.slug ? `/articles/${context.pillar.slug}` : ''
+  const seoAssessment = assessSeo(article, output, context.pillar, context.seoPeers, {internalLinks: pillarPath ? [pillarPath] : []})
   let featuredImageAssetId: string | undefined
   let inlineImages
   const mediaFlags: string[] = []
@@ -52,7 +53,7 @@ export async function processIntake(article: SourceArticle, force = false, workf
   const draft = await createArticleDraft(
     article,
     output,
-    {authorId: context.authorId, categoryId: context.categoryId, published: context.published},
+    {authorId: context.authorId, categoryId: context.categoryId, published: context.published, pillar: {title: context.pillar.title, slug: context.pillar.slug}},
     {featuredImageAssetId, inlineImages},
     seoAssessment,
     workflow,
