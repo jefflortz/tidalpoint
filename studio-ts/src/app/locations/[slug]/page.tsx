@@ -1,4 +1,5 @@
 import { type Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -45,7 +46,7 @@ export async function generateMetadata({
 
 function LocationSchema({ page }: { page: LocationPageDocument }) {
   const url = `https://tidalpointpartners.com/locations/${page.slug}`
-  const schema = [
+  const schema: Array<Record<string, unknown>> = [
     {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
@@ -98,6 +99,21 @@ function LocationSchema({ page }: { page: LocationPageDocument }) {
     },
   ]
 
+  if (page.faqs?.length) {
+    schema.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: page.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    })
+  }
+
   return (
     <script
       type="application/ld+json"
@@ -135,20 +151,35 @@ function Hero({ page }: { page: LocationPageDocument }) {
             </li>
           </ol>
         </nav>
-        <FadeIn className="grid gap-12 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
+        <FadeIn className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="lg:col-span-7 lg:pt-1">
             <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
               {page.heroEyebrow ?? page.regionName}
             </p>
-            <h1 className="mt-6 max-w-5xl font-display text-5xl leading-[0.98] font-medium tracking-tight text-white sm:text-7xl lg:text-[5.35rem]">
+            <h1 className="mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-tight text-white sm:text-7xl lg:text-[4.85rem]">
               {page.heroTitle}
             </h1>
           </div>
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-5 lg:pt-1">
             <div className="border-l border-white/20 pl-6 sm:pl-8">
               <p className="text-lg leading-8 text-white/72">
                 {page.heroIntroduction}
               </p>
+              {page.audienceFit?.length ? (
+                <div className="mt-7 border-y border-white/15 py-6">
+                  <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+                    A strong fit when
+                  </p>
+                  <ul className="mt-4 space-y-3 text-sm leading-6 text-white/72">
+                    {page.audienceFit.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tidal-teal" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               <Link
                 href="/contact"
                 className="mt-8 inline-flex border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-tidal-navy"
@@ -229,6 +260,7 @@ function OtherRegions({
   page: LocationPageDocument
   locations: LocationPageSummary[]
 }) {
+  const isRegionalHub = page.slug === 'southeastern-new-england'
   const otherLocations = locations
     .filter((location) => location.slug !== page.slug)
     .slice(0, 3)
@@ -240,21 +272,32 @@ function OtherRegions({
         <FadeIn className="flex flex-col gap-5 border-b border-tidal-navy/15 pb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
-              Regional reach
+              {isRegionalHub ? 'Local market perspectives' : 'Regional reach'}
             </p>
             <h2 className="mt-4 font-display text-4xl font-medium tracking-tight text-tidal-navy sm:text-5xl">
-              Other regions we serve.
+              {isRegionalHub
+                ? 'Distinct markets within one connected region.'
+                : 'Other regions we serve.'}
             </h2>
+            {isRegionalHub ? (
+              <p className="mt-5 max-w-2xl text-base leading-7 text-tidal-body">
+                Each local economy creates a different operating context. These
+                focused pages address the conditions shaping established
+                businesses in each market.
+              </p>
+            ) : null}
           </div>
-          <Link
-            href="/locations"
-            className="text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
-          >
-            Explore all locations{' '}
-            <span className="ml-2" aria-hidden="true">
-              &rarr;
-            </span>
-          </Link>
+          {!isRegionalHub ? (
+            <Link
+              href="/locations"
+              className="text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+            >
+              Explore all locations{' '}
+              <span className="ml-2" aria-hidden="true">
+                &rarr;
+              </span>
+            </Link>
+          ) : null}
         </FadeIn>
         <FadeInStagger className="grid lg:grid-cols-3">
           {otherLocations.map((location, index) => (
@@ -412,6 +455,15 @@ function SupportAreas({ page }: { page: LocationPageDocument }) {
               {page.supportAreas.introduction}
             </p>
           ) : null}
+          <Link
+            href="/services"
+            className="mt-7 inline-flex text-sm font-semibold text-tidal-navy transition hover:text-tidal-teal"
+          >
+            Explore operating support{' '}
+            <span className="ml-2" aria-hidden="true">
+              &rarr;
+            </span>
+          </Link>
         </FadeIn>
         <FadeInStagger className="mt-14 grid gap-px bg-tidal-navy/15 ring-1 ring-tidal-navy/15 lg:grid-cols-3">
           {page.supportAreas.items.map((item) => (
@@ -477,6 +529,8 @@ function BusinessProfile({ page }: { page: LocationPageDocument }) {
 function LocalProof({ page }: { page: LocationPageDocument }) {
   if (!page.localProofPoints?.length) return null
 
+  const hasPlymouthImage = page.slug === 'plymouth-south-shore'
+
   return (
     <section className="bg-tidal-warm-white py-20 sm:py-28 lg:py-32">
       <Container>
@@ -494,18 +548,140 @@ function LocalProof({ page }: { page: LocationPageDocument }) {
             partnership actually works.
           </p>
         </FadeIn>
-        <FadeInStagger className="grid lg:grid-cols-2">
-          {page.localProofPoints.map((point, index) => (
-            <FadeIn
-              key={point._key}
-              className={`border-b border-tidal-navy/12 py-9 sm:py-11 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}
-            >
-              <h3 className="font-display text-3xl leading-tight font-medium text-tidal-navy">
-                {point.title}
-              </h3>
-              <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">
-                {point.body}
+        <div
+          className={`mt-10 grid gap-10 ${hasPlymouthImage ? 'lg:grid-cols-12 lg:items-stretch' : ''}`}
+        >
+          {hasPlymouthImage ? (
+            <FadeIn className="relative min-h-[22rem] overflow-hidden lg:col-span-7 lg:min-h-[34rem]">
+              <Image
+                src="/images/locations/plymouth-south-shore-business.png"
+                alt="A contemporary New England workplace reflecting the character of established South Shore businesses"
+                fill
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-tidal-navy/85 to-transparent px-7 pt-24 pb-7 sm:px-9 sm:pb-9">
+                <p className="max-w-md text-sm leading-6 text-white/82">
+                  Close enough for the conversations that benefit from being in
+                  the room—and connected enough to bring the right perspective
+                  to the table.
+                </p>
+              </div>
+            </FadeIn>
+          ) : null}
+          <FadeInStagger
+            className={
+              hasPlymouthImage
+                ? 'border-t border-tidal-navy/12 lg:col-span-5'
+                : 'grid lg:grid-cols-2'
+            }
+          >
+            {page.localProofPoints.map((point, index) => (
+              <FadeIn
+                key={point._key}
+                className={`border-b border-tidal-navy/12 py-8 sm:py-10 ${hasPlymouthImage ? 'lg:px-8' : index % 2 === 0 ? 'lg:pr-12' : 'lg:border-l lg:pl-12'}`}
+              >
+                <h3 className="font-display text-3xl leading-tight font-medium text-tidal-navy">
+                  {point.title}
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-7 text-tidal-body">
+                  {point.body}
+                </p>
+              </FadeIn>
+            ))}
+          </FadeInStagger>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+function RegionalScenario({ page }: { page: LocationPageDocument }) {
+  if (!page.regionalScenario) return null
+
+  return (
+    <section className="bg-white py-20 sm:py-28 lg:py-32">
+      <Container>
+        <FadeIn className="grid gap-12 border-y border-tidal-navy/15 py-12 lg:grid-cols-12 lg:gap-16 lg:py-16">
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              {page.regionalScenario.eyebrow ?? 'A Representative Situation'}
+            </p>
+            <h2 className="mt-5 max-w-4xl font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              {page.regionalScenario.title}
+            </h2>
+            <p className="mt-7 max-w-3xl text-lg leading-8 whitespace-pre-line text-tidal-body">
+              {page.regionalScenario.body}
+            </p>
+          </div>
+          {page.regionalScenario.outcomes?.length ? (
+            <div className="lg:col-span-4 lg:col-start-9">
+              <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-tidal-teal uppercase">
+                The work should create
               </p>
+              <ul className="mt-5 divide-y divide-tidal-navy/12 border-y border-tidal-navy/12">
+                {page.regionalScenario.outcomes.map((outcome) => (
+                  <li
+                    key={outcome}
+                    className="flex gap-4 py-5 font-display text-xl leading-tight font-medium text-tidal-navy"
+                  >
+                    <span className="text-tidal-teal" aria-hidden="true">
+                      &rarr;
+                    </span>
+                    {outcome}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </FadeIn>
+      </Container>
+    </section>
+  )
+}
+
+function RegionalFaqs({ page }: { page: LocationPageDocument }) {
+  if (!page.faqs?.length) return null
+
+  return (
+    <section className="bg-[#e9efee] py-20 sm:py-28 lg:py-32">
+      <Container>
+        <FadeIn className="grid gap-8 border-b border-tidal-navy/15 pb-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold tracking-[0.18em] text-tidal-teal uppercase">
+              Frequently asked questions
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[1.02] font-medium tracking-tight text-tidal-navy sm:text-6xl">
+              What South Shore leaders often want to know.
+            </h2>
+          </div>
+          <p className="max-w-lg text-base leading-7 text-tidal-body lg:col-span-4 lg:col-start-9">
+            A practical introduction to the businesses, situations and working
+            relationship Tidal Point is built to serve.
+          </p>
+        </FadeIn>
+        <FadeInStagger className="mt-4 border-t border-tidal-navy/12">
+          {page.faqs.map((faq) => (
+            <FadeIn
+              key={faq._key}
+              className="border-b border-tidal-navy/12"
+            >
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-8 py-7 sm:py-9">
+                  <h3 className="max-w-4xl font-display text-2xl leading-tight font-medium text-tidal-navy sm:text-3xl">
+                    {faq.question}
+                  </h3>
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center border border-tidal-navy/20 text-xl text-tidal-teal transition group-open:rotate-45 group-open:border-tidal-teal"
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="max-w-3xl pb-8 text-base leading-7 text-tidal-body sm:pb-10">
+                  {faq.answer}
+                </p>
+              </details>
             </FadeIn>
           ))}
         </FadeInStagger>
@@ -619,19 +795,33 @@ export default async function LocationPage({
   const page = await getLocationPage(slug)
   if (!page) notFound()
   const locations = await getIndexableLocationSummaries()
+  const isRegionalHub = page.slug === 'southeastern-new-england'
 
   return (
     <RootLayout>
       <LocationSchema page={page} />
       <Hero page={page} />
       <RegionalContext page={page} />
-      <Situations page={page} />
-      <SupportAreas page={page} />
-      <BusinessProfile page={page} />
-      <LocalProof page={page} />
-      <RegionalResources page={page} />
-      <RelatedPerspectives page={page} />
-      <OtherRegions page={page} locations={locations} />
+      {isRegionalHub ? (
+        <>
+          <OtherRegions page={page} locations={locations} />
+          <Situations page={page} />
+          <BusinessProfile page={page} />
+          <RelatedPerspectives page={page} />
+        </>
+      ) : (
+        <>
+          <Situations page={page} />
+          <SupportAreas page={page} />
+          <BusinessProfile page={page} />
+          <LocalProof page={page} />
+          <RegionalScenario page={page} />
+          <RegionalResources page={page} />
+          <RelatedPerspectives page={page} />
+          <RegionalFaqs page={page} />
+          <OtherRegions page={page} locations={locations} />
+        </>
+      )}
       <ClosingCTA page={page} />
     </RootLayout>
   )

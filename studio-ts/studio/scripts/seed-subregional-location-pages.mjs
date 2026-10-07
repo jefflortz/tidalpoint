@@ -8,7 +8,9 @@ async function articleReference(slug, key) {
 }
 
 async function relatedArticles(slugs) {
-  return (await Promise.all(slugs.map(({slug, key}) => articleReference(slug, key)))).filter(Boolean)
+  return (await Promise.all(slugs.map(({slug, key}) => articleReference(slug, key)))).filter(
+    Boolean,
+  )
 }
 
 const sharedCta = {
@@ -50,15 +52,34 @@ async function pages() {
       heroTitle: 'Experienced operating partnership, based close to the business.',
       heroIntroduction:
         'Tidal Point is based in Plymouth and works alongside owners and leadership teams across the South Shore when growth, transition or a consequential decision requires experienced judgment and sustained follow-through.',
+      audienceFit: [
+        'An established privately held business has outgrown informal coordination.',
+        'The owner and leadership team face a consequential growth, leadership or succession decision.',
+        'The business needs experienced operating judgment that remains connected through execution.',
+      ],
       regionalContext: {
         eyebrow: 'A South Shore Operating Perspective',
         title: 'A strong regional business deserves more than a Boston-centric answer.',
-        body:
-          'The South Shore is home to established businesses that combine deep customer relationships with increasingly sophisticated operating demands. Construction, healthcare, professional services, technology and distribution businesses are growing here—often while competing with Greater Boston for leadership talent and specialized capabilities.\n\nFor an owner or CEO, the challenge is rarely a lack of commitment. It is creating enough leadership capacity, decision discipline and operating rhythm for the company to keep advancing without routing every important issue through one person.',
+        body: 'The South Shore is home to established businesses that combine deep customer relationships with increasingly sophisticated operating demands. Construction, healthcare, professional services, technology and distribution businesses are growing here—often while competing with Greater Boston for leadership talent and specialized capabilities.\n\nFor an owner or CEO, the challenge is rarely a lack of commitment. It is creating enough leadership capacity, decision discipline and operating rhythm for the company to keep advancing without routing every important issue through one person.',
         details: [
-          {_type: 'regionDetail', _key: 'base', label: 'Based in', value: 'Plymouth, Massachusetts'},
-          {_type: 'regionDetail', _key: 'reach', label: 'Regional reach', value: 'Plymouth County and the South Shore'},
-          {_type: 'regionDetail', _key: 'fit', label: 'Business fit', value: 'Established privately held and owner-led companies'},
+          {
+            _type: 'regionDetail',
+            _key: 'base',
+            label: 'Based in',
+            value: 'Plymouth, Massachusetts',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'reach',
+            label: 'Regional reach',
+            value: 'Plymouth County and the South Shore',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'fit',
+            label: 'Business fit',
+            value: 'Established privately held and owner-led companies',
+          },
         ],
       },
       situations: {
@@ -125,8 +146,7 @@ async function pages() {
       businessProfile: {
         eyebrow: 'Built for South Shore Businesses',
         title: 'Local relationships. Increasing operating sophistication.',
-        body:
-          'South Shore companies often grow through reputation, customer intimacy and the judgment of a committed owner. The next stage asks them to preserve those advantages while developing deeper leadership capacity and more repeatable ways of operating.',
+        body: 'South Shore companies often grow through reputation, customer intimacy and the judgment of a committed owner. The next stage asks them to preserve those advantages while developing deeper leadership capacity and more repeatable ways of operating.',
         industries: [
           'Business & professional services',
           'Construction & engineering',
@@ -150,6 +170,46 @@ async function pages() {
           body: 'The work is personal, senior-led and calibrated to companies that need additional operating capacity without building another permanent executive role.',
         },
       ],
+      regionalScenario: {
+        eyebrow: 'A Representative South Shore Situation',
+        title: 'A successful regional business has outgrown owner-led coordination.',
+        body: 'Consider an established South Shore services or distribution business that has expanded its customer base, management team and geographic reach. Revenue has grown, but important decisions still return to the owner. Managers lead their functions well, yet priorities compete, handoffs remain informal and the annual plan is losing ground to the urgency of the week.\n\nThe answer is not another report. It is a clearer operating model: a small number of shared priorities, explicit decision rights, stronger management accountability and a cadence that keeps the leadership team focused on what advances the whole business.',
+        outcomes: [
+          'Fewer decisions defaulting to the owner',
+          'Clearer priorities and decision rights',
+          'A leadership cadence that turns plans into progress',
+        ],
+      },
+      faqs: [
+        {
+          _type: 'regionalFaq',
+          _key: 'business-fit',
+          question: 'What types of Plymouth and South Shore businesses does Tidal Point work with?',
+          answer:
+            'Tidal Point is built for established privately held businesses, typically with meaningful operating complexity and a leadership team already in place. The strongest fit is often a business navigating growth, owner dependency, leadership-team effectiveness, operational maturity or succession.',
+        },
+        {
+          _type: 'regionalFaq',
+          _key: 'operating-partner',
+          question: 'How is an Operating Partner different from a traditional consultant?',
+          answer:
+            'A traditional consultant may diagnose an issue and deliver recommendations. An Operating Partner works alongside the owner and leadership team, helps make the consequential decisions and remains connected as those decisions become priorities, accountability and operating progress.',
+        },
+        {
+          _type: 'regionalFaq',
+          _key: 'onsite',
+          question: 'Can the work include in-person sessions on the South Shore?',
+          answer:
+            'Yes. Tidal Point is based in Plymouth, and in-person working sessions are practical across Plymouth County and the South Shore when being in the room improves alignment, decision-making or follow-through. The relationship can combine onsite and virtual work.',
+        },
+        {
+          _type: 'regionalFaq',
+          _key: 'first-conversation',
+          question: 'What happens in the introductory conversation?',
+          answer:
+            'The conversation begins with the business situation, its context and the questions carrying the most consequence. The goal is to create a useful shared perspective and determine together whether a continuing operating partnership would add value.',
+        },
+      ],
       relatedArticles: await relatedArticles([
         {slug: 'why-your-business-still-runs-through-you', key: 'owner-dependency'},
         {
@@ -159,9 +219,9 @@ async function pages() {
         {slug: 'signs-business-outgrown-operating-system', key: 'operating-system'},
       ]),
       cta: sharedCta,
-      seoTitle: 'Operating Partner in Plymouth & the South Shore',
+      seoTitle: 'Business Operating Advisor in Plymouth & the South Shore',
       metaDescription:
-        'Experienced Operating Partner support for privately held businesses in Plymouth and across the South Shore navigating growth, leadership and transition.',
+        'Operating Partner and business advisory support for privately held companies in Plymouth and the South Shore navigating growth, leadership and succession.',
       canonicalUrl: 'https://tidalpointpartners.com/locations/plymouth-south-shore',
       noIndex: false,
     },
@@ -172,7 +232,15 @@ async function pages() {
       slug: {_type: 'slug', current: 'cape-cod'},
       regionName: 'Cape Cod',
       primarySearchPhrase: 'business operating advisor for privately held companies on Cape Cod',
-      areasServed: ['Barnstable', 'Hyannis', 'Falmouth', 'Bourne', 'Sandwich', 'Mashpee', 'Yarmouth'],
+      areasServed: [
+        'Barnstable',
+        'Hyannis',
+        'Falmouth',
+        'Bourne',
+        'Sandwich',
+        'Mashpee',
+        'Yarmouth',
+      ],
       regionalIndustries: [
         'Healthcare services',
         'Construction & skilled trades',
@@ -188,12 +256,26 @@ async function pages() {
       regionalContext: {
         eyebrow: 'A Cape Cod Operating Perspective',
         title: 'A distinctive economy creates a distinctive set of leadership decisions.',
-        body:
-          'Cape Cod businesses operate within conditions that are difficult to separate: seasonal demand, workforce availability, housing constraints, infrastructure limitations and a customer base that can change dramatically throughout the year. Even companies that are not directly tied to tourism feel the effects.\n\nFor established healthcare, construction, professional-service, marine and consumer businesses, resilience depends on more than managing the busy season. It requires deliberate choices about leadership capacity, year-round economics, talent, service mix and where the company should invest next.',
+        body: 'Cape Cod businesses operate within conditions that are difficult to separate: seasonal demand, workforce availability, housing constraints, infrastructure limitations and a customer base that can change dramatically throughout the year. Even companies that are not directly tied to tourism feel the effects.\n\nFor established healthcare, construction, professional-service, marine and consumer businesses, resilience depends on more than managing the busy season. It requires deliberate choices about leadership capacity, year-round economics, talent, service mix and where the company should invest next.',
         details: [
-          {_type: 'regionDetail', _key: 'reach', label: 'Serving', value: 'Upper and Mid Cape communities'},
-          {_type: 'regionDetail', _key: 'conditions', label: 'Operating context', value: 'Seasonality, workforce constraints and year-round resilience'},
-          {_type: 'regionDetail', _key: 'fit', label: 'Business fit', value: 'Established privately held and owner-led companies'},
+          {
+            _type: 'regionDetail',
+            _key: 'reach',
+            label: 'Serving',
+            value: 'Upper and Mid Cape communities',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'conditions',
+            label: 'Operating context',
+            value: 'Seasonality, workforce constraints and year-round resilience',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'fit',
+            label: 'Business fit',
+            value: 'Established privately held and owner-led companies',
+          },
         ],
       },
       situations: {
@@ -260,8 +342,7 @@ async function pages() {
       businessProfile: {
         eyebrow: 'Built for Cape Cod Businesses',
         title: 'More varied—and more sophisticated—than the visitor economy suggests.',
-        body:
-          'Cape Cod supports substantial year-round healthcare, construction, professional-service, marine and consumer businesses. Many are locally owned, relationship driven and deeply connected to their communities. Their next stage requires operating systems that respect that character while building greater resilience.',
+        body: 'Cape Cod supports substantial year-round healthcare, construction, professional-service, marine and consumer businesses. Many are locally owned, relationship driven and deeply connected to their communities. Their next stage requires operating systems that respect that character while building greater resilience.',
         industries: [
           'Healthcare services',
           'Construction & skilled trades',
@@ -321,12 +402,26 @@ async function pages() {
       regionalContext: {
         eyebrow: 'A South Coast Operating Perspective',
         title: 'Industrial depth, practical ingenuity and a new cycle of investment.',
-        body:
-          'The South Coast’s economy is shaped by businesses that produce tangible value: manufacturers, maritime companies, food processors, distributors, healthcare organizations and skilled service providers. Many combine generations of operating knowledge with new technology, changing markets and significant capital requirements.\n\nThat combination creates consequential choices. Leaders must decide what to modernize, where to invest, which capabilities to build and how to preserve the judgment embedded in experienced people while preparing the next generation to lead.',
+        body: 'The South Coast’s economy is shaped by businesses that produce tangible value: manufacturers, maritime companies, food processors, distributors, healthcare organizations and skilled service providers. Many combine generations of operating knowledge with new technology, changing markets and significant capital requirements.\n\nThat combination creates consequential choices. Leaders must decide what to modernize, where to invest, which capabilities to build and how to preserve the judgment embedded in experienced people while preparing the next generation to lead.',
         details: [
-          {_type: 'regionDetail', _key: 'reach', label: 'Serving', value: 'New Bedford, Fall River and surrounding South Coast communities'},
-          {_type: 'regionDetail', _key: 'context', label: 'Operating context', value: 'Industrial, maritime, healthcare and service businesses'},
-          {_type: 'regionDetail', _key: 'fit', label: 'Business fit', value: 'Established privately held and owner-led companies'},
+          {
+            _type: 'regionDetail',
+            _key: 'reach',
+            label: 'Serving',
+            value: 'New Bedford, Fall River and surrounding South Coast communities',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'context',
+            label: 'Operating context',
+            value: 'Industrial, maritime, healthcare and service businesses',
+          },
+          {
+            _type: 'regionDetail',
+            _key: 'fit',
+            label: 'Business fit',
+            value: 'Established privately held and owner-led companies',
+          },
         ],
       },
       situations: {
@@ -393,8 +488,7 @@ async function pages() {
       businessProfile: {
         eyebrow: 'Built for South Coast Businesses',
         title: 'Legacy capability meeting new opportunity.',
-        body:
-          'The South Coast combines long-standing strength in manufacturing, maritime work, food processing and healthcare with emerging investment in advanced production and the blue economy. The strongest businesses will connect that practical heritage to clearer strategy, deeper leadership and disciplined execution.',
+        body: 'The South Coast combines long-standing strength in manufacturing, maritime work, food processing and healthcare with emerging investment in advanced production and the blue economy. The strongest businesses will connect that practical heritage to clearer strategy, deeper leadership and disciplined execution.',
         industries: [
           'Advanced & specialty manufacturing',
           'Maritime & blue economy',

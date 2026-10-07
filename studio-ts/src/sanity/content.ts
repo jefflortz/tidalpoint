@@ -82,6 +82,7 @@ export interface LocationPageDocument {
   heroEyebrow?: string
   heroTitle: string
   heroIntroduction: string
+  audienceFit?: string[]
   regionalContext: {
     eyebrow?: string
     title: string
@@ -107,6 +108,13 @@ export interface LocationPageDocument {
     industries?: string[]
   }
   localProofPoints?: Array<{ _key: string; title: string; body: string }>
+  regionalScenario?: {
+    eyebrow?: string
+    title: string
+    body: string
+    outcomes?: string[]
+  }
+  faqs?: Array<{ _key: string; question: string; answer: string }>
   regionalResources?: Array<{
     _key: string
     title: string
@@ -164,14 +172,13 @@ const southeasternNewEnglandSeed: Omit<
     'Specialty consumer products',
   ],
   heroEyebrow: 'Operating Partner Support in Southeastern New England',
-  heroTitle: 'Experienced operating partnership, close to the business.',
+  heroTitle: 'Operating partnership across Southeastern New England.',
   heroIntroduction:
-    'Tidal Point works alongside owners and leadership teams across Massachusetts, Rhode Island and Southeastern New England when growth, change or transition has raised the consequence of every decision.',
+    'Based in Plymouth, Tidal Point works alongside owners and leadership teams from the South Shore and Cape Cod to the South Coast and Rhode Island when growth, change or transition raises the consequence of every decision.',
   regionalContext: {
     eyebrow: 'A Regional Operating Perspective',
-    title:
-      'Close enough to understand the context. Independent enough to challenge it.',
-    body: 'Privately held businesses across Southeastern New England often combine substantial operating complexity with deeply personal ownership. Customers, employees and communities may have depended on the company for decades.\n\nAt a pivotal moment, leaders need more than generic advice. They need an experienced operator who can understand the business quickly, test the decisions that matter and remain alongside the team as those decisions become operating progress.',
+    title: 'Distinct local economies. Familiar leadership inflection points.',
+    body: 'Southeastern New England is not one uniform market. The South Shore, Cape Cod, South Coast and Rhode Island each create different conditions for customers, talent, capital and growth.\n\nAcross those markets, established privately held businesses often reach the same pivotal moments: the company has outgrown owner-led coordination, the leadership team needs greater capacity, or the next investment carries more consequence than the existing operating model can absorb.',
     details: [
       { _key: 'base', label: 'Based in', value: 'Plymouth, Massachusetts' },
       {
@@ -187,11 +194,10 @@ const southeasternNewEnglandSeed: Omit<
     ],
   },
   situations: {
-    eyebrow: 'When Leaders Call Us',
-    title:
-      'The business is established. The next decision still carries real weight.',
+    eyebrow: 'Across the Region',
+    title: 'Different markets. A familiar set of operating pressures.',
     introduction:
-      'The need rarely presents itself as a request for an Operating Partner. It begins with a consequential business situation that needs experienced judgment and sustained follow-through.',
+      'Industry and geography shape the details, but the underlying leadership questions are often remarkably consistent.',
     items: [
       {
         _key: 'growth',
@@ -245,9 +251,9 @@ const southeasternNewEnglandSeed: Omit<
     ],
   },
   businessProfile: {
-    eyebrow: 'Built for the Region’s Established Businesses',
-    title: 'Different industries. Familiar operating realities.',
-    body: 'Southeastern New England is home to substantial businesses built over years, often across generations. Their industries differ, but many share the same challenge: preserving the judgment and commitment that made the company successful while building the leadership and operating capacity required for what comes next.',
+    eyebrow: 'A Region Built by Established Businesses',
+    title: 'Local roots. Real operating complexity.',
+    body: 'The region supports manufacturers, distributors, healthcare organizations, professional-service firms, builders and specialty consumer businesses with deep customer and community relationships. Tidal Point helps their leaders preserve those advantages while building the management capacity and operating discipline required for the next chapter.',
     industries: [
       'Manufacturing',
       'Distribution & logistics',
@@ -433,13 +439,22 @@ export async function getLocationPage(
       heroEyebrow,
       heroTitle,
       heroIntroduction,
+      audienceFit,
       regionalContext,
       situations,
       supportAreas,
       businessProfile,
       localProofPoints,
+      regionalScenario,
+      faqs,
       regionalResources,
-      "relatedArticles": relatedArticles[]->{
+      "relatedArticles": *[
+        _type == "article" &&
+        defined(slug.current) &&
+        defined(publishedAt) &&
+        publishedAt <= now() &&
+        noIndex != true
+      ] | order(publishedAt desc)[0...3]{
         _id,
         title,
         description,
@@ -463,18 +478,9 @@ export async function getLocationPage(
   if (!page) {
     if (slug !== southeasternNewEnglandSeed.slug) return null
     const articles = await getArticles()
-    const relatedSlugs = [
-      'why-your-business-still-runs-through-you',
-      'signs-business-outgrown-operating-system',
-      'your-managers-are-capable-why-isnt-the-leadership-team-working',
-    ]
     return {
       ...southeasternNewEnglandSeed,
-      relatedArticles: relatedSlugs
-        .map((articleSlug) =>
-          articles.find((article) => article.href.endsWith(`/${articleSlug}`)),
-        )
-        .filter((article): article is ArticleSummary => Boolean(article)),
+      relatedArticles: articles.slice(0, 3),
     }
   }
 

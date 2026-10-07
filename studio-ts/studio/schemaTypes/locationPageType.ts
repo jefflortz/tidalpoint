@@ -70,6 +70,16 @@ export const locationPageType = defineType({
       validation: (rule) => rule.required().max(360),
     }),
     defineField({
+      name: 'audienceFit',
+      title: 'Best-fit indicators',
+      type: 'array',
+      group: 'content',
+      description:
+        'Short, concrete indicators that help a visitor recognize whether the relationship may fit.',
+      of: [{type: 'string'}],
+      validation: (rule) => rule.max(4).unique(),
+    }),
+    defineField({
       name: 'regionalContext',
       title: 'Regional context',
       type: 'object',
@@ -270,6 +280,57 @@ export const locationPageType = defineType({
         }),
       ],
       validation: (rule) => rule.required().min(1).max(4),
+    }),
+    defineField({
+      name: 'regionalScenario',
+      title: 'Representative regional scenario',
+      type: 'object',
+      group: 'content',
+      description:
+        'A clearly representative, non-client vignette that makes the regional operating problem tangible.',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
+        defineField({name: 'title', title: 'Title', type: 'string'}),
+        defineField({name: 'body', title: 'Body', type: 'text', rows: 6}),
+        defineField({
+          name: 'outcomes',
+          title: 'Desired outcomes',
+          type: 'array',
+          of: [{type: 'string'}],
+          validation: (rule) => rule.max(4).unique(),
+        }),
+      ],
+    }),
+    defineField({
+      name: 'faqs',
+      title: 'Regional FAQs',
+      type: 'array',
+      group: 'content',
+      description:
+        'Questions that are genuinely useful to prospective clients in this region. Avoid changing only the place name.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'regionalFaq',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'text',
+              rows: 4,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {select: {title: 'question', subtitle: 'answer'}},
+        }),
+      ],
+      validation: (rule) => rule.max(6),
     }),
     defineField({
       name: 'regionalResources',
