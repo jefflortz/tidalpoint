@@ -28,10 +28,10 @@ export const metadata: Metadata = {
   applicationName: 'Tidal Point Partners',
   title: {
     template: '%s | Tidal Point Partners',
-    default: 'Experienced Operating Partners for Privately Held Businesses',
+    default: 'Business Value Creation & M&A Advisory',
   },
   description:
-    'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
+    'Business Value Creation and M&A Advisory helping owners build value, prepare for a future sale and find the right buyer.',
   authors: [{ name: 'Tidal Point Partners', url: '/' }],
   creator: 'Tidal Point Partners',
   publisher: 'Tidal Point Partners',
@@ -41,22 +41,22 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     siteName: 'Tidal Point Partners',
-    title: 'Experienced Operating Partners for Privately Held Businesses',
+    title: 'Business Value Creation & M&A Advisory',
     description:
-      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
+      'Business Value Creation and M&A Advisory helping owners build value, prepare for a future sale and find the right buyer.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Experienced Operating Partners for Privately Held Businesses',
+    title: 'Business Value Creation & M&A Advisory',
     description:
-      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
+      'Business Value Creation and M&A Advisory helping owners build value, prepare for a future sale and find the right buyer.',
   },
   robots: {
-    index: true,
-    follow: true,
+    index: process.env.VERCEL_ENV === 'production',
+    follow: process.env.VERCEL_ENV === 'production',
     googleBot: {
-      index: true,
-      follow: true,
+      index: process.env.VERCEL_ENV === 'production',
+      follow: process.env.VERCEL_ENV === 'production',
       'max-image-preview': 'large',
       'max-snippet': -1,
       'max-video-preview': -1,

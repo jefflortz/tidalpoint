@@ -22,6 +22,7 @@ function pageContext() {
 
 function useContactIntentTracking() {
   useEffect(() => {
+    if (window.location.hostname !== 'tidalpointpartners.com' && window.location.hostname !== 'www.tidalpointpartners.com') return
     function onClick(event: MouseEvent) {
       let target = event.target
       if (!(target instanceof Element) || typeof window.gtag !== 'function') {
@@ -35,10 +36,6 @@ function useContactIntentTracking() {
           method: 'email_link',
         }
         window.gtag('event', 'email_click', parameters)
-        window.gtag('event', 'generate_lead', {
-          ...parameters,
-          lead_source: 'email_link',
-        })
         return
       }
 
@@ -49,10 +46,6 @@ function useContactIntentTracking() {
           method: 'phone_link',
         }
         window.gtag('event', 'phone_click', parameters)
-        window.gtag('event', 'generate_lead', {
-          ...parameters,
-          lead_source: 'phone_link',
-        })
         return
       }
 
@@ -104,20 +97,20 @@ export function Analytics() {
   useContactIntentTracking()
 
   return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-      />
-      <Script id="ga4-init" strategy="afterInteractive">
+    <Script id="ga4-init" strategy="afterInteractive">
         {`
+          if (location.hostname === 'tidalpointpartners.com' || location.hostname === 'www.tidalpointpartners.com') {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}';
+          document.head.appendChild(script);
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${GA_MEASUREMENT_ID}');
+          }
         `}
-      </Script>
-    </>
+    </Script>
   )
 }

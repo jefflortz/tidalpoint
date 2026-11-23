@@ -107,7 +107,7 @@ function Header({
         {/* Right — CTA button */}
         <div className="flex justify-end">
           <Button href="/contact" invert={invert}>
-            Schedule a Conversation
+            Start a Conversation
           </Button>
         </div>
       </div>
@@ -116,9 +116,10 @@ function Header({
 }
 
 const desktopNavLinks = [
+  { title: 'Sell', href: '/sell-your-business' },
+  { title: 'Build Value', href: '/build-business-value' },
+  { title: 'Who We Help', href: '/clients' },
   { title: 'About', href: '/about' },
-  { title: 'How We Work', href: '/services' },
-  { title: 'Who We Serve', href: '/clients' },
   { title: 'Insights', href: '/articles' },
   { title: 'Contact', href: '/contact' },
 ]
@@ -131,7 +132,7 @@ function DesktopNav({ invert = false }: { invert?: boolean }) {
           <Logo invert={invert} />
         </Link>
         <nav aria-label="Main navigation">
-          <ul role="list" className="flex items-center gap-x-10">
+          <ul role="list" className="flex items-center gap-x-6">
             {desktopNavLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -186,11 +187,15 @@ function Navigation() {
   return (
     <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
       <NavigationRow>
-        <NavigationItem href="/services">How We Work</NavigationItem>
-        <NavigationItem href="/about">About</NavigationItem>
+        <NavigationItem href="/sell-your-business">Sell Your Business</NavigationItem>
+        <NavigationItem href="/build-business-value">Build Business Value</NavigationItem>
       </NavigationRow>
       <NavigationRow>
-        <NavigationItem href="/clients">Who We Serve</NavigationItem>
+        <NavigationItem href="/resources/what-is-my-business-worth">What Is My Business Worth?</NavigationItem>
+        <NavigationItem href="/clients">Who We Help</NavigationItem>
+      </NavigationRow>
+      <NavigationRow>
+        <NavigationItem href="/about">About</NavigationItem>
         <NavigationItem href="/articles">Insights</NavigationItem>
       </NavigationRow>
       <NavigationRow>
@@ -315,7 +320,7 @@ function RootLayoutInner({
                       Start with the business. Decide together what comes next.
                     </p>
                     <Button href="/contact" invert className="mt-6">
-                      Schedule a Conversation
+                      Start a Conversation
                     </Button>
                   </div>
                 </div>

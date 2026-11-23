@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 
 const navigation = [
-  { label: 'Sell Your Business', href: '/prototype/sell-your-business' },
-  { label: 'Build Business Value', href: '/prototype/build-business-value' },
-  { label: 'What Is My Business Worth?', href: '/prototype/what-is-my-business-worth' },
-  { label: 'Who We Help', href: '/prototype#who-we-help' },
-  { label: 'About', href: '/prototype#why-tidal-point' },
+  { label: 'Sell Your Business', href: '/sell-your-business' },
+  { label: 'Build Business Value', href: '/build-business-value' },
+  { label: 'What Is My Business Worth?', href: '/resources/what-is-my-business-worth' },
+  { label: 'Who We Help', href: '/clients' },
+  { label: 'About', href: '/about' },
   { label: 'Insights', href: '/articles' },
   { label: 'Contact', href: '/contact' },
 ]
@@ -20,7 +20,7 @@ export function PrototypeHeader({ invert = false }: { invert?: boolean }) {
     <header className={invert ? 'absolute inset-x-0 top-0 z-30' : 'bg-tidal-warm-white'}>
       <Container>
         <div className="flex min-h-24 items-center justify-between gap-5 border-b border-current/10">
-          <Link href="/prototype" aria-label="Tidal Point Partners Website 2.0 prototype home">
+          <Link href="/" aria-label="Tidal Point Partners home">
             <Image
               src={invert ? '/logo-wordmark-dark.svg' : '/logo-wordmark-light.svg'}
               alt="Tidal Point Partners"
@@ -85,16 +85,16 @@ export function PrototypeFooter() {
           <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Explore</p>
             <div className="mt-5 grid gap-3 text-sm text-white/75">
-              <Link href="/prototype/sell-your-business">Sell Your Business</Link>
-              <Link href="/prototype/build-business-value">Build Business Value</Link>
-              <Link href="/prototype/what-is-my-business-worth">What Is My Business Worth?</Link>
-              <Link href="/prototype#who-we-help">Who We Help</Link>
+              <Link href="/sell-your-business">Sell Your Business</Link>
+              <Link href="/build-business-value">Build Business Value</Link>
+              <Link href="/resources/what-is-my-business-worth">What Is My Business Worth?</Link>
+              <Link href="/clients">Who We Help</Link>
             </div>
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Prototype note</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Based in Plymouth, Massachusetts</p>
             <p className="mt-5 text-sm leading-6 text-white/70">
-              Pre-build visual prototype. Claims marked for verification are not approved for publication.
+              Serving owners of privately held businesses across approved New England markets. A DBA of Agile Operators, LLC.
             </p>
           </div>
         </div>

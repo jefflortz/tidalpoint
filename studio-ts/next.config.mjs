@@ -26,6 +26,10 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    if (process.env.VERCEL_ENV === 'production') return []
+    return [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }] }]
+  },
   async redirects() {
     return [
       // Canonicalize the Vercel preview domain — keep it out of the index.

@@ -6,9 +6,11 @@ import { FadeIn } from '@/components/FadeIn'
 import { SocialMedia } from '@/components/SocialMedia'
 
 const companyLinks = [
+  { title: 'Sell Your Business', href: '/sell-your-business' },
+  { title: 'Build Business Value', href: '/build-business-value' },
+  { title: 'What Is My Business Worth?', href: '/resources/what-is-my-business-worth' },
+  { title: 'Who We Help', href: '/clients' },
   { title: 'About', href: '/about' },
-  { title: 'How We Work', href: '/services' },
-  { title: 'Who We Serve', href: '/clients' },
   { title: 'Locations', href: '/locations' },
   { title: 'Insights', href: '/articles' },
   { title: 'Contact', href: '/contact' },
@@ -66,8 +68,7 @@ export function Footer() {
                 unoptimized
               />
               <p className="mt-4 text-sm leading-relaxed text-white/70">
-                Experienced partnership for pivotal points in the life of a
-                business.
+                Business Value Creation &amp; M&amp;A Advisory for owners of privately held businesses.
               </p>
               <p className="mt-4 text-xs text-white/70">
                 A DBA of Agile Operators, LLC
@@ -103,7 +104,7 @@ export function Footer() {
                 href="/contact"
                 className="inline-flex items-center rounded-md bg-white px-8 py-3.5 text-sm font-semibold tracking-widest text-tidal-navy uppercase shadow transition hover:bg-tidal-sand"
               >
-                Schedule a Conversation
+                Start a Conversation
               </Link>
             </div>
           </div>

@@ -20,7 +20,7 @@ export function getOrganizationSchema() {
         alternateName: 'Tidal Point',
         url: 'https://tidalpointpartners.com/',
         description:
-          'Experienced operating partnership for privately held businesses navigating pivotal moments.',
+          'Business Value Creation and M&A Advisory for owners of privately held businesses.',
         logo: {
           '@type': 'ImageObject',
           url: 'https://tidalpointpartners.com/favicon-512.png',
@@ -36,7 +36,7 @@ export function getOrganizationSchema() {
         },
         areaServed: {
           '@type': 'AdministrativeArea',
-          name: 'Southeastern New England',
+          name: 'New England',
         },
         email: 'info@tidalpointpartners.com',
         telephone: '+1-774-203-4525',
@@ -57,9 +57,9 @@ export function getHomePageSchema() {
     '@type': 'WebPage',
     '@id': 'https://tidalpointpartners.com/#webpage',
     url: 'https://tidalpointpartners.com/',
-    name: 'Experienced Operating Partners for Privately Held Businesses',
+    name: 'Get More From the Business You’ve Built',
     description:
-      'Experienced Operating Partners serving owners and leadership teams of privately held businesses across Southeastern New England through growth and pivotal change.',
+      'Business Value Creation and M&A Advisory helping owners build value, prepare for a future sale and find the right buyer.',
     isPartOf: {
       '@id': 'https://tidalpointpartners.com/#website',
     },

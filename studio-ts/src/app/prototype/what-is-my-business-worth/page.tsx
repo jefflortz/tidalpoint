@@ -17,7 +17,7 @@ export default function BusinessWorthPrototype() {
     <main id="main-content" className="bg-tidal-warm-white text-tidal-navy">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-3">Skip to content</a>
       <PrototypeHeader />
-      <section className="border-b border-tidal-navy/10 py-20 sm:py-28">
+      <section className="border-b border-tidal-navy/10 py-16 sm:py-24">
         <Container>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-tidal-teal">Business Valuation Guide</p>
           <h1 className="mt-6 max-w-5xl font-display text-6xl font-medium leading-[0.98] tracking-tight sm:text-8xl">What Is My Business Worth?</h1>
@@ -25,7 +25,7 @@ export default function BusinessWorthPrototype() {
         </Container>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-16 sm:py-24">
         <Container>
           <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">What influences business value</p>
           <div className="mt-10 grid gap-px bg-tidal-navy/15 md:grid-cols-2 lg:grid-cols-3">
@@ -34,7 +34,7 @@ export default function BusinessWorthPrototype() {
         </Container>
       </section>
 
-      <section className="bg-tidal-sand py-20 sm:py-28">
+      <section className="bg-tidal-sand py-16 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">A useful starting point</p><h2 className="mt-5 font-display text-5xl leading-tight sm:text-6xl">Indicative discussion is not a formal appraisal.</h2></div>
@@ -43,11 +43,11 @@ export default function BusinessWorthPrototype() {
         </Container>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-16 sm:py-24">
         <Container>
           <div className="grid gap-6 lg:grid-cols-2">
-            <article className="bg-tidal-navy p-8 text-white sm:p-12"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Ready to sell</p><h2 className="mt-5 font-display text-4xl leading-tight">Discuss business value in the context of a confidential sale.</h2><p className="mt-5 leading-7 text-white/70">Explore buyer interest, readiness and the path to market with an operator-led business broker and M&amp;A advisor, subject to approved service scope.</p><Link href="/prototype/sell-your-business" className="mt-8 inline-flex rounded-sm bg-white px-6 py-3.5 font-semibold text-tidal-navy">Explore Selling Your Business</Link></article>
-            <article className="border border-tidal-navy/15 bg-white p-8 sm:p-12"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Planning ahead</p><h2 className="mt-5 font-display text-4xl leading-tight">Identify the changes that could make your business stronger.</h2><p className="mt-5 leading-7 text-tidal-body">Assess value drivers and risks, create a focused 12-month roadmap and prepare for a future sale without rushing into the market.</p><Link href="/prototype/build-business-value" className="mt-8 inline-flex rounded-sm bg-tidal-navy px-6 py-3.5 font-semibold text-white">Explore Building Business Value</Link></article>
+            <article className="bg-tidal-navy p-8 text-white sm:p-12"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Ready to sell</p><h2 className="mt-5 font-display text-4xl leading-tight">Discuss business value in the context of a confidential sale.</h2><p className="mt-5 leading-7 text-white/70">Explore buyer interest, readiness and the path to market with operator-led business sale representation.</p><Link href="/sell-your-business" className="mt-8 inline-flex rounded-sm bg-white px-6 py-3.5 font-semibold text-tidal-navy">Explore Selling Your Business</Link></article>
+            <article className="border border-tidal-navy/15 bg-white p-8 sm:p-12"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Planning ahead</p><h2 className="mt-5 font-display text-4xl leading-tight">Identify the changes that could make your business stronger.</h2><p className="mt-5 leading-7 text-tidal-body">Assess value drivers and risks, create a focused 12-month roadmap and prepare for a future sale without rushing into the market.</p><Link href="/build-business-value" className="mt-8 inline-flex rounded-sm bg-tidal-navy px-6 py-3.5 font-semibold text-white">Explore Building Business Value</Link></article>
           </div>
         </Container>
       </section>

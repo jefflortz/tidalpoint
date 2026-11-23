@@ -6,6 +6,7 @@
   /* Tidal Point Brand Colors — mapped from brand-style-guide-v1.png */
   --color-tidal-navy: #17324D; /* Atlantic Navy */
   --color-tidal-teal: #7A9E9F; /* Sea Glass */
+  --color-tidal-teal-dark: #315E61; /* Accessible Sea Glass text on light surfaces */
   --color-tidal-sand: #D6CCC0; /* Sandstone */
   --color-tidal-body: #4F5962; /* Slate */
   --color-tidal-light: #7B848B; /* Slate-derived, fixed value */
@@ -49,4 +50,16 @@
   --font-display--font-variation-settings: normal;
 
   --font-display-length: 2;
+}
+
+@layer utilities {
+  .bg-white .text-tidal-teal,
+  .bg-tidal-warm-white .text-tidal-teal,
+  .bg-tidal-sand .text-tidal-teal {
+    color: var(--color-tidal-teal-dark) !important;
+  }
+
+  .bg-tidal-navy .text-tidal-teal {
+    color: var(--color-tidal-teal) !important;
+  }
 }

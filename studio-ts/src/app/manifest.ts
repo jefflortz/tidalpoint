@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Tidal Point Partners',
     short_name: 'Tidal Point',
     description:
-      'Experienced operating partnership for privately held businesses navigating pivotal moments.',
+      'Business Value Creation and M&A Advisory for owners of privately held businesses.',
     start_url: '/',
     display: 'standalone',
     background_color: '#F8F6F2',

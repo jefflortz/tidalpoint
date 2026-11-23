@@ -22,7 +22,7 @@ export default function SellBusinessPrototype() {
             <div className="lg:col-span-7">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-tidal-teal">Sell Your Business</p>
               <h1 className="mt-6 max-w-4xl font-display text-5xl font-medium leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">We Don&apos;t Just List Your Business. We Find the Right Buyers.</h1>
-              <p className="mt-7 max-w-2xl text-xl leading-9 text-tidal-body">Looking for a business broker who does more than put your company on a listing website? Tidal Point Partners helps owners prepare for a sale, actively identify prospective buyers and guide the transaction from start to finish.</p>
+              <p className="mt-7 max-w-2xl text-xl leading-9 text-tidal-body">Looking for a business broker who does more than put your company on a listing website? We combine access to an established network of acquisition-minded buyers with an active search for the right fit. We evaluate buyers&apos; interests and financial qualifications before advancing discussions.</p>
               <Link href="#conversation" className="mt-9 inline-flex rounded-sm bg-tidal-navy px-7 py-4 text-base font-semibold text-white">Let&apos;s Talk About Selling Your Business</Link>
               <p className="mt-5 max-w-xl text-sm leading-6 text-tidal-light">A confidential first conversation. No obligation and no guarantee of buyer interest or transaction outcome.</p>
             </div>
@@ -46,13 +46,13 @@ export default function SellBusinessPrototype() {
               <div className="border-l border-white/20 pl-5"><h3 className="font-display text-2xl">Qualify</h3><p className="mt-3 text-sm leading-6 text-white/65">Assess acquisition intent and financial capacity before advancing.</p></div>
             </div>
           </div>
-          <div className="mt-10 border border-amber-200/35 bg-amber-100/10 p-5 text-sm leading-6 text-amber-50">
-            <strong>Verification placeholder:</strong> buyer-network access, qualification standards and any financing language require owner and legal approval before publication.
+          <div className="mt-10 border border-white/20 bg-white/5 p-5 text-sm leading-6 text-white/75">
+            Buyer interest and financial qualifications are evaluated before discussions advance. No buyer financing, transaction timing or successful closing is guaranteed.
           </div>
         </Container>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-16 sm:py-24">
         <Container>
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Operator-led representation</p>
@@ -67,7 +67,7 @@ export default function SellBusinessPrototype() {
         </Container>
       </section>
 
-      <section className="bg-tidal-sand py-20 sm:py-28">
+      <section className="bg-tidal-sand py-16 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">What you can expect</p><h2 className="mt-5 font-display text-5xl leading-tight sm:text-6xl">A controlled process built around the owner.</h2></div>
@@ -83,13 +83,13 @@ export default function SellBusinessPrototype() {
         </Container>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-16 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Common questions</p><h2 className="mt-5 font-display text-5xl leading-tight">Start with what matters most.</h2></div>
             <div className="space-y-4 lg:col-span-6 lg:col-start-7">
               {[
-                ['How do you protect confidentiality?', 'The final process will describe approval points, information controls and outreach practices after legal review.'],
+                ['How do you protect confidentiality?', 'We use a controlled outreach and information-sharing process with owner approval points. Final disclosures and handling practices remain subject to legal review before production launch.'],
                 ['How do you determine what my business may be worth?', 'We begin with the financial and operating factors that influence buyer interest. Any formal valuation scope and limitations will be stated clearly.'],
                 ['What if I am not ready to sell yet?', 'The Build Business Value program is designed for owners who want to improve readiness and reduce risk before entering a sale process.'],
               ].map(([question, answer]) => <details key={question} className="border border-tidal-navy/15 bg-white p-6"><summary className="cursor-pointer font-display text-xl font-semibold">{question}</summary><p className="mt-4 text-base leading-7 text-tidal-body">{answer}</p></details>)}
@@ -102,7 +102,7 @@ export default function SellBusinessPrototype() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8"><p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">A confidential conversation</p><h2 className="mt-5 font-display text-5xl leading-tight sm:text-6xl">You built the business carefully. The sale process should be handled the same way.</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">Tell us what you are considering and when. We will listen, offer an operator&apos;s perspective and determine whether there is a responsible path forward.</p></div>
-            <div className="lg:col-span-4 lg:text-right"><Link href="/contact" className="inline-flex rounded-sm bg-white px-7 py-4 font-semibold text-tidal-navy">Let&apos;s Talk About Selling Your Business</Link></div>
+            <div className="lg:col-span-4 lg:text-right"><Link href="/contact?journey=sell" className="inline-flex rounded-sm bg-white px-7 py-4 font-semibold text-tidal-navy">Let&apos;s Talk About Selling Your Business</Link></div>
           </div>
         </Container>
       </section>

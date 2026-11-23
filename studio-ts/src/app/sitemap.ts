@@ -4,6 +4,7 @@ import { getArticles, getIndexableLocationPages } from '@/sanity/content'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://tidalpointpartners.com'
+  const releaseOneLastModified = new Date('2026-11-23T00:00:00.000Z')
   const [articles, locations] = await Promise.all([
     getArticles(),
     getIndexableLocationPages(),
@@ -12,43 +13,61 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: `${baseUrl}/`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/sell-your-business`,
+      lastModified: releaseOneLastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/build-business-value`,
+      lastModified: releaseOneLastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/resources/what-is-my-business-worth`,
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/team/jeff-lortz`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/clients`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'weekly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/locations`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
@@ -66,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: releaseOneLastModified,
       changeFrequency: 'monthly',
       priority: 0.6,
     },

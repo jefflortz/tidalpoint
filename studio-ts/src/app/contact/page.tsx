@@ -1,127 +1,38 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
 
-import { Border } from '@/components/Border'
 import { Container } from '@/components/Container'
-import { FadeIn } from '@/components/FadeIn'
-import { HubSpotAboutForm } from '@/components/HubSpotAboutForm'
-import { PageIntro } from '@/components/PageIntro'
-import { RootLayout } from '@/components/RootLayout'
+import { JourneyLeadForm } from '@/components/JourneyLeadForm'
 import { PageSchema } from '@/components/PageSchema'
+import { RootLayout } from '@/components/RootLayout'
 
-function ContactForm() {
-  return (
-    <FadeIn className="lg:order-last">
-      <p className="text-xs font-semibold uppercase tracking-widest text-tidal-teal">
-        Schedule a Conversation
-      </p>
-      <div className="mt-6 rounded-2xl border border-tidal-navy/10 bg-white p-6 shadow-sm sm:p-8">
-        <HubSpotAboutForm />
-      </div>
-      <p className="mt-5 max-w-lg text-sm leading-relaxed text-tidal-light">
-        We&rsquo;ll begin with a thoughtful conversation about the business,
-        the context and the questions carrying the most consequence.
-      </p>
-    </FadeIn>
-  )
-}
+type Journey = 'sell' | 'build' | 'valuation'
+const description = 'Start a confidential conversation about selling your business, building business value or understanding what your business may be worth.'
 
-function ContactDetails() {
-  return (
-    <FadeIn>
-      <h2 className="font-display text-base font-bold text-tidal-navy">
-        Based in Plymouth, MA
-      </h2>
-      <p className="mt-6 text-base text-tidal-body leading-relaxed">
-        Tidal Point Partners works with businesses across the South Shore,
-        South Coast, and Cape Cod as part of our broader{' '}
-        <Link
-          href="/locations/southeastern-new-england"
-          className="font-semibold text-tidal-navy underline decoration-tidal-teal/60 underline-offset-4 transition hover:decoration-tidal-navy"
-        >
-          Southeastern New England practice
-        </Link>
-        . Engagements are structured around your calendar — in person where it
-        makes sense, remote where it doesn&rsquo;t.
-      </p>
+export const metadata: Metadata = { title: 'Start a Confidential Conversation', description, alternates: { canonical: '/contact' } }
 
-      <div className="mt-10 rounded-2xl bg-tidal-sand p-6">
-        <p className="font-semibold text-tidal-navy">Plymouth, MA 02360</p>
-        <p className="mt-1 text-sm text-tidal-light">
-          Serving Southeastern Massachusetts
-        </p>
-      </div>
-
-      <Border className="mt-16 pt-16">
-        <h2 className="font-display text-base font-bold text-tidal-navy">
-          Reach us directly
-        </h2>
-        <dl className="mt-6 space-y-4 text-sm">
-          <div>
-            <dt className="font-semibold text-tidal-navy">Email</dt>
-            <dd>
-              <Link
-                href="mailto:info@tidalpointpartners.com"
-                className="text-tidal-teal hover:text-tidal-teal/80"
-              >
-                info@tidalpointpartners.com
-              </Link>
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-tidal-navy">Phone</dt>
-            <dd>
-              <Link
-                href="tel:+17742034525"
-                className="text-tidal-teal hover:text-tidal-teal/80"
-              >
-                (774) 203-4525
-              </Link>
-            </dd>
-          </div>
-        </dl>
-      </Border>
-    </FadeIn>
-  )
-}
-
-export const metadata: Metadata = {
-  title: "Let's Talk",
-  description:
-    'Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England.',
-  alternates: { canonical: '/contact' },
-  openGraph: {
-    title: 'Schedule a Conversation - Tidal Point Partners',
-    description:
-      'Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England.',
-    url: '/contact',
-    type: 'website',
-  },
-}
-
-export default function Contact() {
+export default async function Contact({ searchParams }: { searchParams: Promise<{ journey?: string }> }) {
+  const requested = (await searchParams).journey
+  const journey: Journey = requested === 'build' || requested === 'valuation' ? requested : 'sell'
   return (
     <RootLayout>
-      <PageSchema
-        path="/contact"
-        name="Contact Tidal Point Partners"
-        description="Begin a substantive conversation about your business with an experienced Operating Partner serving Southeastern New England."
-        type="ContactPage"
-      />
-      <PageIntro eyebrow="Contact" title="Let’s talk about your business.">
-        <p>
-          Bring the opportunity, challenge or decision carrying the most
-          consequence. We&rsquo;ll listen carefully, offer a point of view and
-          decide together whether there is a meaningful path forward.
-        </p>
-      </PageIntro>
-
-      <Container className="mt-24 sm:mt-32 lg:mt-40">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-24 lg:grid-cols-2">
-          <ContactForm />
-          <ContactDetails />
-        </div>
-      </Container>
+      <PageSchema path="/contact" name="Contact Tidal Point Partners" description={description} type="ContactPage" />
+      <section className="bg-tidal-warm-white py-12 sm:py-20 lg:py-24">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-tidal-teal">A confidential first step</p>
+              <h1 className="mt-5 font-display text-5xl leading-[1] text-tidal-navy sm:text-6xl">Tell us where you are. We&apos;ll help you think through what comes next.</h1>
+              <p className="mt-7 text-lg leading-8 text-tidal-body">Choose the journey that best fits today. We will listen, ask practical questions and determine whether there is a responsible path forward.</p>
+              <div className="mt-10 border-t border-tidal-navy/15 pt-7 text-sm leading-7 text-tidal-body">
+                <p className="font-semibold text-tidal-navy">Tidal Point Partners</p><p>Plymouth, Massachusetts</p>
+                <p className="mt-4"><Link className="font-semibold text-tidal-navy underline underline-offset-4" href="mailto:info@tidalpointpartners.com">info@tidalpointpartners.com</Link><br /><Link className="font-semibold text-tidal-navy underline underline-offset-4" href="tel:+17742034525">(774) 203-4525</Link></p>
+              </div>
+            </div>
+            <div className="border border-tidal-navy/15 bg-white p-6 sm:p-9 lg:col-span-7"><JourneyLeadForm initialJourney={journey} /></div>
+          </div>
+        </Container>
+      </section>
     </RootLayout>
   )
 }
