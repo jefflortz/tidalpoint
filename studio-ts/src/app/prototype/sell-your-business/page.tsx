@@ -22,7 +22,7 @@ export default function SellBusinessPrototype() {
             <div className="lg:col-span-7">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-tidal-teal">Sell Your Business</p>
               <h1 className="mt-6 max-w-4xl font-display text-5xl font-medium leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">We Don&apos;t Just List Your Business. We Find the Right Buyers.</h1>
-              <p className="mt-7 max-w-2xl text-xl leading-9 text-tidal-body">We combine operator-led business positioning with active buyer identification, financial qualification and hands-on transaction support—so the process is built around your business, not a passive listing.</p>
+              <p className="mt-7 max-w-2xl text-xl leading-9 text-tidal-body">Looking for a business broker who does more than put your company on a listing website? Tidal Point Partners helps owners prepare for a sale, actively identify prospective buyers and guide the transaction from start to finish.</p>
               <Link href="#conversation" className="mt-9 inline-flex rounded-sm bg-tidal-navy px-7 py-4 text-base font-semibold text-white">Let&apos;s Talk About Selling Your Business</Link>
               <p className="mt-5 max-w-xl text-sm leading-6 text-tidal-light">A confidential first conversation. No obligation and no guarantee of buyer interest or transaction outcome.</p>
             </div>

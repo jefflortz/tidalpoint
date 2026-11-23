@@ -44,7 +44,7 @@ export default function PrototypeHome() {
               <Link href="/prototype/sell-your-business" className="inline-flex justify-center rounded-sm bg-white px-7 py-4 text-base font-semibold text-tidal-navy">
                 Sell My Business
               </Link>
-              <Link href="#build" className="inline-flex justify-center rounded-sm border border-white/50 px-7 py-4 text-base font-semibold text-white">
+              <Link href="/prototype/build-business-value" className="inline-flex justify-center rounded-sm border border-white/50 px-7 py-4 text-base font-semibold text-white">
                 Build Business Value
               </Link>
             </div>
@@ -69,8 +69,21 @@ export default function PrototypeHome() {
               <p className="mt-6 max-w-xl text-lg leading-8 text-tidal-body">
                 Start with a Business Value Assessment, identify the drivers and risks that matter most, and build a practical 12-month roadmap with experienced support through implementation.
               </p>
-              <Link href="/contact" className="mt-9 inline-flex rounded-sm bg-tidal-navy px-6 py-3.5 font-semibold text-white">Explore Building Business Value</Link>
+              <Link href="/prototype/build-business-value" className="mt-9 inline-flex rounded-sm bg-tidal-navy px-6 py-3.5 font-semibold text-white">Explore Building Business Value</Link>
             </article>
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-y border-tidal-navy/10 bg-white py-16 sm:py-20">
+        <Container>
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">A common first question</p>
+              <h2 className="mt-4 font-display text-4xl leading-tight sm:text-5xl">What is my business worth?</h2>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-tidal-body">Learn how buyers evaluate earnings, owner dependence, customer concentration, operating systems and future growth—then choose whether your next step is preparing to sell or building more value.</p>
+            </div>
+            <Link href="/prototype/what-is-my-business-worth" className="inline-flex justify-center rounded-sm bg-tidal-navy px-7 py-4 font-semibold text-white">Explore Business Value</Link>
           </div>
         </Container>
       </section>

@@ -5,7 +5,8 @@ import { Container } from '@/components/Container'
 
 const navigation = [
   { label: 'Sell Your Business', href: '/prototype/sell-your-business' },
-  { label: 'Build Business Value', href: '/prototype#build' },
+  { label: 'Build Business Value', href: '/prototype/build-business-value' },
+  { label: 'What Is My Business Worth?', href: '/prototype/what-is-my-business-worth' },
   { label: 'Who We Help', href: '/prototype#who-we-help' },
   { label: 'About', href: '/prototype#why-tidal-point' },
   { label: 'Insights', href: '/articles' },
@@ -85,7 +86,8 @@ export function PrototypeFooter() {
             <p className="text-sm font-semibold uppercase tracking-widest text-tidal-teal">Explore</p>
             <div className="mt-5 grid gap-3 text-sm text-white/75">
               <Link href="/prototype/sell-your-business">Sell Your Business</Link>
-              <Link href="/prototype#build">Build Business Value</Link>
+              <Link href="/prototype/build-business-value">Build Business Value</Link>
+              <Link href="/prototype/what-is-my-business-worth">What Is My Business Worth?</Link>
               <Link href="/prototype#who-we-help">Who We Help</Link>
             </div>
           </div>
