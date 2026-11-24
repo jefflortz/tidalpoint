@@ -2,7 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '@/components/Container'
+import { InsightsCarousel } from '@/components/InsightsCarousel'
 import { PrototypeFooter, PrototypeHeader } from '@/components/PrototypeShell'
+import { getArticles } from '@/sanity/content'
 
 const valueDrivers = [
   ['Financial quality', 'Clear, reliable performance that a buyer can understand and trust.'],
@@ -11,7 +13,12 @@ const valueDrivers = [
   ['Reduced risk', 'Fewer surprises across people, customers, operations and documentation.'],
 ]
 
-export default function PrototypeHome() {
+export default async function PrototypeHome() {
+  const articles = await getArticles()
+  const featuredInsights = [...articles]
+    .sort((a, b) => Number(b.featured) - Number(a.featured))
+    .slice(0, 6)
+
   return (
     <main id="main-content" className="bg-tidal-warm-white text-tidal-navy">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-3">
@@ -117,6 +124,8 @@ export default function PrototypeHome() {
           </div>
         </Container>
       </section>
+
+      <InsightsCarousel articles={featuredInsights} />
 
       <section id="why-tidal-point" className="bg-tidal-navy py-20 text-white sm:py-28">
         <Container>

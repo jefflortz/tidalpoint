@@ -23,6 +23,7 @@ The staging build is intentionally isolated from production. It does not submit 
 
 - Revised `/about`, `/services`, `/clients` and `/contact` to align with Website 2.0 positioning.
 - Updated global desktop/mobile navigation and footer.
+- Added an accessible homepage insights carousel populated from published Sanity articles, with featured-first curation, responsive card counts, touch scrolling and manual controls only.
 - Preserved existing article, location, legal and team routes.
 - Preserved the approved legacy service redirects:
   - `/services/revenue-growth` → `/services#growth`
